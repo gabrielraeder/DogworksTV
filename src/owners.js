@@ -158,7 +158,9 @@ export async function ownersOf(env, key) {
   const add = (row, platform, auto) => {
     const u =
       byUser.get(row.steam_id) ||
-      byUser.set(row.steam_id, { name: row.name, avatar: row.avatar, profileUrl: row.profile_url, platforms: [] }).get(row.steam_id);
+      byUser
+        .set(row.steam_id, { steamId: row.steam_id, name: row.name, avatar: row.avatar, profileUrl: row.profile_url, platforms: [] })
+        .get(row.steam_id);
     if (!u.platforms.some((p) => p.id === platform)) u.platforms.push({ id: platform, auto });
   };
 
@@ -186,12 +188,12 @@ export async function ownersOf(env, key) {
   let wanters = [];
   if (key.startsWith('steam:')) {
     const { results } = await env.DB.prepare(
-      `SELECT u.name, u.avatar, u.profile_url FROM users u, json_each(u.wishlist_appids) j
+      `SELECT u.steam_id, u.name, u.avatar, u.profile_url FROM users u, json_each(u.wishlist_appids) j
        WHERE j.value = ?1 ORDER BY u.name COLLATE NOCASE`,
     )
       .bind(Number(key.slice(6)))
       .all();
-    wanters = results.map((r) => ({ name: r.name, avatar: r.avatar, profileUrl: r.profile_url }));
+    wanters = results.map((r) => ({ steamId: r.steam_id, name: r.name, avatar: r.avatar, profileUrl: r.profile_url }));
   }
   return { owners, wanters };
 }

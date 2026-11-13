@@ -76,6 +76,7 @@
             <option value="fav">Favoritos primeiro</option>
             <option value="owners" id="sort-owners">Mais pessoas têm</option>
             <option value="sale" id="sort-sale" hidden>Maior desconto</option>
+            <option value="votes" id="sort-votes">Mais pedidos (Quero jogar)</option>
             <option value="recent">Adicionados recentemente</option>
           </select>
         </label>
@@ -179,6 +180,10 @@
       </div>
       <div class="dialog-body menu-list">
         <div id="account-panel"></div>
+        <button class="menu-item" id="btn-ranking" type="button">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+          <span><strong>Mais pedidos para a live</strong><small>Ranking dos jogos que o pessoal quer jogar</small></span>
+        </button>
         <button class="menu-item" id="btn-mine" type="button" hidden>
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
           <span><strong>Marcar meus jogos</strong><small>Marque vários de uma vez ou importe sua biblioteca da Epic</small></span>
@@ -205,6 +210,21 @@
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
           <span><strong>Restaurar lista original</strong><small id="reset-hint">Apaga favoritos, adições e edições deste navegador</small></span>
         </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- "Quero jogar": most voted games -->
+  <dialog id="dlg-ranking" class="dialog dialog-narrow" aria-labelledby="dlg-ranking-title">
+    <div class="dialog-card">
+      <div class="panel panel-sm">
+        <span class="panel-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></span>
+        <h2 class="panel-title" id="dlg-ranking-title">Mais pedidos</h2>
+        <button class="icon-btn panel-close" type="button" data-close aria-label="Fechar"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="dialog-body">
+        <p class="play-intro" id="ranking-intro">Os jogos que o pessoal mais quer jogar na live. Cada pessoa tem até 5 votos: abra um jogo e clique em <strong>Quero jogar</strong>.</p>
+        <ol class="ranking" id="ranking-list"></ol>
       </div>
     </div>
   </dialog>

@@ -894,6 +894,65 @@ button, input, select { font: inherit; color: inherit; }
 .chip-owned .icon { width: 15px; height: 15px; }
 .chip-owned[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue-hi); color: #c9ceff; }
 
+/* ---------- "Quero jogar" and Steam friends ---------- */
+.badge-vote { background: #c2410c; color: #fff; }
+.badge-vote .icon { fill: currentColor; }
+
+.vote-box { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.vote-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text);
+  font-weight: 600;
+  cursor: pointer;
+}
+.vote-btn .icon { width: 18px; height: 18px; }
+.vote-btn:hover { border-color: #f97316; }
+.vote-btn[aria-pressed="true"] { background: rgba(194, 65, 12, 0.25); border-color: #f97316; color: #fdba74; }
+.vote-btn[aria-pressed="true"] .icon { fill: currentColor; }
+.vote-btn:disabled { opacity: 0.6; cursor: progress; }
+.vote-box .hint { margin: 0; }
+
+.friend-tag {
+  flex: none;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(102, 192, 244, 0.18);
+  color: var(--sky);
+}
+
+.ranking { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; counter-reset: rank; }
+.ranking .hint { margin: 4px 0; }
+.rank-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 10px 6px 6px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+.rank-row:hover { border-color: var(--muted); }
+.rank-pos { width: 26px; flex: none; text-align: center; font-family: var(--font-display); color: var(--muted); }
+.rank-row:nth-child(1) .rank-pos, li:first-child .rank-pos { color: var(--gold); }
+.rank-row img, .rank-row .placeholder-thumb { width: 72px; height: 34px; object-fit: cover; border-radius: 4px; flex: none; background: var(--surface-2); }
+.rank-name { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rank-votes { flex: none; display: inline-flex; align-items: center; gap: 4px; color: #fdba74; font-weight: 700; }
+.rank-votes .icon { width: 16px; height: 16px; fill: currentColor; }
+
 /* ---------- "Marcar meus jogos" ---------- */
 .mine-platforms { display: flex; gap: 6px; flex-wrap: wrap; }
 .mine-platforms input { position: absolute; opacity: 0; pointer-events: none; }

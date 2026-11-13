@@ -1,6 +1,6 @@
 // Steam sign-in (OpenID 2.0) and cookie sessions stored in D1.
 
-import { getPlayerProfile, getOwnedAppids, getWishlistAppids } from '../lib/steam.js';
+import { getPlayerProfile, getOwnedAppids, getWishlistAppids, getFriendIds } from '../lib/steam.js';
 import { HttpError, parseCookies } from './http.js';
 
 const STEAM_OPENID = 'https://steamcommunity.com/openid/login';
@@ -62,15 +62,16 @@ async function verifyOpenId(url) {
 // Refreshes profile + Steam library for a user and upserts it.
 export async function refreshUser(env, steamId) {
   const profile = await getPlayerProfile(steamId, env.STEAM_API_KEY);
-  const [appids, wishlist] = await Promise.all([
+  const [appids, wishlist, friends] = await Promise.all([
     getOwnedAppids(steamId, env.STEAM_API_KEY).catch(() => null),
     getWishlistAppids(steamId, env.STEAM_API_KEY).catch(() => null), // null = Steam failed: keep the old one
+    getFriendIds(steamId, env.STEAM_API_KEY), // null = Steam failed: keep the old one
   ]);
   const t = now();
   await env.DB.prepare(
     `INSERT INTO users (steam_id, name, avatar, profile_url, steam_appids, library_visible, library_synced_at,
-                        wishlist_appids, wishlist_synced_at, created_at, updated_at)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?7, ?7)
+                        wishlist_appids, wishlist_synced_at, friend_ids, created_at, updated_at)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, COALESCE(?10, '[]'), ?7, ?7)
      ON CONFLICT (steam_id) DO UPDATE SET
        name = excluded.name,
        avatar = excluded.avatar,
@@ -80,6 +81,7 @@ export async function refreshUser(env, steamId) {
        library_synced_at = excluded.library_synced_at,
        wishlist_appids = CASE WHEN excluded.wishlist_synced_at IS NULL THEN users.wishlist_appids ELSE excluded.wishlist_appids END,
        wishlist_synced_at = COALESCE(excluded.wishlist_synced_at, users.wishlist_synced_at),
+       friend_ids = CASE WHEN ?10 IS NULL THEN users.friend_ids ELSE excluded.friend_ids END,
        updated_at = excluded.updated_at`,
   )
     .bind(
@@ -92,6 +94,7 @@ export async function refreshUser(env, steamId) {
       t,
       JSON.stringify(wishlist || []),
       wishlist ? t : null,
+      friends ? JSON.stringify(friends) : null,
     )
     .run();
 }
@@ -124,7 +127,7 @@ export async function handleCallback(request, env) {
 // added games, sessions), then clears the cookie. Tables also cascade from users.
 export async function deleteAccount(env, steamId) {
   await env.DB.batch(
-    ['ownership', 'user_games', 'sessions', 'users'].map((table) =>
+    ['ownership', 'user_games', 'play_votes', 'sessions', 'users'].map((table) =>
       env.DB.prepare(`DELETE FROM ${table} WHERE steam_id = ?1`).bind(steamId),
     ),
   );

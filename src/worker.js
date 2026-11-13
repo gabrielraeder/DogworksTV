@@ -6,6 +6,7 @@ import { loginRedirect, handleCallback, handleLogout, deleteAccount, currentUser
 import { serializeMe, manualMarks, setOwnership, setOwnershipBulk, ownerCounts, ownersOf, listMembers } from './owners.js';
 import { getPrices } from './prices.js';
 import { getDeals, getItadImage } from './deals.js';
+import { MAX_VOTES, myVotes, setVote, voteCounts, votersOf, ranking } from './votes.js';
 import { isOwner, assertOwner, getChannel, saveChannelGame, removeChannelGame, restoreChannelGame, listSuggestions } from './channel.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
 
@@ -31,6 +32,11 @@ async function me(env, user, { withLibrary = false } = {}) {
   const body = serializeMe(user, user ? await manualMarks(env, user.steam_id) : []);
   if (body.user) body.user.isOwner = isOwner(env, user.steam_id);
   if (user && withLibrary) body.library = await getLibrary(env, user.steam_id);
+  if (user) {
+    body.votes = await myVotes(env, user.steam_id);
+    body.maxVotes = MAX_VOTES;
+    body.friends = JSON.parse(user.friend_ids || '[]');
+  }
   return json(body);
 }
 
@@ -74,11 +80,24 @@ async function route(request, env, ctx) {
     await setOwnershipBulk(env, user.steam_id, body);
     return me(env, user);
   }
-  if (path === '/api/owners' && method === 'GET') return json(await ownersOf(env, q.get('key')));
+  if (path === '/api/owners' && method === 'GET') {
+    const key = q.get('key');
+    const [owners, voters] = await Promise.all([ownersOf(env, key), votersOf(env, key)]);
+    return json({ ...owners, voters });
+  }
+
+  // --- "Quero jogar" ---
+  if (path === '/api/votes' && method === 'POST') {
+    const body = await readJsonBody(request);
+    const user = await requireUser(request, env);
+    return json({ votes: await setVote(env, user.steam_id, body), maxVotes: MAX_VOTES });
+  }
+  if (path === '/api/votes/ranking' && method === 'GET') return json(await ranking(env));
   if (path === '/api/members' && method === 'GET') return json(await listMembers(env));
   if (path === '/api/owners/counts' && method === 'POST') {
     const body = await readJsonBody(request);
-    return json(await ownerCounts(env, body.keys));
+    const [counts, votes] = await Promise.all([ownerCounts(env, body.keys), voteCounts(env, body.keys)]);
+    return json({ ...counts, votes });
   }
 
   // --- favorites, hidden, added and edited games (per account) ---

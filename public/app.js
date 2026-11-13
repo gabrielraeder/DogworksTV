@@ -24,6 +24,7 @@ const ICON = {
   close: svg('<path d="M18 6 6 18M6 6l12 12"/>'),
   check: svg('<path d="M20 6 9 17l-5-5"/>'),
   tag: svg('<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r=".5"/>'),
+  flame: svg('<path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>'),
   heart: svg('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
   link: svg('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
   trend: svg('<path d="m22 17-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/>'),
@@ -215,6 +216,20 @@ const auth = {
   deals: {}, // key -> current sale { cut, shop, price, regular, url, expiry }
   wishlist: new Set(), // appids on the signed-in person's Steam wishlist
   wanted: {}, // key -> number of people with it on their Steam wishlist
+  votes: new Set(), // keys the signed-in person voted for ("Quero jogar")
+  maxVotes: 5,
+  voteCounts: {}, // key -> number of "Quero jogar" votes
+  friends: new Set(), // Steam IDs of the signed-in person's Steam friends
+};
+
+const isFriend = (steamId) => !!steamId && auth.friends.has(steamId);
+const friendTag = (steamId) => (isFriend(steamId) ? '<small class="friend-tag" title="Amigo na Steam">amigo</small>' : '');
+
+// You first, then Steam friends, then everyone else (keeps the original order inside each group).
+const byCloseness = (list) => {
+  const me = auth.user?.steamId;
+  const rank = (p) => (p.steamId === me ? 0 : isFriend(p.steamId) ? 1 : 2);
+  return [...list].sort((a, b) => rank(a) - rank(b));
 };
 
 const hasDeals = () => Object.keys(auth.deals).length > 0;
@@ -236,6 +251,9 @@ function setMe(data) {
   auth.manual = data.owned.manual;
   auth.steamAppids = new Set(data.owned.steamAppids);
   auth.wishlist = new Set(data.wishlist || []);
+  auth.votes = new Set(data.votes || []);
+  auth.maxVotes = data.maxVotes || auth.maxVotes;
+  auth.friends = new Set(data.friends || []);
   if (data.library) useLibrary(data.library);
   else if (!data.user) useLibrary(null);
 }
@@ -246,6 +264,8 @@ function signOutLocally() {
   auth.manual = [];
   auth.steamAppids = new Set();
   auth.wishlist = new Set();
+  auth.votes = new Set();
+  auth.friends = new Set();
   state.local.prefs.onlyOwned = false;
   state.local.prefs.onlyWish = false;
   useLibrary(null);
@@ -342,6 +362,8 @@ function allGames() {
     const appid = steamAppId(game.steamUrl);
     game.wished = !!(auth.user && appid && auth.wishlist.has(Number(appid)));
     game.wantedCount = auth.wanted[game.key] || 0;
+    game.voted = auth.votes.has(game.key);
+    game.votes = auth.voteCounts[game.key] || 0;
     return game;
   });
 }
@@ -415,6 +437,7 @@ function sortGames(list) {
     if (sort === 'fav' && a.fav !== b.fav) return a.fav ? -1 : 1;
     if (sort === 'owners' && a.ownersCount !== b.ownersCount) return b.ownersCount - a.ownersCount;
     if (sort === 'sale' && (a.deal?.cut || 0) !== (b.deal?.cut || 0)) return (b.deal?.cut || 0) - (a.deal?.cut || 0);
+    if (sort === 'votes' && a.votes !== b.votes) return b.votes - a.votes;
     if (sort === 'recent' && (a.addedAt || 0) !== (b.addedAt || 0)) return (b.addedAt || 0) - (a.addedAt || 0);
     return collator.compare(a.name, b.name);
   });
@@ -447,6 +470,7 @@ function cardHtml(g) {
       ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async">` : `<span class="placeholder">${esc(g.name)}</span>`}
       <div class="badges">
         ${g.deal ? `<span class="badge badge-sale" title="${esc(dealTitle(g.deal))}">-${g.deal.cut}%</span>` : ''}
+        ${g.votes ? `<span class="badge badge-vote" title="${g.votes} ${g.votes === 1 ? 'pessoa quer' : 'pessoas querem'} jogar na live">${ICON.flame}${g.votes}</span>` : ''}
         ${g.wished ? `<span class="badge badge-wish" title="Na sua lista de desejos da Steam" aria-label="Na sua lista de desejos">${ICON.heart}</span>` : ''}
         ${g.owned ? `<span class="badge badge-owned">${ICON.check}Você tem</span>` : ''}
         ${g.ownersCount ? `<span class="badge" title="${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'} este jogo">${ICON.users}${g.ownersCount}</span>` : ''}
@@ -583,6 +607,8 @@ function syncToolbar() {
   $('#btn-only-wish').setAttribute('aria-pressed', String(!!prefs.onlyWish && auth.wishlist.size > 0));
   $('#btn-only-sale').setAttribute('aria-pressed', String(!!prefs.onlySale && hasDeals()));
   $('#sort-sale').hidden = !hasDeals();
+  $('#sort-votes').hidden = !auth.api;
+  $('#btn-ranking').hidden = !auth.api;
   const n = playWith().length;
   $('#btn-play-with').hidden = !auth.api;
   $('#btn-play-with').setAttribute('aria-pressed', String(n > 0));
@@ -639,6 +665,11 @@ function renderAccount() {
             : 'Não consegui ler sua biblioteca Steam. Deixe “Detalhes de jogos” como <strong>Público</strong> na privacidade do perfil Steam e sincronize, ou marque os jogos à mão.'
         }
       </p>
+      <p class="hint">${
+        auth.friends.size
+          ? `Amigos na Steam: <strong>${auth.friends.size}</strong>. Eles aparecem primeiro em “Quem tem” e no “Jogar com”.`
+          : 'Lista de amigos da Steam vazia ou privada.'
+      }</p>
       <p class="hint">${
         auth.wishlist.size
           ? `Lista de desejos da Steam: <strong>${auth.wishlist.size}</strong> jogos.`
@@ -874,6 +905,8 @@ dlgDetail.addEventListener('click', (e) => {
   const own = e.target.closest('[data-platform]');
   if (own) toggleOwnership(own);
   if (e.target.closest('[data-open-mine]')) openMine();
+  const vote = e.target.closest('[data-vote]');
+  if (vote) toggleVote(vote);
 });
 detailEl.addEventListener('error', imageFallback, true);
 
@@ -913,6 +946,11 @@ function renderDetail(loadRemote) {
           ? `<section class="detail-section" aria-labelledby="sec-own">
               <h3 class="section-title" id="sec-own">${ICON.check}Eu tenho</h3>
               <div id="detail-own">${ownHtml(g)}</div>
+            </section>
+            <section class="detail-section" aria-labelledby="sec-vote">
+              <h3 class="section-title" id="sec-vote">${ICON.flame}Quero jogar na live <span class="section-count" id="voters-count"></span></h3>
+              <div id="detail-vote">${voteHtml(g)}</div>
+              <ul class="owners" id="detail-voters"></ul>
             </section>
             <section class="detail-section" aria-labelledby="sec-owners">
               <h3 class="section-title" id="sec-owners">${ICON.users}Quem tem <span class="section-count" id="owners-count"></span></h3>
@@ -1025,6 +1063,44 @@ async function loadPrices(g) {
   }
 }
 
+/* "Quero jogar" */
+
+function voteHtml(g) {
+  if (!auth.user) {
+    return '<p class="hint">Entre com a Steam para votar nos jogos que você quer jogar na live.</p>';
+  }
+  const used = auth.votes.size;
+  return `<div class="vote-box">
+    <button type="button" class="vote-btn" data-vote aria-pressed="${g.voted}">${ICON.flame}${g.voted ? 'Você quer jogar' : 'Quero jogar'}</button>
+    <p class="hint">Você usou ${used} de ${auth.maxVotes} votos${used >= auth.maxVotes && !g.voted ? '. Tire o voto de outro jogo para votar neste.' : '.'}</p>
+  </div>`;
+}
+
+async function toggleVote(btn) {
+  const g = findGame(state.detailId);
+  if (!g || btn.disabled) return;
+  const on = !g.voted;
+  btn.disabled = true;
+  try {
+    const { votes, maxVotes } = await api('/api/votes', { method: 'POST', body: { key: g.key, on } });
+    auth.votes = new Set(votes);
+    auth.maxVotes = maxVotes || auth.maxVotes;
+  } catch (e) {
+    btn.disabled = false;
+    if (e.status === 401) {
+      signOutLocally();
+      renderAccount();
+      syncToolbar();
+      refreshAll();
+      return toast('Sua sessão expirou. Entre com a Steam de novo.');
+    }
+    return toast(isOffline(e) ? 'Sem conexão com o servidor' : e.message);
+  }
+  await loadCounts();
+  refreshAll();
+  toast(on ? `Voto em ${g.name}: você quer jogar na live` : `Voto em ${g.name} retirado`);
+}
+
 /* ownership */
 
 function ownHtml(g) {
@@ -1080,16 +1156,18 @@ const personHtml = (o) => {
   return `<li class="owner">
     <a href="${esc(profile)}" target="_blank" rel="noopener" class="owner-link">
       ${avatar ? `<img src="${esc(avatar)}" alt="" width="36" height="36" loading="lazy">` : '<span class="owner-avatar"></span>'}
-      <span class="owner-name">${esc(o.name)}${o.name === auth.user?.name ? ' <small>(você)</small>' : ''}</span>
+      <span class="owner-name">${esc(o.name)}${o.steamId === auth.user?.steamId ? ' <small>(você)</small>' : ''}</span>
     </a>
+    ${friendTag(o.steamId)}
   </li>`;
 };
 
 async function loadOwners(g) {
   let owners = null;
   let wanters = [];
+  let voters = [];
   try {
-    ({ owners, wanters = [] } = await api(`/api/owners?key=${encodeURIComponent(g.key)}`));
+    ({ owners, wanters = [], voters = [] } = await api(`/api/owners?key=${encodeURIComponent(g.key)}`));
   } catch {}
   if (state.detailId !== g.id) return;
   const list = $('#detail-owners');
@@ -1097,7 +1175,10 @@ async function loadOwners(g) {
   // "Quem quer": people with it on their Steam wishlist
   $('#sec-wanters-wrap').hidden = !wanters.length;
   $('#wanters-count').textContent = wanters.length ? `(${wanters.length})` : '';
-  $('#detail-wanters').innerHTML = wanters.map(personHtml).join('');
+  $('#detail-wanters').innerHTML = byCloseness(wanters).map(personHtml).join('');
+  // "Quero jogar": who voted for it
+  $('#voters-count').textContent = voters.length ? `(${voters.length})` : '';
+  $('#detail-voters').innerHTML = byCloseness(voters).map(personHtml).join('');
   $('#owners-count').textContent = owners?.length ? `(${owners.length})` : '';
   if (!owners) {
     list.innerHTML = '<li class="hint error">Não foi possível carregar.</li>';
@@ -1107,16 +1188,16 @@ async function loadOwners(g) {
     list.innerHTML = '<li class="hint">Ninguém marcou ainda. Seja o primeiro!</li>';
     return;
   }
-  const meName = auth.user?.name;
-  list.innerHTML = owners
+  list.innerHTML = byCloseness(owners)
     .map((o) => {
       const avatar = safeUrl(o.avatar);
       const profile = safeUrl(o.profileUrl);
       return `<li class="owner">
         <a href="${esc(profile)}" target="_blank" rel="noopener" class="owner-link">
           ${avatar ? `<img src="${esc(avatar)}" alt="" width="36" height="36" loading="lazy">` : '<span class="owner-avatar"></span>'}
-          <span class="owner-name">${esc(o.name)}${o.name === meName ? ' <small>(você)</small>' : ''}</span>
+          <span class="owner-name">${esc(o.name)}${o.steamId === auth.user?.steamId ? ' <small>(você)</small>' : ''}</span>
         </a>
+        ${friendTag(o.steamId)}
         <span class="owner-platforms">
           ${o.platforms
             .map((p) =>
@@ -1190,7 +1271,8 @@ async function loadCounts() {
   if (!auth.api) return;
   try {
     const keys = [...new Set(allGames().map((g) => g.key))];
-    const { counts, owners, wanted } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
+    const { counts, owners, wanted, votes } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
+    auth.voteCounts = votes || {};
     auth.counts = counts;
     auth.owners = owners || {};
     auth.wanted = wanted || {};
@@ -1514,6 +1596,52 @@ $('#btn-mine-save').addEventListener('click', async () => {
   );
 });
 
+/* ---------------- ranking ("Quero jogar") ---------------- */
+
+const dlgRanking = $('#dlg-ranking');
+
+async function openRanking() {
+  dlgMenu.close();
+  const list = $('#ranking-list');
+  list.innerHTML = '<li class="hint">Carregando…</li>';
+  dlgRanking.showModal();
+  let rows = [];
+  try {
+    const data = await api('/api/votes/ranking');
+    rows = data.ranking;
+    $('#ranking-intro').innerHTML = `Os jogos que o pessoal mais quer jogar na live. Cada pessoa tem até ${data.maxVotes} votos: abra um jogo e clique em <strong>Quero jogar</strong>.`;
+  } catch (e) {
+    list.innerHTML = `<li class="hint error">${esc(isOffline(e) ? 'Sem conexão com o servidor.' : e.message)}</li>`;
+    return;
+  }
+  const byKey = new Map();
+  for (const g of allGames()) if (!byKey.has(g.key) && !g.removed) byKey.set(g.key, g);
+  const items = rows.map((r) => ({ ...r, game: byKey.get(r.key) })).filter((r) => r.game).slice(0, 20);
+  list.innerHTML = items.length
+    ? items
+        .map((r, i) => {
+          const img = safeUrl(r.game.image);
+          return `<li><button type="button" class="rank-row" data-rank-id="${esc(r.game.id)}">
+            <span class="rank-pos">${i + 1}</span>
+            ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="placeholder-thumb"></span>'}
+            <span class="rank-name">${esc(r.game.name)}${r.game.voted ? ' <small class="friend-tag">seu voto</small>' : ''}</span>
+            <span class="rank-votes" title="${r.votes} ${r.votes === 1 ? 'voto' : 'votos'}">${ICON.flame}${r.votes}</span>
+          </button></li>`;
+        })
+        .join('')
+    : '<li class="hint">Ninguém votou ainda. Abra um jogo e clique em <strong>Quero jogar</strong>.</li>';
+}
+
+$('#btn-ranking').addEventListener('click', openRanking);
+
+dlgRanking.addEventListener('click', (e) => {
+  if (e.target.closest('[data-close]') || e.target === dlgRanking) return dlgRanking.close();
+  const row = e.target.closest('[data-rank-id]');
+  if (!row) return;
+  dlgRanking.close();
+  openDetail(row.dataset.rankId);
+});
+
 /* ---------------- suggestions (owner) ---------------- */
 
 const dlgSuggestions = $('#dlg-suggestions');
@@ -1596,9 +1724,7 @@ function renderPeople() {
   const picked = new Set(state.store.prefs.playWith);
   const me = auth.user?.steamId;
   const q = norm($('#play-q').value);
-  const list = auth.members
-    .filter((m) => !q || norm(m.name).includes(q))
-    .sort((a, b) => (b.steamId === me) - (a.steamId === me)); // you first
+  const list = byCloseness(auth.members.filter((m) => !q || norm(m.name).includes(q)));
   if (!auth.members.length) {
     playPeople.innerHTML = '<li class="hint">Ninguém entrou com a Steam ainda.</li>';
     return;
@@ -1613,6 +1739,7 @@ function renderPeople() {
       return `<li><button type="button" class="person" data-steam-id="${esc(m.steamId)}" aria-pressed="${picked.has(m.steamId)}">
         ${avatar ? `<img src="${esc(avatar)}" alt="" width="32" height="32" loading="lazy">` : '<span class="person-avatar"></span>'}
         <span class="person-name">${esc(m.name)}${m.steamId === me ? ' <small>(você)</small>' : ''}</span>
+        ${friendTag(m.steamId)}
         ${ICON.check}
       </button></li>`;
     })

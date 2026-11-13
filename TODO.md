@@ -21,6 +21,6 @@ Ideias de funcionalidades para o site, em ordem de prioridade. Para tarefas de c
 
 ## Outras ideias
 
-- [ ] **"Quero jogar"**: cada pessoa marca os jogos que quer jogar na live, com um ranking dos mais pedidos.
+- [x] **"Quero jogar"**: cada pessoa vota em até 5 jogos que quer jogar na live (`MAX_VOTES` em `src/votes.js`). Selo de chama nos cards, ordenação **Mais pedidos** e ranking em **Opções → Mais pedidos para a live**.
 - [ ] **Selo "ao vivo"** quando o canal estiver no ar. Precisa registrar um app na Twitch.
-- [ ] **Amigos da Steam** que têm cada jogo. Só funciona para quem deixa a lista de amigos pública.
+- [x] **Amigos da Steam**: a lista de amigos é lida no login e ao sincronizar (só se for pública). Amigos que usam o site aparecem primeiro, com a etiqueta "amigo", em "Quem tem", "Quem quer", "Quero jogar" e no "Jogar com".

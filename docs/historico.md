@@ -92,6 +92,7 @@ Decisões:
   - `GET /api/owners?key=…`, `POST /api/owners/counts` `{ keys }` (devolve `counts` e `owners`: quem tem cada jogo)
   - `GET /api/members`: pessoas para o "Jogar com quem?" (quem tem marcação ou biblioteca Steam pública)
   - `DELETE /api/me`: apaga a conta e todos os dados da pessoa
+  - `POST /api/votes` `{ key, on }` ("Quero jogar", até 5 por pessoa) e `GET /api/votes/ranking`; `/api/owners` devolve também `voters`, e `/api/owners/counts` devolve `votes`
   - `POST /api/ownership/bulk` `{ platform, add: [keys], remove: [keys] }`: marca ou desmarca vários jogos de uma vez (usado pela importação da Epic, que lê o `catcache.bin` no navegador)
   - `POST /api/deals` `{ games: [{ key, appid?, title? }] }`: promoções atuais da lista toda (IsThereAnyDeal, em lote, cache de 1 hora)
   - `GET /api/itad/image?title=…`: imagem de um jogo que não está na Steam
@@ -103,6 +104,7 @@ Decisões:
   - `users`: a biblioteca Steam fica em `steam_appids`, um array JSON, consultado com `json_each`
   - `sessions`
   - `ownership`: `platform` ∈ `steam | epic | outra`
+  - `play_votes` e `users.friend_ids` (`migrations/0005_votes_friends.sql`): votos do "Quero jogar" e amigos da Steam (`ISteamUser/GetFriendList`)
   - `users.wishlist_appids` (`migrations/0004_wishlist.sql`): lista de desejos da Steam, lida por `IWishlistService/GetWishlist`
   - `channel_games` (`migrations/0003_channel_games.sql`): mudanças do dono na lista, por cima do `games.json`
   - `user_games` (`migrations/0002_user_games.sql`): uma linha por usuário × jogo, com `favorite`, `hidden`, `custom` e `data` (JSON do jogo adicionado ou dos campos editados de um jogo base)
