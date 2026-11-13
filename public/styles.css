@@ -878,6 +878,8 @@ button, input, select { font: inherit; color: inherit; }
 .account-head a { font-size: 13px; }
 .account-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .account-actions .btn { background: var(--surface-2); }
+.account-actions .btn-danger { color: var(--red-hi); }
+.account-actions .btn-danger[data-armed] { border-color: var(--red-hi); }
 
 .chip-owned .icon { width: 15px; height: 15px; }
 .chip-owned[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue-hi); color: #c9ceff; }

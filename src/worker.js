@@ -2,7 +2,7 @@
 
 import { searchSteam, getSteamDetails } from '../lib/steam.js';
 import { HttpError, json, readJsonBody, cached } from './http.js';
-import { loginRedirect, handleCallback, handleLogout, currentUser, requireUser, refreshUser } from './auth.js';
+import { loginRedirect, handleCallback, handleLogout, deleteAccount, currentUser, requireUser, refreshUser } from './auth.js';
 import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf } from './owners.js';
 import { getPrices } from './prices.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
@@ -39,6 +39,11 @@ async function route(request, env, ctx) {
 
   // --- current user ---
   if (path === '/api/me' && method === 'GET') return me(env, await currentUser(request, env), { withLibrary: true });
+  if (path === '/api/me' && method === 'DELETE') {
+    await readJsonBody(request);
+    const user = await requireUser(request, env);
+    return deleteAccount(env, user.steam_id);
+  }
   if (path === '/api/me/sync' && method === 'POST') {
     await readJsonBody(request);
     const user = await requireUser(request, env);

@@ -35,10 +35,8 @@ Lista do que ficou para o dono do site fazer, por ordem. Para o contexto de cada
 - [ ] **Conferir jogos que podem ter os servidores desligados ou ter sido retirados das lojas:** Second Extinction, Divine Knockout, Hood: Outlaws & Legends, Wild Card Football e NBA 2K21. O Spellbreak já foi deixado de fora.
 - [ ] **Jogos com poucas tags da Steam:** por exemplo, o Borderlands 2 aparece só como "Multijogador". Dá para ajustar à mão no site (Editar) ou no seed.
 
-## Decisões em aberto e ideias
+## Manutenção
 
-- [ ] **Excluir conta e dados (importante para privacidade/LGPD):** ainda não existe um botão para a pessoa apagar o próprio usuário e as marcações. Nome e avatar da Steam aparecem publicamente na lista "Quem tem". Vale avisar isso na tela de login e criar um `DELETE /api/me`. Apagar o usuário já apaga as marcações, os favoritos e os jogos adicionados (`ON DELETE CASCADE`).
-- [x] **Favoritos e jogos adicionados no banco:** feito. Favoritos, jogos adicionados, edições e ocultos ficam na conta Steam (tabela `user_games`); sem login, continuam no navegador e são levados para a conta no primeiro login.
-- [ ] **Lista compartilhada:** os jogos adicionados continuam sendo de cada pessoa. Se quiser que o dono do site (pelo Steam ID) adicione jogos que aparecem para todo mundo, falta criar isso.
-- [ ] **Jogos exclusivos da Epic** adicionados pelo site não ganham imagem automática; é preciso colar a URL da imagem. O IsThereAnyDeal devolve imagens (`assets.banner400`), o que daria para aproveitar quando a chave estiver configurada.
 - [ ] **Atualizar a lista base** quando a biblioteca da Epic mudar. Rode `npm run build:data:refresh` no PC com o Epic Games Launcher instalado.
+
+Ideias de funcionalidades (lista do canal, promoções, lista de desejos…) estão no [TODO.md](../TODO.md).

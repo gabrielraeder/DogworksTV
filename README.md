@@ -2,7 +2,7 @@
 
 Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>), com o visual do canal [twitch.tv/dogworkstv](https://www.twitch.tv/dogworkstv). Roda no **Cloudflare Workers**, com banco **D1**.
 
-> Como o projeto foi construído e por quê: [docs/historico.md](docs/historico.md) · O que falta fazer: [docs/pendencias.md](docs/pendencias.md)
+> Como o projeto foi construído e por quê: [docs/historico.md](docs/historico.md) · O que falta configurar: [docs/pendencias.md](docs/pendencias.md) · Ideias: [TODO.md](TODO.md)
 
 ## O que tem
 
@@ -13,6 +13,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 - **Modal do jogo** (clique no card): descrição, preços na Steam e na Epic em R$, promoções, menor preço já registrado e a lista de **quem tem** o jogo
 - **Adicionar jogos**: digite o nome ou cole um link da Steam ou da Epic. Nome, imagem, links e modos co-op/PvP são preenchidos pela Steam.
 - Editar e ocultar jogos; backup em JSON
+- **Privacidade:** aviso no login e **Opções → Apagar minha conta**
 
 ### O que fica onde
 

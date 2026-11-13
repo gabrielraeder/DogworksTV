@@ -109,6 +109,19 @@ export async function handleCallback(request, env) {
   });
 }
 
+// Deletes the signed-in user and everything tied to them ("Eu tenho" marks, favorites,
+// added games, sessions), then clears the cookie. Tables also cascade from users.
+export async function deleteAccount(env, steamId) {
+  await env.DB.batch(
+    ['ownership', 'user_games', 'sessions', 'users'].map((table) =>
+      env.DB.prepare(`DELETE FROM ${table} WHERE steam_id = ?1`).bind(steamId),
+    ),
+  );
+  return new Response(JSON.stringify({ ok: true }), {
+    headers: { 'Content-Type': 'application/json', 'Set-Cookie': sessionCookie('', 0) },
+  });
+}
+
 export async function handleLogout(request, env) {
   const token = parseCookies(request)[SESSION_COOKIE];
   if (token) await env.DB.prepare('DELETE FROM sessions WHERE id = ?1').bind(await sha256(token)).run();

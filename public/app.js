@@ -445,6 +445,9 @@ function syncToolbar() {
 
 /* ---------------- rendering: account ---------------- */
 
+const PRIVACY_NOTE =
+  'Seu nome e avatar da Steam aparecem para todos em “Quem tem” nos jogos que você marcar ou que estiverem na sua biblioteca Steam pública. Você pode apagar sua conta e esses dados quando quiser.';
+
 function renderAccount() {
   const slot = $('#account');
   const panel = $('#account-panel');
@@ -459,6 +462,7 @@ function renderAccount() {
       <div class="account-card">
         <p>Entre com a Steam para marcar os jogos que você tem, ver quem mais tem cada jogo e guardar seus favoritos e jogos adicionados na sua conta (hoje eles ficam só neste navegador).</p>
         <a class="btn btn-steam" href="/api/auth/login">${LOGO('steam')}Entrar com Steam</a>
+        <p class="hint">${PRIVACY_NOTE}</p>
       </div>`;
     return;
   }
@@ -487,9 +491,11 @@ function renderAccount() {
         }
       </p>
       <p class="hint">Favoritos, jogos adicionados e edições ficam salvos na sua conta, em qualquer navegador.</p>
+      <p class="hint">${PRIVACY_NOTE}</p>
       <div class="account-actions">
         <button class="btn btn-ghost" type="button" id="btn-sync">Sincronizar biblioteca</button>
         <button class="btn btn-ghost" type="button" id="btn-logout">Sair</button>
+        <button class="btn btn-ghost btn-danger" type="button" id="btn-delete-account">Apagar minha conta</button>
       </div>
     </div>`;
 }
@@ -792,7 +798,7 @@ function ownHtml(g) {
   if (!auth.user) {
     return `
       <div class="own-login">
-        <p>Entre com a Steam para marcar que você tem este jogo.</p>
+        <p>Entre com a Steam para marcar que você tem este jogo. Seu nome e avatar aparecem em “Quem tem”.</p>
         <a class="btn btn-steam" href="/api/auth/login">${LOGO('steam')}Entrar com Steam</a>
       </div>`;
   }
@@ -939,6 +945,36 @@ document.addEventListener('click', async (e) => {
       btn.disabled = false;
       btn.textContent = 'Sincronizar biblioteca';
     }
+  }
+
+  const del = e.target.closest('#btn-delete-account');
+  if (del) {
+    if (!del.dataset.armed) {
+      del.dataset.armed = '1';
+      del.textContent = 'Clique de novo para apagar tudo';
+      setTimeout(() => {
+        if (!del.isConnected) return;
+        delete del.dataset.armed;
+        del.textContent = 'Apagar minha conta';
+      }, 4000);
+      return;
+    }
+    del.disabled = true;
+    await syncQueue;
+    try {
+      await api('/api/me', { method: 'DELETE', body: {} });
+    } catch (err) {
+      del.disabled = false;
+      toast(isOffline(err) ? 'Sem conexão com o servidor' : err.message);
+      return;
+    }
+    signOutLocally();
+    dlgMenu.close();
+    await loadCounts();
+    renderAccount();
+    syncToolbar();
+    refreshAll();
+    toast('Sua conta e seus dados foram apagados');
   }
 
   if (e.target.closest('#btn-logout')) {
