@@ -1114,7 +1114,8 @@ button, input, select { font: inherit; color: inherit; }
 .rank-votes .icon { width: 16px; height: 16px; fill: currentColor; }
 
 /* ---------- "Jogos da minha Steam" (owner) ---------- */
-.menu-item > .logo { width: 20px; height: 20px; }
+/* the logo is a <span> too: keep it out of the ".menu-item > span" text column rule */
+.menu-item > .logo { flex: none; display: inline-block; width: 18px; height: 18px; }
 .panel-icon .logo { width: 22px; height: 22px; }
 .steamlib-tools { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 .steamlib-tools .search { flex: 1 1 220px; }
