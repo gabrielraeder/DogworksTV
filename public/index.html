@@ -29,9 +29,8 @@
       </div>
       <div class="hero-actions">
         <div id="account" class="account-slot"></div>
-        <a class="btn btn-ghost" href="https://www.twitch.tv/dogworkstv" target="_blank" rel="noopener">
+        <a class="btn btn-ghost btn-square" id="btn-twitch" href="https://www.twitch.tv/dogworkstv" target="_blank" rel="noopener" aria-label="Canal na Twitch" data-tip="Canal na Twitch">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 2H3v16h5v4l4-4h5l4-4V2zm-10 9V7m5 4V7"/></svg>
-          Twitch
         </a>
         <button class="btn btn-ghost btn-square" id="btn-epic" type="button" aria-label="Trazer meus jogos da Epic Games" data-tip="Trazer meus jogos da Epic">
           <span class="logo logo-epic" aria-hidden="true"></span>
@@ -188,7 +187,7 @@
   </dialog>
 
   <!-- Options / backup -->
-  <dialog id="dlg-menu" class="dialog dialog-narrow" aria-labelledby="dlg-menu-title">
+  <dialog id="dlg-menu" class="dialog dialog-menu" aria-labelledby="dlg-menu-title">
     <div class="dialog-card">
       <div class="panel panel-sm">
         <span class="panel-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg></span>
@@ -197,8 +196,10 @@
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
         </button>
       </div>
-      <div class="dialog-body menu-list">
-        <div id="account-panel"></div>
+      <div class="dialog-body menu-cols">
+        <!-- left: Steam profile; right: the options -->
+        <div id="account-panel" class="menu-profile"></div>
+        <div class="menu-list">
         <button class="menu-item" id="btn-ranking" type="button">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
           <span><strong>Mais pedidos para a live</strong><small>Ranking dos jogos que o pessoal quer jogar</small></span>
@@ -229,6 +230,7 @@
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
           <span><strong>Restaurar lista original</strong><small id="reset-hint">Apaga favoritos, adições e edições deste navegador</small></span>
         </button>
+        </div>
       </div>
     </div>
   </dialog>

@@ -280,9 +280,10 @@ button, input, select { font: inherit; color: inherit; }
 .btn-ghost:hover { border-color: rgba(255, 255, 255, 0.4); }
 
 /* Icon-only button, same height as the text buttons next to it */
-.btn-square { padding-inline: 0; width: 43px; justify-content: center; }
+.btn-square { padding: 0; width: 43px; height: 43px; justify-content: center; }
 .btn-square .logo { width: 18px; height: 18px; }
 #btn-epic:hover { background: #fff; border-color: #fff; color: #121212; }
+#btn-twitch:hover { background: #9146ff; border-color: #9146ff; color: #fff; }
 
 /* Hover/focus hint for icon-only buttons (the text is also in aria-label) */
 [data-tip] { position: relative; }
@@ -908,7 +909,23 @@ button, input, select { font: inherit; color: inherit; }
 .form-error { margin: 0; color: var(--red-hi); font-size: 13px; }
 .form-error:empty { display: none; }
 
-.menu-list { gap: 4px; padding: 10px; }
+.menu-list { display: flex; flex-direction: column; gap: 4px; }
+
+/* Options dialog: Steam profile on the left, options on the right */
+.dialog-menu { width: min(880px, calc(100vw - 32px)); }
+.menu-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 14px;
+  padding: 14px;
+}
+.menu-profile .account-card { margin-bottom: 0; }
+.menu-profile:empty { display: none; }
+.menu-cols:has(> .menu-profile:empty) { grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 720px) {
+  .menu-cols { grid-template-columns: minmax(0, 1fr); padding: 10px; }
+}
 
 .menu-item {
   display: flex;
