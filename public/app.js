@@ -135,7 +135,7 @@ const isOffline = (e) => e.message === 'offline' || e instanceof TypeError;
 // and in the Steam account while signed in. Display prefs always stay in the browser.
 
 const emptyLibrary = () => ({ favorites: [], custom: [], hidden: [], overrides: {} });
-const defaultPrefs = () => ({ sort: 'name', category: 'all', onlyFav: false, onlyOwned: false });
+const defaultPrefs = () => ({ sort: 'name', category: 'all', onlyFav: false, onlyOwned: false, playWith: [] });
 
 function sanitizeLibrary(s) {
   if (!s || typeof s !== 'object') return emptyLibrary();
@@ -159,6 +159,7 @@ function loadLocal() {
     s = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
   } catch {}
   const prefs = { ...defaultPrefs(), ...(s?.prefs && typeof s.prefs === 'object' ? s.prefs : {}) };
+  prefs.playWith = Array.isArray(prefs.playWith) ? prefs.playWith.filter((x) => typeof x === 'string') : [];
   return { ...sanitizeLibrary(s), prefs };
 }
 
@@ -198,7 +199,15 @@ const auth = {
   manual: [], // [{ key, platform }]
   steamAppids: new Set(),
   counts: {}, // key -> number of owners
+  owners: {}, // key -> [steam ids] of everyone who has it
+  members: null, // people who can be picked in "Jogar com quem?"
 };
+
+// Steam ids picked in "Jogar com quem?" (only meaningful with the API).
+const playWith = () => (auth.api ? state.store.prefs.playWith : []);
+
+// Has everyone picked in "Jogar com quem?" got this game?
+const everyoneHas = (g, ids) => ids.every((id) => auth.owners[g.key]?.includes(id));
 
 function setMe(data) {
   auth.user = data.user;
@@ -359,12 +368,14 @@ function render() {
   const q = norm(state.q);
   const games = allGames();
   const onlyOwned = prefs.onlyOwned && !!auth.user;
+  const people = playWith();
 
   const pool = games.filter(
     (g) =>
       (state.showHidden || !g.hidden) &&
       (!prefs.onlyFav || g.fav) &&
       (!onlyOwned || g.owned) &&
+      (!people.length || everyoneHas(g, people)) &&
       matchesQuery(g, q),
   );
 
@@ -377,6 +388,8 @@ function render() {
     let msg = 'Nenhum jogo encontrado com esses filtros.';
     if (prefs.onlyFav && !games.some((g) => g.fav)) msg = 'Você ainda não marcou favoritos. Clique na ★ de um jogo.';
     else if (onlyOwned && !games.some((g) => g.owned)) msg = 'Você ainda não marcou nenhum jogo como seu. Abra um jogo e use “Eu tenho”.';
+    else if (people.length && !games.some((g) => everyoneHas(g, people)))
+      msg = 'Nenhum jogo que todas essas pessoas têm. Tente tirar alguém em “Jogar com”.';
     main.innerHTML = `
       <div class="empty">
         <img src="assets/logo.png" alt="">
@@ -438,6 +451,10 @@ function syncToolbar() {
   $('#btn-only-owned').setAttribute('aria-pressed', String(!!prefs.onlyOwned));
   $('#btn-only-owned').hidden = !auth.user;
   $('#sort-owners').hidden = !auth.api;
+  const n = playWith().length;
+  $('#btn-play-with').hidden = !auth.api;
+  $('#btn-play-with').setAttribute('aria-pressed', String(n > 0));
+  $('#play-with-label').textContent = n ? `Com ${n} ${n === 1 ? 'pessoa' : 'pessoas'}` : 'Jogar com';
   $('#reset-hint').textContent = auth.user
     ? 'Apaga favoritos, adições e edições da sua conta'
     : 'Apaga favoritos, adições e edições deste navegador';
@@ -921,8 +938,9 @@ async function loadCounts() {
   if (!auth.api) return;
   try {
     const keys = [...new Set(allGames().map((g) => g.key))];
-    const { counts } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
+    const { counts, owners } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
     auth.counts = counts;
+    auth.owners = owners || {};
   } catch {}
 }
 
@@ -1029,6 +1047,84 @@ $('#sort').addEventListener('change', (e) => {
   saveStore();
   render();
 });
+
+/* ---------------- "Jogar com quem?" ---------------- */
+
+const dlgPlay = $('#dlg-play');
+const playPeople = $('#play-people');
+
+function renderPeople() {
+  if (!auth.members) {
+    playPeople.innerHTML = '<li class="hint">Carregando…</li>';
+    return;
+  }
+  const picked = new Set(state.store.prefs.playWith);
+  const me = auth.user?.steamId;
+  const q = norm($('#play-q').value);
+  const list = auth.members
+    .filter((m) => !q || norm(m.name).includes(q))
+    .sort((a, b) => (b.steamId === me) - (a.steamId === me)); // you first
+  if (!auth.members.length) {
+    playPeople.innerHTML = '<li class="hint">Ninguém entrou com a Steam ainda.</li>';
+    return;
+  }
+  if (!list.length) {
+    playPeople.innerHTML = '<li class="hint">Ninguém com esse nome.</li>';
+    return;
+  }
+  playPeople.innerHTML = list
+    .map((m) => {
+      const avatar = safeUrl(m.avatar);
+      return `<li><button type="button" class="person" data-steam-id="${esc(m.steamId)}" aria-pressed="${picked.has(m.steamId)}">
+        ${avatar ? `<img src="${esc(avatar)}" alt="" width="32" height="32" loading="lazy">` : '<span class="person-avatar"></span>'}
+        <span class="person-name">${esc(m.name)}${m.steamId === me ? ' <small>(você)</small>' : ''}</span>
+        ${ICON.check}
+      </button></li>`;
+    })
+    .join('');
+}
+
+function setPlayWith(ids) {
+  state.store.prefs.playWith = ids;
+  saveStore();
+  syncToolbar();
+  render();
+  renderPeople();
+}
+
+async function loadMembers() {
+  try {
+    ({ members: auth.members } = await api('/api/members'));
+  } catch {
+    auth.members = auth.members || [];
+  }
+  // drop people who no longer exist (deleted their account)
+  const ids = new Set(auth.members.map((m) => m.steamId));
+  const kept = state.store.prefs.playWith.filter((id) => ids.has(id));
+  if (kept.length !== state.store.prefs.playWith.length) setPlayWith(kept);
+}
+
+$('#btn-play-with').addEventListener('click', async () => {
+  $('#play-q').value = '';
+  renderPeople();
+  dlgPlay.showModal();
+  await loadMembers();
+  renderPeople();
+});
+
+dlgPlay.addEventListener('click', (e) => {
+  if (e.target.closest('[data-close]') || e.target === dlgPlay) return dlgPlay.close();
+  const btn = e.target.closest('[data-steam-id]');
+  if (!btn) return;
+  const id = btn.dataset.steamId;
+  const ids = [...state.store.prefs.playWith];
+  toggleList(ids, id);
+  setPlayWith(ids);
+  playPeople.querySelector(`[data-steam-id="${CSS.escape(id)}"]`)?.focus();
+});
+
+$('#play-q').addEventListener('input', renderPeople);
+$('#play-clear').addEventListener('click', () => setPlayWith([]));
 
 /* ---------------- add / edit dialog ---------------- */
 
@@ -1344,6 +1440,7 @@ form.addEventListener('submit', async (e) => {
   if (cat !== 'all' && cat !== data.category) store.prefs.category = 'all';
   if (store.prefs.onlyFav && !store.favorites.includes(id)) store.prefs.onlyFav = false;
   store.prefs.onlyOwned = false;
+  store.prefs.playWith = [];
   if (state.q) {
     state.q = '';
     $('#search').value = '';
@@ -1480,6 +1577,7 @@ async function boot() {
   await loadMe();
   const moved = await moveLocalToAccount();
   await loadCounts();
+  if (auth.api && state.store.prefs.playWith.length) await loadMembers();
   renderAccount();
   syncToolbar();
   render();

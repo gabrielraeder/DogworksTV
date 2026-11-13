@@ -13,6 +13,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 - **Modal do jogo** (clique no card): descrição, preços na Steam e na Epic em R$, promoções, menor preço já registrado e a lista de **quem tem** o jogo
 - **Adicionar jogos**: digite o nome ou cole um link da Steam ou da Epic. Nome, imagem, links e modos co-op/PvP são preenchidos pela Steam.
 - Editar e ocultar jogos; backup em JSON
+- **Jogar com quem?**: escolha algumas pessoas e veja só os jogos que todas têm
 - **Privacidade:** aviso no login e **Opções → Apagar minha conta**
 
 ### O que fica onde

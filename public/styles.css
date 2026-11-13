@@ -884,6 +884,37 @@ button, input, select { font: inherit; color: inherit; }
 .chip-owned .icon { width: 15px; height: 15px; }
 .chip-owned[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue-hi); color: #c9ceff; }
 
+/* ---------- "Jogar com quem?" ---------- */
+.chip-play .icon { width: 15px; height: 15px; }
+.chip-play[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue-hi); color: #c9ceff; }
+
+.play-intro { margin: 0; font-size: 14px; color: var(--muted); }
+
+.people { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.people .hint { margin: 4px 0; }
+
+.person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 6px 10px 6px 6px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.person:hover { background: var(--surface-2); }
+.person[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue-hi); }
+.person img, .person .person-avatar { width: 32px; height: 32px; border-radius: 6px; flex: none; background: var(--surface-2); }
+.person-name { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.person-name small { font-weight: 400; color: var(--muted); }
+.person .icon { width: 18px; height: 18px; color: #c9ceff; visibility: hidden; }
+.person[aria-pressed="true"] .icon { visibility: visible; }
+
 /* ---------- Card extras ---------- */
 .card { cursor: pointer; }
 
@@ -1169,7 +1200,9 @@ button, input, select { font: inherit; color: inherit; }
   .hide-sm { display: none; }
   .toolbar-inner { grid-template-columns: minmax(0, 1fr); }
   .toolbar-inner > * { min-width: 0; }
-  .toolbar-inner .toolbar-right { justify-content: space-between; }
+  .toolbar-inner .toolbar-right { justify-content: flex-start; flex-wrap: wrap; }
+  .toolbar-right .select { flex: 1 1 140px; }
+  .toolbar-right .select select { width: 100%; }
   .chips {
     grid-row: auto;
     flex-wrap: nowrap;

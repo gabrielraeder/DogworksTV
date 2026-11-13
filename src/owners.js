@@ -80,13 +80,29 @@ async function ownersByKey(env, keys) {
   return map;
 }
 
+// counts: key -> number of owners; owners: key -> steam ids (used by "Jogar com quem?").
 export async function ownerCounts(env, keys) {
   if (!Array.isArray(keys)) throw new HttpError(400, 'Lista inválida');
   const valid = [...new Set(keys.filter((k) => typeof k === 'string' && KEY_RE.test(k)))].slice(0, 2000);
   const map = await ownersByKey(env, valid);
   const counts = {};
-  for (const [k, set] of map) if (set.size) counts[k] = set.size;
-  return { counts };
+  const owners = {};
+  for (const [k, set] of map) {
+    if (!set.size) continue;
+    counts[k] = set.size;
+    owners[k] = [...set];
+  }
+  return { counts, owners };
+}
+
+// People who can be picked in "Jogar com quem?": anyone with a mark or a visible Steam library.
+export async function listMembers(env) {
+  const { results } = await env.DB.prepare(
+    `SELECT steam_id, name, avatar FROM users
+     WHERE library_visible = 1 OR EXISTS (SELECT 1 FROM ownership o WHERE o.steam_id = users.steam_id)
+     ORDER BY name COLLATE NOCASE`,
+  ).all();
+  return { members: results.map((r) => ({ steamId: r.steam_id, name: r.name, avatar: r.avatar })) };
 }
 
 export async function ownersOf(env, key) {

@@ -89,7 +89,9 @@ Decisões:
   - `GET /api/me` (inclui `library`: favoritos, adicionados, edições, ocultos), `POST /api/me/sync` (sincroniza a biblioteca Steam)
   - `POST /api/library/flag` `{ id, flag: 'favorite' | 'hidden', on }`, `POST /api/library/game` `{ id, custom, data }`, `POST /api/library/remove` `{ id }`, `POST /api/library/import` `{ mode: 'merge' | 'replace', favorites, hidden, custom, overrides }`
   - `POST /api/ownership` `{ key, platform, owned }`
-  - `GET /api/owners?key=…`, `POST /api/owners/counts` `{ keys }`
+  - `GET /api/owners?key=…`, `POST /api/owners/counts` `{ keys }` (devolve `counts` e `owners`: quem tem cada jogo)
+  - `GET /api/members`: pessoas para o "Jogar com quem?" (quem tem marcação ou biblioteca Steam pública)
+  - `DELETE /api/me`: apaga a conta e todos os dados da pessoa
   - `GET /api/steam/search?q=…`, `GET /api/steam/details?appid=…`
   - `GET /api/prices?appid=…` ou `?title=…`
 - Banco (`migrations/0001_init.sql`):

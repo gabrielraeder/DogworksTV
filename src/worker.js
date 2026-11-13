@@ -3,7 +3,7 @@
 import { searchSteam, getSteamDetails } from '../lib/steam.js';
 import { HttpError, json, readJsonBody, cached } from './http.js';
 import { loginRedirect, handleCallback, handleLogout, deleteAccount, currentUser, requireUser, refreshUser } from './auth.js';
-import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf } from './owners.js';
+import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf, listMembers } from './owners.js';
 import { getPrices } from './prices.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
 
@@ -59,6 +59,7 @@ async function route(request, env, ctx) {
     return me(env, user);
   }
   if (path === '/api/owners' && method === 'GET') return json(await ownersOf(env, q.get('key')));
+  if (path === '/api/members' && method === 'GET') return json(await listMembers(env));
   if (path === '/api/owners/counts' && method === 'POST') {
     const body = await readJsonBody(request);
     return json(await ownerCounts(env, body.keys));
