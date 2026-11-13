@@ -7,7 +7,17 @@ import { serializeMe, manualMarks, setOwnership, setOwnershipBulk, ownerCounts, 
 import { getPrices } from './prices.js';
 import { getDeals, getItadImage } from './deals.js';
 import { MAX_VOTES, myVotes, setVote, voteCounts, votersOf, ranking } from './votes.js';
-import { isOwner, assertOwner, getChannel, saveChannelGame, removeChannelGame, restoreChannelGame, listSuggestions } from './channel.js';
+import {
+  isOwner,
+  assertOwner,
+  getChannel,
+  saveChannelGame,
+  removeChannelGame,
+  restoreChannelGame,
+  listSuggestions,
+  ownerSteamLibrary,
+  importSteamGames,
+} from './channel.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
 import { getLive } from './twitch.js';
 
@@ -25,6 +35,7 @@ const CHANNEL = {
   '/api/channel/game': saveChannelGame, // { id?, added, data } -> { id }
   '/api/channel/remove': removeChannelGame, // { id }
   '/api/channel/restore': restoreChannelGame, // { id }
+  '/api/channel/import': importSteamGames, // { appids } -> { added }
 };
 
 // withLibrary: also send favorites/added/edited/hidden games (only on page load, so it never
@@ -126,6 +137,11 @@ async function route(request, env, ctx) {
   if (path === '/api/channel/suggestions' && method === 'GET') {
     assertOwner(env, await requireUser(request, env));
     return json(await listSuggestions(env));
+  }
+  if (path === '/api/channel/steam-library' && method === 'GET') {
+    const user = await requireUser(request, env);
+    assertOwner(env, user);
+    return json(await ownerSteamLibrary(env, user.steam_id));
   }
 
   // --- Steam store proxy ---

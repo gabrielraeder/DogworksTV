@@ -4,6 +4,9 @@
 
 import { HttpError } from './http.js';
 import { cleanGame } from './library.js';
+import { getStoreItems } from '../lib/steam.js';
+
+const MAX_IMPORT = 300; // Steam games added to the channel's list in one go
 
 const ID_RE = /^[a-z0-9][a-z0-9-]{0,79}$/;
 
@@ -124,4 +127,65 @@ export async function listSuggestions(env) {
     .sort((a, b) => b.people.length - a.people.length || b.addedAt - a.addedAt)
     .slice(0, 200);
   return { suggestions };
+}
+
+// The signed-in owner's Steam library (as of the last sync) with store data, for "Trazer jogos
+// da minha Steam". The page hides the games already in the list.
+export async function ownerSteamLibrary(env, steamId) {
+  const row = await env.DB.prepare('SELECT steam_appids, library_synced_at FROM users WHERE steam_id = ?1')
+    .bind(steamId)
+    .first();
+  const appids = parse(row?.steam_appids) || [];
+  let items = [];
+  if (appids.length) {
+    try {
+      items = await getStoreItems(appids);
+    } catch {
+      throw new HttpError(502, 'A Steam não respondeu. Tente de novo em instantes.');
+    }
+  }
+  return { items, syncedAt: row?.library_synced_at || null };
+}
+
+// { appids }: adds these Steam games to the channel's list with the store data (name, image,
+// description, co-op/PvP tags and category). Games the channel already added are skipped.
+export async function importSteamGames(env, steamId, { appids }) {
+  if (!Array.isArray(appids) || !appids.length) throw new HttpError(400, 'Escolha pelo menos um jogo');
+  if (appids.length > MAX_IMPORT) throw new HttpError(400, `No máximo ${MAX_IMPORT} jogos por vez`);
+  const { results } = await env.DB.prepare('SELECT data FROM channel_games WHERE added = 1').all();
+  const present = new Set(results.map((r) => steamAppId(parse(r.data)?.steamUrl)).filter(Boolean));
+  let items;
+  try {
+    items = await getStoreItems(appids);
+  } catch {
+    throw new HttpError(502, 'A Steam não respondeu. Tente de novo em instantes.');
+  }
+  items = items.filter((g) => !present.has(String(g.appid)));
+  if (!items.length) return { added: 0 };
+  const t = Date.now();
+  const rows = items.map((g, i) => ({
+    id: `ch-${t.toString(36)}-${i.toString(36)}`,
+    data: JSON.stringify(
+      cleanGame(
+        {
+          name: g.name,
+          category: g.suggestedCategory,
+          image: g.image,
+          description: g.description,
+          tags: g.tags,
+          genres: [],
+          steamUrl: g.url,
+          note: '',
+        },
+        { requireName: true },
+      ),
+    ),
+  }));
+  await env.DB.prepare(
+    `INSERT INTO channel_games (id, data, added, added_at, updated_at, updated_by)
+     SELECT json_extract(value, '$.id'), json_extract(value, '$.data'), 1, ?2, ?2, ?3 FROM json_each(?1)`,
+  )
+    .bind(JSON.stringify(rows), t, steamId)
+    .run();
+  return { added: items.length };
 }

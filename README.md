@@ -13,7 +13,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 - **Modal do jogo** (clique no card): descrição, preços na Steam e na Epic em R$, promoções, menor preço já registrado e a lista de **quem tem** o jogo
 - **Adicionar jogos**: digite o nome ou cole um link da Steam ou da Epic. Nome, imagem, links e modos co-op/PvP são preenchidos pela Steam.
 - Editar e ocultar jogos; backup em JSON
-- **Lista do canal editável pelo site** (só o dono): adicionar, editar, tirar e restaurar jogos para todo mundo, e aprovar as sugestões do pessoal
+- **Lista do canal editável pelo site** (só o dono): adicionar, editar, tirar e restaurar jogos para todo mundo, aprovar as sugestões do pessoal e trazer jogos da própria biblioteca Steam (Opções → Trazer jogos da minha Steam, já filtrando co-op e multiplayer)
 - **Quero jogar**: até 5 votos por pessoa nos jogos para a live, com ranking dos mais pedidos
 - **Amigos da Steam** aparecem primeiro, com a etiqueta "amigo", nas listas de pessoas
 - **Marcar meus jogos**: marcar vários de uma vez e importar a biblioteca da Epic a partir do launcher no Windows
@@ -77,7 +77,7 @@ O site fica em `https://dogworks-games.<sua-conta>.workers.dev`. Para usar um do
 
 ## Dono do canal
 
-Quem tem o Steam ID em `OWNER_STEAM_IDS` (no `wrangler.jsonc`, em `vars`) edita a lista do canal pelo site: o que essa pessoa adiciona, edita ou tira vale para todo mundo. O Steam ID aparece em **Opções** depois de entrar com a Steam. Para mais de um dono, separe por vírgula.
+Quem tem o Steam ID em `OWNER_STEAM_IDS` (no `wrangler.jsonc`, em `vars`) edita a lista do canal pelo site: o que essa pessoa adiciona, edita ou tira vale para todo mundo. O Steam ID aparece em **Opções** depois de entrar com a Steam. Para mais de um dono, separe por vírgula: cada um pode trazer os jogos da própria biblioteca Steam para a lista.
 
 As mudanças ficam no banco (tabela `channel_games`), por cima do `public/data/games.json`, que continua sendo a lista de partida.
 

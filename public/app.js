@@ -601,6 +601,7 @@ function syncToolbar() {
   $('#btn-only-owned').hidden = !auth.user;
   $('#sort-owners').hidden = !auth.api;
   $('#btn-suggestions').hidden = !isOwnerUser();
+  $('#btn-steamlib').hidden = !isOwnerUser();
   $('#btn-mine').hidden = !auth.user;
   $('#btn-only-sale').hidden = !hasDeals();
   $('#btn-only-wish').hidden = !(auth.user && auth.wishlist.size);
@@ -934,34 +935,34 @@ function renderDetail(loadRemote) {
         <div class="tags">${tagsHtml(g, 9)}</div>
         ${g.genres.length ? `<p class="detail-genres">${esc(g.genres.join(' · '))}</p>` : ''}
       </div>
-      ${g.description ? `<p class="detail-desc">${esc(g.description)}</p>` : ''}
-
-      <section class="detail-section" aria-labelledby="sec-prices">
-        <h3 class="section-title" id="sec-prices">${ICON.tag}Preços</h3>
-        <div class="prices" id="detail-prices">${pricesHtml(g, priceCache.get(g.key))}</div>
-      </section>
-
       ${
         auth.api
-          ? `<section class="detail-section" aria-labelledby="sec-own">
-              <h3 class="section-title" id="sec-own">${ICON.check}Eu tenho</h3>
-              <div id="detail-own">${ownHtml(g)}</div>
-            </section>
-            <section class="detail-section" aria-labelledby="sec-vote">
-              <h3 class="section-title" id="sec-vote">${ICON.flame}Quero jogar na live <span class="section-count" id="voters-count"></span></h3>
-              <div id="detail-vote">${voteHtml(g)}</div>
-              <ul class="owners" id="detail-voters"></ul>
-            </section>
-            <section class="detail-section" aria-labelledby="sec-owners">
+          ? `<section class="detail-section" aria-labelledby="sec-owners">
               <h3 class="section-title" id="sec-owners">${ICON.users}Quem tem <span class="section-count" id="owners-count"></span></h3>
               <ul class="owners" id="detail-owners"><li class="hint">Carregando…</li></ul>
             </section>
             <section class="detail-section" aria-labelledby="sec-wanters" id="sec-wanters-wrap" hidden>
               <h3 class="section-title" id="sec-wanters">${ICON.heart}Quem quer <span class="section-count" id="wanters-count"></span></h3>
               <ul class="owners" id="detail-wanters"></ul>
+            </section>
+            <section class="detail-section" aria-labelledby="sec-vote">
+              <h3 class="section-title" id="sec-vote">${ICON.flame}Quero jogar na live <span class="section-count" id="voters-count"></span></h3>
+              <div id="detail-vote">${voteHtml(g)}</div>
+              <ul class="owners" id="detail-voters"></ul>
+            </section>
+            <section class="detail-section" aria-labelledby="sec-own">
+              <h3 class="section-title" id="sec-own">${ICON.check}Eu tenho</h3>
+              <div id="detail-own">${ownHtml(g)}</div>
             </section>`
           : ''
       }
+
+      <section class="detail-section" aria-labelledby="sec-prices">
+        <h3 class="section-title" id="sec-prices">${ICON.tag}Preços</h3>
+        <div class="prices" id="detail-prices">${pricesHtml(g, priceCache.get(g.key))}</div>
+      </section>
+
+      ${g.description ? `<p class="detail-desc">${esc(g.description)}</p>` : ''}
     </div>
     <div class="dialog-footer detail-footer">
       <div class="detail-stores">${storeLinksHtml(g, true)}</div>
@@ -1641,6 +1642,152 @@ dlgRanking.addEventListener('click', (e) => {
   if (!row) return;
   dlgRanking.close();
   openDetail(row.dataset.rankId);
+});
+
+/* ---------------- "Jogos da minha Steam" (owner) ---------------- */
+
+const dlgSteamlib = $('#dlg-steamlib');
+const steamlibList = $('#steamlib-list');
+const steamlib = { items: null, error: '', checked: new Set() };
+
+// Steam games already in the channel's list: base list (removed ones too) and added by the channel.
+function channelAppids() {
+  const ids = new Set();
+  for (const g of [...(state.base || []), ...(state.channel?.added || [])]) {
+    const appid = steamAppId(g.steamUrl);
+    if (appid) ids.add(appid);
+  }
+  return ids;
+}
+
+// Library games not in the channel's list yet (by appid, or by name for games without a Steam link).
+function steamlibPending() {
+  const present = channelAppids();
+  return (steamlib.items || [])
+    .filter((g) => {
+      if (present.has(String(g.appid))) return false;
+      const existing = findExisting({ name: g.name });
+      return !existing || existing.source === 'custom';
+    })
+    .sort((a, b) => collator.compare(a.name, b.name));
+}
+
+function steamlibVisible() {
+  const q = norm($('#steamlib-q').value);
+  const onlyMulti = $('#steamlib-multi').checked;
+  return steamlibPending().filter((g) => (!onlyMulti || g.multiplayer) && (!q || norm(g.name).includes(q)));
+}
+
+function updateSteamlibSave() {
+  const save = $('#btn-steamlib-save');
+  const n = steamlib.checked.size;
+  save.disabled = !n;
+  save.textContent = n ? `Adicionar (${n})` : 'Adicionar';
+}
+
+function renderSteamlib() {
+  updateSteamlibSave();
+  const summary = $('#steamlib-summary');
+  const all = $('#steamlib-all');
+  all.hidden = true;
+  summary.textContent = '';
+  if (!steamlib.items) {
+    steamlibList.innerHTML = `<li class="hint${steamlib.error ? ' error' : ''}">${esc(steamlib.error || 'Lendo sua biblioteca na Steam…')}</li>`;
+    return;
+  }
+  if (!steamlib.items.length) {
+    steamlibList.innerHTML =
+      '<li class="hint">Sua biblioteca Steam está vazia ou privada. Na Steam, deixe <strong>Detalhes do jogo</strong> como público (Perfil → Editar perfil → Privacidade) e clique em <strong>Sincronizar biblioteca</strong> em Opções.</li>';
+    return;
+  }
+  const pending = steamlibPending();
+  if (!pending.length) {
+    steamlibList.innerHTML = '<li class="hint">Todos os jogos da sua biblioteca Steam já estão na lista do canal.</li>';
+    return;
+  }
+  const multi = pending.filter((g) => g.multiplayer).length;
+  summary.textContent = `${pending.length} ${pending.length === 1 ? 'jogo seu ainda não está' : 'jogos seus ainda não estão'} na lista, ${multi} com co-op ou multiplayer.`;
+  const list = steamlibVisible();
+  all.hidden = !list.length;
+  all.textContent = list.length && list.every((g) => steamlib.checked.has(g.appid)) ? 'Desmarcar todos' : 'Marcar todos';
+  steamlibList.innerHTML =
+    list
+      .map((g) => {
+        const on = steamlib.checked.has(g.appid);
+        const img = safeUrl(g.image);
+        const label = g.multiplayer
+          ? esc(CATEGORY_BY_ID[g.suggestedCategory]?.label || 'Outros')
+          : '<span class="single">só single-player</span>';
+        return `<li><label class="mine-item${on ? ' changed' : ''}">
+          <input type="checkbox" data-appid="${g.appid}" ${on ? 'checked' : ''}>
+          ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="placeholder-thumb"></span>'}
+          <span class="mine-name">${esc(g.name)}</span>
+          <small>${label}</small>
+        </label></li>`;
+      })
+      .join('') || '<li class="hint">Nenhum jogo com esse filtro.</li>';
+}
+
+$('#btn-steamlib').addEventListener('click', async () => {
+  dlgMenu.close();
+  steamlib.items = null;
+  steamlib.error = '';
+  steamlib.checked = new Set();
+  $('#steamlib-q').value = '';
+  $('#steamlib-multi').checked = true;
+  renderSteamlib();
+  dlgSteamlib.showModal();
+  try {
+    ({ items: steamlib.items } = await api('/api/channel/steam-library'));
+  } catch (e) {
+    steamlib.error = isOffline(e) ? 'Sem conexão com o servidor.' : e.message;
+  }
+  renderSteamlib();
+});
+
+$('#steamlib-q').addEventListener('input', renderSteamlib);
+$('#steamlib-multi').addEventListener('change', renderSteamlib);
+
+$('#steamlib-all').addEventListener('click', () => {
+  const list = steamlibVisible();
+  const allOn = list.every((g) => steamlib.checked.has(g.appid));
+  for (const g of list) {
+    if (allOn) steamlib.checked.delete(g.appid);
+    else steamlib.checked.add(g.appid);
+  }
+  renderSteamlib();
+});
+
+steamlibList.addEventListener('change', (e) => {
+  const box = e.target.closest('input[data-appid]');
+  if (!box) return;
+  const appid = Number(box.dataset.appid);
+  if (box.checked) steamlib.checked.add(appid);
+  else steamlib.checked.delete(appid);
+  box.closest('.mine-item').classList.toggle('changed', box.checked);
+  updateSteamlibSave();
+});
+
+dlgSteamlib.addEventListener('click', (e) => {
+  if (e.target.closest('[data-close]') || e.target === dlgSteamlib) dlgSteamlib.close();
+});
+
+$('#btn-steamlib-save').addEventListener('click', async () => {
+  const btn = $('#btn-steamlib-save');
+  btn.disabled = true;
+  btn.textContent = 'Adicionando…';
+  let added = 0;
+  try {
+    ({ added } = await channelRequest('/api/channel/import', { appids: [...steamlib.checked] }));
+  } catch (e) {
+    updateSteamlibSave();
+    return toast(isOffline(e) ? 'Sem conexão com o servidor' : e.message);
+  }
+  dlgSteamlib.close();
+  await loadCounts();
+  render();
+  loadDeals();
+  toast(added ? `${added} ${added === 1 ? 'jogo entrou' : 'jogos entraram'} na lista do canal` : 'Esses jogos já estavam na lista do canal');
 });
 
 /* ---------------- suggestions (owner) ---------------- */

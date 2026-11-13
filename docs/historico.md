@@ -97,7 +97,7 @@ Decisões:
   - `POST /api/deals` `{ games: [{ key, appid?, title? }] }`: promoções atuais da lista toda (IsThereAnyDeal, em lote, cache de 1 hora)
   - `GET /api/itad/image?title=…`: imagem de um jogo que não está na Steam
   - `GET /api/channel`: mudanças do dono na lista (`added`, `overrides`, `removed`)
-  - Só o dono (`OWNER_STEAM_IDS`): `POST /api/channel/game` `{ id?, added, data }`, `POST /api/channel/remove` `{ id }`, `POST /api/channel/restore` `{ id }`, `GET /api/channel/suggestions`
+  - Só o dono (`OWNER_STEAM_IDS`): `POST /api/channel/game` `{ id?, added, data }`, `POST /api/channel/remove` `{ id }`, `POST /api/channel/restore` `{ id }`, `GET /api/channel/suggestions`, `GET /api/channel/steam-library` (biblioteca Steam do dono com dados da loja, via `IStoreBrowseService/GetItems` em lotes de 150) e `POST /api/channel/import` `{ appids }` (adiciona esses jogos à lista do canal)
   - `GET /api/steam/search?q=…`, `GET /api/steam/details?appid=…`
   - `GET /api/prices?appid=…` ou `?title=…`
 - Banco (`migrations/0001_init.sql`):
