@@ -661,6 +661,7 @@ button, input, select { font: inherit; color: inherit; }
 .field > select:focus { outline: none; border-color: var(--blue-hi); }
 
 .steam-search {
+  position: relative; /* anchors the results dropdown */
   padding: 14px;
   border-radius: 10px;
   background: var(--bg-2);
@@ -675,15 +676,29 @@ button, input, select { font: inherit; color: inherit; }
 .hint.error { color: var(--red-hi); }
 
 .results {
+  /* dropdown over the form below, so it never pushes the rest of the modal down */
+  position: absolute;
+  z-index: 5;
+  top: calc(100% - 8px);
+  left: 14px;
+  right: 14px;
   list-style: none;
-  margin: 8px 0 0;
-  padding: 0;
+  margin: 0;
+  padding: 4px;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px;
+  max-height: min(340px, 50dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: var(--shadow);
 }
 
-.results:empty { display: none; }
+.results:empty,
+.results[hidden] { display: none; }
 
 .result {
   display: flex;

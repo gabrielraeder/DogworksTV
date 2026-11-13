@@ -1143,6 +1143,7 @@ async function runSteamSearch(q) {
       if (exact) return pickSteam(exact.appid);
     }
     setStatus(epic ? 'Escolha o jogo correspondente na Steam:' : 'Escolha o jogo para preencher os dados:');
+    steamResults.hidden = false;
     steamResults.innerHTML = items
       .map((it) => {
         const exists = findExisting({ name: it.name, appid: it.appid }, state.editing?.id);
@@ -1163,6 +1164,41 @@ async function runSteamSearch(q) {
 steamResults.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-appid]');
   if (btn) pickSteam(btn.dataset.appid, btn);
+});
+
+// The results are a dropdown over the form: close it on Esc or a click elsewhere in the
+// modal, reopen it when the search field gets focus again. Arrow keys move between results.
+const resultsOpen = () => !steamResults.hidden && steamResults.children.length > 0;
+
+steamQ.addEventListener('focus', () => (steamResults.hidden = false));
+
+steamQ.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' && resultsOpen()) {
+    e.preventDefault();
+    steamResults.querySelector('.result')?.focus();
+  }
+});
+
+steamResults.addEventListener('keydown', (e) => {
+  const items = [...steamResults.querySelectorAll('.result')];
+  const i = items.indexOf(document.activeElement);
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const next = i + (e.key === 'ArrowDown' ? 1 : -1);
+    (next < 0 ? steamQ : items[Math.min(next, items.length - 1)]).focus();
+  }
+});
+
+dlgGame.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && resultsOpen()) {
+    e.preventDefault(); // close the dropdown, not the modal
+    steamResults.hidden = true;
+    steamQ.focus();
+  }
+});
+
+dlgGame.addEventListener('pointerdown', (e) => {
+  if (resultsOpen() && !e.target.closest('#steam-search')) steamResults.hidden = true;
 });
 
 async function pickSteam(appid, btn) {
