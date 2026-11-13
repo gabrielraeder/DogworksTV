@@ -1009,6 +1009,17 @@ $('#tag-picker').innerHTML = Object.entries(TAGS)
   )
   .join('');
 
+const EDIT_HINT = 'Buscar de novo na Steam substitui imagem, links e modos.';
+
+// Status line under the search when nothing needs saying (keeps the edit hint while editing).
+const idleStatus = () => setStatus(state.editing ? EDIT_HINT : '');
+
+// Message shown inside the results dropdown (over the form, so the modal doesn't grow).
+function setResultsMessage(text) {
+  steamResults.hidden = false;
+  steamResults.innerHTML = `<li class="results-msg">${esc(text)}</li>`;
+}
+
 function setStatus(text, kind = '') {
   steamStatus.textContent = text;
   steamStatus.className = `hint ${kind}`;
@@ -1055,7 +1066,7 @@ function openGameDialog(game = null) {
   $('#form-error').textContent = '';
   $('#preview-empty').textContent = 'Sem imagem';
   steamResults.innerHTML = '';
-  setStatus(game ? 'Buscar de novo na Steam substitui imagem, links e modos.' : '');
+  idleStatus();
   $('#steam-search').hidden = !auth.api;
 
   if (game) {
@@ -1094,7 +1105,7 @@ steamQ.addEventListener('input', () => {
   const q = steamQ.value.trim();
   if (q.length < 2) {
     steamResults.innerHTML = '';
-    setStatus('');
+    idleStatus();
     return;
   }
   steamTimer = setTimeout(() => runSteamSearch(q), 400);
@@ -1124,7 +1135,8 @@ async function runSteamSearch(q) {
     q = epic.name;
   }
 
-  setStatus(epic ? `Link da Epic reconhecido. Procurando “${titleCase(epic.name)}” na Steam…` : 'Buscando na Steam…');
+  idleStatus();
+  setResultsMessage(epic ? `Link da Epic reconhecido. Procurando “${titleCase(epic.name)}” na Steam…` : 'Buscando na Steam…');
   try {
     const { items } = await api(`/api/steam/search?q=${encodeURIComponent(q)}`);
     if (seq !== steamSeq) return;
@@ -1142,7 +1154,6 @@ async function runSteamSearch(q) {
       const exact = items.find((it) => compact(it.name) === compact(epic.name));
       if (exact) return pickSteam(exact.appid);
     }
-    setStatus(epic ? 'Escolha o jogo correspondente na Steam:' : 'Escolha o jogo para preencher os dados:');
     steamResults.hidden = false;
     steamResults.innerHTML = items
       .map((it) => {

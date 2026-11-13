@@ -700,6 +700,8 @@ button, input, select { font: inherit; color: inherit; }
 .results:empty,
 .results[hidden] { display: none; }
 
+.results-msg { padding: 10px 8px; font-size: 14px; color: var(--muted); }
+
 .result {
   display: flex;
   align-items: center;
