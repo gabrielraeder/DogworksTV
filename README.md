@@ -13,6 +13,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 - **Modal do jogo** (clique no card): descrição, preços na Steam e na Epic em R$, promoções, menor preço já registrado e a lista de **quem tem** o jogo
 - **Adicionar jogos**: digite o nome ou cole um link da Steam ou da Epic. Nome, imagem, links e modos co-op/PvP são preenchidos pela Steam.
 - Editar e ocultar jogos; backup em JSON
+- **Lista do canal editável pelo site** (só o dono): adicionar, editar, tirar e restaurar jogos para todo mundo, e aprovar as sugestões do pessoal
 - **Promoções**: selo de desconto nos cards, filtro **Em promoção** e ordenação por desconto (Steam e Epic, via IsThereAnyDeal)
 - **Link direto** para cada jogo (`?jogo=<id>`), com o botão **Copiar link** no modal
 - **Jogar com quem?**: escolha algumas pessoas e veja só os jogos que todas têm
@@ -66,6 +67,12 @@ O login com Steam funciona no `localhost`, porque a Steam redireciona de volta p
    ```
 
 O site fica em `https://dogworks-games.<sua-conta>.workers.dev`. Para usar um domínio próprio, adicione em **Workers & Pages → dogworks-games → Settings → Domains & Routes**. No domínio próprio, o cache de preços e da busca na Steam também passa a funcionar.
+
+## Dono do canal
+
+Quem tem o Steam ID em `OWNER_STEAM_IDS` (no `wrangler.jsonc`, em `vars`) edita a lista do canal pelo site: o que essa pessoa adiciona, edita ou tira vale para todo mundo. O Steam ID aparece em **Opções** depois de entrar com a Steam. Para mais de um dono, separe por vírgula.
+
+As mudanças ficam no banco (tabela `channel_games`), por cima do `public/data/games.json`, que continua sendo a lista de partida.
 
 ## Atualizar a lista base
 

@@ -10,7 +10,7 @@ Ideias de funcionalidades para o site, em ordem de prioridade. Para tarefas de c
   - [ ] Depois: uma página por jogo com prévia no Discord (Open Graph) e um comando de bot na Twitch (`!jogo deep rock`).
 - [x] **Promoções.** Selo "-90%" nos cards (com preço, loja e data de fim no tooltip), filtro **Em promoção** e ordenação **Maior desconto**. Uma consulta ao IsThereAnyDeal para a lista toda (`POST /api/deals`), com cache de 1 hora.
   - [x] Imagem automática para jogos que não estão na Steam, como os exclusivos da Epic (`GET /api/itad/image`).
-- [ ] **Lista do canal editável pelo site.** Só o dono (pelo Steam ID) adiciona, edita e remove jogos que aparecem para todo mundo, sem mexer no `seed.json` nem fazer deploy. Os jogos adicionados pelas outras pessoas viram sugestões para o dono aprovar.
+- [x] **Lista do canal editável pelo site.** O dono (Steam ID em `OWNER_STEAM_IDS`) adiciona, edita, tira e restaura jogos que aparecem para todo mundo, sem mexer no `seed.json` nem fazer deploy. Em **Opções → Sugestões do pessoal**, vê os jogos que as pessoas adicionaram e põe na lista do canal com um clique.
 - [ ] **Lista de desejos da Steam.** Ler a lista de cada pessoa, como já é feito com a biblioteca. Funciona para quem tem os detalhes de jogos públicos no perfil Steam.
   - "Quem quer" no modal do jogo, ao lado de "Quem tem"
   - Selo "Na sua lista de desejos" e filtro

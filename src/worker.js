@@ -6,6 +6,7 @@ import { loginRedirect, handleCallback, handleLogout, deleteAccount, currentUser
 import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf, listMembers } from './owners.js';
 import { getPrices } from './prices.js';
 import { getDeals, getItadImage } from './deals.js';
+import { isOwner, assertOwner, getChannel, saveChannelGame, removeChannelGame, restoreChannelGame, listSuggestions } from './channel.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
 
 const HOUR = 3600;
@@ -17,10 +18,18 @@ const LIBRARY = {
   '/api/library/remove': removeGame, // { id }
 };
 
+// POST routes, owner only, that change the channel's list (seen by everyone).
+const CHANNEL = {
+  '/api/channel/game': saveChannelGame, // { id?, added, data } -> { id }
+  '/api/channel/remove': removeChannelGame, // { id }
+  '/api/channel/restore': restoreChannelGame, // { id }
+};
+
 // withLibrary: also send favorites/added/edited/hidden games (only on page load, so it never
 // overwrites changes the page is still sending).
 async function me(env, user, { withLibrary = false } = {}) {
   const body = serializeMe(user, user ? await manualMarks(env, user.steam_id) : []);
+  if (body.user) body.user.isOwner = isOwner(env, user.steam_id);
   if (user && withLibrary) body.library = await getLibrary(env, user.steam_id);
   return json(body);
 }
@@ -78,6 +87,19 @@ async function route(request, env, ctx) {
     const body = await readJsonBody(request);
     const user = await requireUser(request, env);
     return json({ library: await importLibrary(env, user.steam_id, body) });
+  }
+
+  // --- the channel's list (owner edits on top of games.json) ---
+  if (path === '/api/channel' && method === 'GET') return json(await getChannel(env));
+  if (CHANNEL[path] && method === 'POST') {
+    const body = await readJsonBody(request);
+    const user = await requireUser(request, env);
+    assertOwner(env, user);
+    return json({ ok: true, ...(await CHANNEL[path](env, user.steam_id, body)) });
+  }
+  if (path === '/api/channel/suggestions' && method === 'GET') {
+    assertOwner(env, await requireUser(request, env));
+    return json(await listSuggestions(env));
   }
 
   // --- Steam store proxy ---

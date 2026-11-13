@@ -29,6 +29,8 @@ Lista do que ficou para o dono do site fazer, por ordem. Para o contexto de cada
   - Com domínio próprio, o cache de preços e da busca na Steam passa a funcionar. No `workers.dev`, o Cache API não tem efeito.
   - A chave da Steam foi renovada em 13/11/2026. Se trocar de domínio, o domínio da chave não precisa mudar: a Steam não limita o uso por domínio.
 
+- [ ] **Definir o dono do canal:** coloque seu Steam ID (aparece em **Opções** depois de entrar) em `OWNER_STEAM_IDS`, no `wrangler.jsonc`, e faça o deploy. Sem isso ninguém consegue editar a lista do canal pelo site.
+
 ## Revisar conteúdo
 
 - [ ] **Conferir a classificação dos jogos** em `scripts/seed.json`. As categorias foram definidas por conhecimento geral, não por dados oficiais. Depois de editar, rode `npm run build:data`.

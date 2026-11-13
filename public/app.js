@@ -184,7 +184,8 @@ function useLibrary(lib) {
 const local = loadLocal();
 
 const state = {
-  base: [],
+  base: [], // data/games.json
+  channel: { added: [], overrides: {}, removed: [] }, // owner's edits to the list, from /api/channel
   local, // browser copy
   store: local, // active list: === local when signed out, the account's list when signed in
   q: '',
@@ -275,21 +276,51 @@ function myOwnership(g) {
   return { platforms, autoSteam };
 }
 
+const isOwnerUser = () => !!auth.user?.isOwner;
+
+// The list everyone shares ("base"): games.json + the owner's edits (added, edited, removed),
+// then each person's own edits on top. Games a person added that are now in the shared list
+// are shown once, as the shared game (keeping the person's favorite).
 function allGames() {
-  const { store } = state;
+  const { store, channel } = state;
   const favs = new Set(store.favorites);
   const hidden = new Set(store.hidden);
-  const base = state.base.map((g) => ({ ...g, ...(store.overrides[g.id] || {}), source: 'base' }));
-  const custom = store.custom.map((g) => ({ ...g, source: 'custom' }));
+  const removed = new Set(channel.removed);
+  const showRemoved = isOwnerUser() && state.showHidden;
+
+  const base = [
+    ...state.base.map((g) => ({ ...g, ...(channel.overrides[g.id] || {}) })),
+    ...channel.added.map((g) => ({ ...g, channelAdded: true })),
+  ]
+    .filter((g) => showRemoved || !removed.has(g.id))
+    .map((g) => ({ ...g, ...(store.overrides[g.id] || {}), source: 'base', removed: removed.has(g.id) }));
+
+  const byAppid = new Map();
+  const byName = new Map();
+  for (const g of base) {
+    const appid = steamAppId(g.steamUrl);
+    if (appid) byAppid.set(appid, g);
+    byName.set(compact(g.name), g);
+  }
+  const favIds = new Map(base.map((g) => [g.id, [g.id]])); // ids whose favorite counts for each game
+  const custom = [];
+  for (const g of store.custom) {
+    const same = byAppid.get(steamAppId(g.steamUrl)) || byName.get(compact(g.name));
+    if (same) favIds.get(same.id).push(g.id);
+    else custom.push({ ...g, source: 'custom' });
+  }
+
   return [...base, ...custom].map((g) => {
+    const ids = favIds.get(g.id) || [g.id];
     const game = {
       ...g,
       category: CATEGORY_BY_ID[g.category] ? g.category : 'outros',
       tags: Array.isArray(g.tags) ? g.tags : [],
       genres: Array.isArray(g.genres) ? g.genres : [],
-      fav: favs.has(g.id),
+      favIds: ids.filter((id) => favs.has(id)),
       hidden: hidden.has(g.id),
     };
+    game.fav = game.favIds.length > 0;
     game.key = gameKey(game);
     game.owned = auth.user ? myOwnership(game).platforms.size > 0 : false;
     game.ownersCount = auth.counts[game.key] || 0;
@@ -394,7 +425,7 @@ function storeLinksHtml(g, withLabel = false) {
 function cardHtml(g) {
   const img = safeUrl(g.image);
   return `
-  <article class="card${g.fav ? ' is-fav' : ''}${g.hidden ? ' is-hidden' : ''}" data-id="${esc(g.id)}">
+  <article class="card${g.fav ? ' is-fav' : ''}${g.hidden || g.removed ? ' is-hidden' : ''}" data-id="${esc(g.id)}">
     <div class="card-media">
       ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async">` : `<span class="placeholder">${esc(g.name)}</span>`}
       <div class="badges">
@@ -403,6 +434,7 @@ function cardHtml(g) {
         ${g.ownersCount ? `<span class="badge" title="${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'} este jogo">${ICON.users}${g.ownersCount}</span>` : ''}
         ${g.source === 'custom' ? '<span class="badge badge-custom">Adicionado</span>' : ''}
         ${g.hidden ? '<span class="badge">Oculto</span>' : ''}
+        ${g.removed ? '<span class="badge badge-removed">Fora do canal</span>' : ''}
       </div>
       <button class="fav-btn" type="button" data-action="fav" aria-pressed="${g.fav}"
         aria-label="${g.fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}: ${esc(g.name)}">${ICON.star}</button>
@@ -519,6 +551,7 @@ function syncToolbar() {
   $('#btn-only-owned').setAttribute('aria-pressed', String(!!prefs.onlyOwned));
   $('#btn-only-owned').hidden = !auth.user;
   $('#sort-owners').hidden = !auth.api;
+  $('#btn-suggestions').hidden = !isOwnerUser();
   $('#btn-only-sale').hidden = !hasDeals();
   $('#btn-only-sale').setAttribute('aria-pressed', String(!!prefs.onlySale && hasDeals()));
   $('#sort-sale').hidden = !hasDeals();
@@ -580,6 +613,7 @@ function renderAccount() {
       </p>
       <p class="hint">Favoritos, jogos adicionados e edições ficam salvos na sua conta, em qualquer navegador.</p>
       <p class="hint">${PRIVACY_NOTE}</p>
+      <p class="hint">Seu Steam ID: <code>${esc(u.steamId)}</code>${u.isOwner ? ' · <strong>dono do canal</strong>: suas edições na lista valem para todo mundo.' : ''}</p>
       <div class="account-actions">
         <button class="btn btn-ghost" type="button" id="btn-sync">Sincronizar biblioteca</button>
         <button class="btn btn-ghost" type="button" id="btn-logout">Sair</button>
@@ -640,6 +674,47 @@ function refreshAll() {
   if (state.detailId && dlgDetail.open) renderDetail(false);
 }
 
+/* ---------------- channel's list (owner) ---------------- */
+
+async function loadChannel() {
+  if (!auth.api) return;
+  try {
+    state.channel = await api('/api/channel');
+  } catch {}
+}
+
+// Owner change to the shared list, then reload it.
+async function channelRequest(path, body) {
+  const res = await api(path, { method: 'POST', body });
+  await loadChannel();
+  return res;
+}
+
+async function removeFromChannel(game) {
+  const added = state.channel.added.find((g) => g.id === game.id);
+  try {
+    await channelRequest('/api/channel/remove', { id: game.id });
+  } catch (e) {
+    return toast(e.message);
+  }
+  if (dlgDetail.open) dlgDetail.close();
+  refreshAll();
+  toast(`${game.name} saiu da lista do canal`, {
+    label: 'Desfazer',
+    run: async () => {
+      try {
+        if (added) {
+          const { id: _, addedAt, ...data } = added;
+          await channelRequest('/api/channel/game', { id: game.id, added: true, data });
+        } else await channelRequest('/api/channel/restore', { id: game.id });
+        refreshAll();
+      } catch (e) {
+        toast(e.message);
+      }
+    },
+  });
+}
+
 function runAction(action, id) {
   const game = findGame(id);
   if (!game) return;
@@ -650,8 +725,12 @@ function runAction(action, id) {
       openDetail(id);
       break;
     case 'fav': {
-      const added = toggleList(store.favorites, id);
-      commit('/api/library/flag', { id, flag: 'favorite', on: added });
+      // a shared game can be a favorite through a copy the person had added before
+      const added = !game.fav;
+      for (const favId of added ? [id] : game.favIds) {
+        toggleList(store.favorites, favId);
+        commit('/api/library/flag', { id: favId, flag: 'favorite', on: added });
+      }
       refreshAll();
       toast(added ? `★ ${game.name} nos favoritos` : `${game.name} saiu dos favoritos`);
       break;
@@ -702,6 +781,17 @@ function runAction(action, id) {
       break;
     case 'share':
       copyGameLink(game);
+      break;
+    case 'channel-remove':
+      removeFromChannel(game);
+      break;
+    case 'channel-restore':
+      channelRequest('/api/channel/restore', { id })
+        .then(() => {
+          refreshAll();
+          toast(`${game.name} voltou para a lista do canal`);
+        })
+        .catch((e) => toast(e.message));
       break;
   }
 }
@@ -803,6 +893,13 @@ function renderDetail(loadRemote) {
         g.source === 'custom'
           ? `<button class="btn btn-ghost" type="button" data-action="remove">${ICON.trash}Remover</button>`
           : `<button class="btn btn-ghost" type="button" data-action="hide">${g.hidden ? ICON.eye : ICON.eyeOff}${g.hidden ? 'Mostrar' : 'Ocultar'}</button>`
+      }
+      ${
+        g.source === 'base' && isOwnerUser()
+          ? g.removed
+            ? `<button class="btn btn-ghost" type="button" data-action="channel-restore" title="Voltar com o jogo para a lista do canal">${ICON.eye}<span class="hide-sm">Restaurar no canal</span></button>`
+            : `<button class="btn btn-ghost btn-danger" type="button" data-action="channel-remove" title="Tirar o jogo da lista do canal (para todos)">${ICON.trash}<span class="hide-sm">Tirar do canal</span></button>`
+          : ''
       }
     </div>`;
 
@@ -1154,6 +1251,75 @@ $('#sort').addEventListener('change', (e) => {
   render();
 });
 
+/* ---------------- suggestions (owner) ---------------- */
+
+const dlgSuggestions = $('#dlg-suggestions');
+const suggestionsList = $('#suggestions-list');
+let suggestions = null;
+
+function renderSuggestions() {
+  if (!suggestions) {
+    suggestionsList.innerHTML = '<li class="hint">Carregando…</li>';
+    return;
+  }
+  // only games that are not in the shared list yet
+  const pending = suggestions.filter((s) => {
+    const existing = findExisting({ name: s.game.name, appid: steamAppId(s.game.steamUrl) });
+    return !existing || existing.source === 'custom';
+  });
+  if (!pending.length) {
+    suggestionsList.innerHTML = '<li class="hint">Nenhuma sugestão nova. Os jogos que as pessoas adicionarem aparecem aqui.</li>';
+    return;
+  }
+  suggestionsList.innerHTML = pending
+    .map((s, i) => {
+      const img = safeUrl(s.game.image);
+      const who = s.people.length > 3 ? `${s.people.slice(0, 3).join(', ')} e mais ${s.people.length - 3}` : s.people.join(', ');
+      return `<li class="suggestion">
+        ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="placeholder-thumb"></span>'}
+        <span class="suggestion-info">
+          <strong>${esc(s.game.name)}</strong>
+          <small>${esc(CATEGORY_BY_ID[s.game.category]?.label || 'Outros')} · adicionado por ${esc(who)}</small>
+        </span>
+        <button class="btn btn-ghost" type="button" data-suggestion="${suggestions.indexOf(s)}">${ICON.check}<span class="hide-sm">Pôr no canal</span></button>
+      </li>`;
+    })
+    .join('');
+}
+
+$('#btn-suggestions').addEventListener('click', async () => {
+  dlgMenu.close();
+  suggestions = null;
+  renderSuggestions();
+  dlgSuggestions.showModal();
+  try {
+    ({ suggestions } = await api('/api/channel/suggestions'));
+  } catch (e) {
+    suggestions = [];
+    toast(e.message);
+  }
+  renderSuggestions();
+});
+
+dlgSuggestions.addEventListener('click', async (e) => {
+  if (e.target.closest('[data-close]') || e.target === dlgSuggestions) return dlgSuggestions.close();
+  const btn = e.target.closest('[data-suggestion]');
+  if (!btn) return;
+  const s = suggestions[Number(btn.dataset.suggestion)];
+  btn.disabled = true;
+  try {
+    await channelRequest('/api/channel/game', { added: true, data: s.game });
+  } catch (err) {
+    btn.disabled = false;
+    return toast(err.message);
+  }
+  await loadCounts();
+  render();
+  renderSuggestions();
+  loadDeals();
+  toast(`${s.game.name} entrou na lista do canal`);
+});
+
 /* ---------------- "Jogar com quem?" ---------------- */
 
 const dlgPlay = $('#dlg-play');
@@ -1297,7 +1463,7 @@ function findExisting({ name, appid }, exceptId) {
 
 function openGameDialog(game = null) {
   form.reset();
-  state.editing = game ? { id: game.id, source: game.source } : null;
+  state.editing = game ? { id: game.id, source: game.source, channelAdded: !!game.channelAdded } : null;
   state.steamExtra = null;
   $('#dlg-game-title').textContent = game ? 'Editar jogo' : 'Adicionar jogo';
   $('#btn-save').textContent = game ? 'Salvar alterações' : 'Adicionar';
@@ -1306,6 +1472,18 @@ function openGameDialog(game = null) {
   steamResults.innerHTML = '';
   idleStatus();
   $('#steam-search').hidden = !auth.api;
+
+  // The owner saves to the channel's list (everyone sees it) unless they uncheck it.
+  const owner = isOwnerUser();
+  $('#channel-field').hidden = !owner;
+  if (owner) {
+    form.channel.checked = !game || game.source === 'base';
+    $('#channel-hint').textContent = !game
+      ? 'Todo mundo vê este jogo. Desmarque para adicionar só para você.'
+      : game.source === 'base'
+        ? 'As alterações valem para todo mundo. Desmarque para mudar só para você.'
+        : 'Marque para levar este jogo para a lista do canal.';
+  }
 
   if (game) {
     form.name.value = game.name || '';
@@ -1411,6 +1589,43 @@ async function runSteamSearch(q) {
     steamResults.innerHTML = '';
     setStatus(isOffline(e) ? API_OFFLINE_MSG : e.message, 'error');
   }
+}
+
+// Owner: saves the form to the channel's list. Returns the game id to highlight.
+async function saveToChannel(editing, data) {
+  const { store } = state;
+  if (!editing) {
+    const { id } = await channelRequest('/api/channel/game', { added: true, data });
+    return id;
+  }
+  if (editing.source === 'base') {
+    const id = editing.id;
+    if (editing.channelAdded) {
+      const { id: _, addedAt, ...current } = state.channel.added.find((g) => g.id === id) || {};
+      await channelRequest('/api/channel/game', { id, added: true, data: { ...current, ...data } });
+    } else {
+      await channelRequest('/api/channel/game', { id, added: false, data: { ...(state.channel.overrides[id] || {}), ...data } });
+    }
+    // the owner's own edit of this game would hide the shared one
+    if (store.overrides[id]) {
+      delete store.overrides[id];
+      commit('/api/library/game', { id, custom: false, data: {} });
+    }
+    return id;
+  }
+  // a game the owner had added only for themselves moves to the channel's list
+  const mine = store.custom.find((g) => g.id === editing.id) || {};
+  const { id: _, addedAt, ...current } = mine;
+  const { id } = await channelRequest('/api/channel/game', { added: true, data: { ...current, ...data } });
+  const wasFav = store.favorites.includes(editing.id);
+  store.custom = store.custom.filter((g) => g.id !== editing.id);
+  store.favorites = store.favorites.filter((f) => f !== editing.id);
+  commit('/api/library/remove', { id: editing.id });
+  if (wasFav) {
+    store.favorites.push(id);
+    commit('/api/library/flag', { id, flag: 'favorite', on: true });
+  }
+  return id;
 }
 
 // Games that are not on Steam (e.g. Epic exclusives) get their image from IsThereAnyDeal.
@@ -1538,7 +1753,19 @@ form.addEventListener('submit', async (e) => {
   const { store } = state;
   let id;
   let saved; // what goes to the account
-  if (!editing) {
+  if (isOwnerUser() && form.channel.checked) {
+    const btn = $('#btn-save');
+    btn.disabled = true;
+    try {
+      id = await saveToChannel(editing, data);
+    } catch (e2) {
+      err.textContent = isOffline(e2) ? 'Sem conexão com o servidor.' : e2.message;
+      return;
+    } finally {
+      btn.disabled = false;
+    }
+    toast(editing ? 'Lista do canal atualizada' : `${name} adicionado à lista do canal!`);
+  } else if (!editing) {
     id = `c-${Date.now().toString(36)}`;
     const addedAt = Date.now();
     store.custom.push({ id, ...data, addedAt });
@@ -1569,7 +1796,8 @@ form.addEventListener('submit', async (e) => {
     $('#search').value = '';
   }
 
-  commit('/api/library/game', saved);
+  if (saved) commit('/api/library/game', saved);
+  else saveStore();
   syncToolbar();
   dlgGame.close();
   await loadCounts();
@@ -1700,7 +1928,7 @@ async function boot() {
   }
   render();
 
-  await loadMe();
+  await Promise.all([loadMe(), loadChannel()]);
   const moved = await moveLocalToAccount();
   await loadCounts();
   if (auth.api && state.store.prefs.playWith.length) await loadMembers();

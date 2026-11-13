@@ -19,7 +19,13 @@
       "database_id": "d0747279-f203-489d-ae33-730ff969019f",
       "migrations_dir": "migrations"
     }
-  ]
+  ],
+
+  // Not secret. OWNER_STEAM_IDS: Steam IDs (17 digits, comma-separated) that can edit the
+  // channel's list on the site. Shown in Opções when signed in.
+  "vars": {
+    "OWNER_STEAM_IDS": ""
+  }
 
   // Secrets (set with `npx wrangler secret put <NAME>`; locally in .dev.vars):
   //   STEAM_API_KEY  — Steam Web API key: profile name/avatar and library detection

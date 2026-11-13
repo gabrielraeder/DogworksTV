@@ -25,7 +25,7 @@ const isHttpUrl = (v) => {
 };
 
 // Keeps only known game fields, trimmed and length-limited. URLs must be http(s).
-function cleanGame(input, { requireName }) {
+export function cleanGame(input, { requireName }) {
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new HttpError(400, 'Dados do jogo inválidos');
   const out = {};
   for (const [field, max] of Object.entries(TEXT_FIELDS)) {

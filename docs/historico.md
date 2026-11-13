@@ -94,12 +94,15 @@ Decisões:
   - `DELETE /api/me`: apaga a conta e todos os dados da pessoa
   - `POST /api/deals` `{ games: [{ key, appid?, title? }] }`: promoções atuais da lista toda (IsThereAnyDeal, em lote, cache de 1 hora)
   - `GET /api/itad/image?title=…`: imagem de um jogo que não está na Steam
+  - `GET /api/channel`: mudanças do dono na lista (`added`, `overrides`, `removed`)
+  - Só o dono (`OWNER_STEAM_IDS`): `POST /api/channel/game` `{ id?, added, data }`, `POST /api/channel/remove` `{ id }`, `POST /api/channel/restore` `{ id }`, `GET /api/channel/suggestions`
   - `GET /api/steam/search?q=…`, `GET /api/steam/details?appid=…`
   - `GET /api/prices?appid=…` ou `?title=…`
 - Banco (`migrations/0001_init.sql`):
   - `users`: a biblioteca Steam fica em `steam_appids`, um array JSON, consultado com `json_each`
   - `sessions`
   - `ownership`: `platform` ∈ `steam | epic | outra`
+  - `channel_games` (`migrations/0003_channel_games.sql`): mudanças do dono na lista, por cima do `games.json`
   - `user_games` (`migrations/0002_user_games.sql`): uma linha por usuário × jogo, com `favorite`, `hidden`, `custom` e `data` (JSON do jogo adicionado ou dos campos editados de um jogo base)
 - **Chave do jogo** (`game_key`): `steam:<appid>` quando há link da Steam, senão `name:<nome normalizado>`. É ela que liga o mesmo jogo entre usuários diferentes.
 - **Segurança:**

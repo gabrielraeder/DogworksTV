@@ -149,6 +149,10 @@
           <input name="note" maxlength="140" placeholder="Ex.: Só funciona com 2 jogadores">
         </label>
         <div class="tag-picker" id="tag-picker" role="group" aria-label="Modos de jogo"></div>
+        <label class="channel-check" id="channel-field" hidden>
+          <input type="checkbox" name="channel">
+          <span><strong>Lista do canal</strong><small id="channel-hint">Todo mundo vê este jogo</small></span>
+        </label>
         <p class="form-error" id="form-error" role="alert"></p>
       </div>
 
@@ -180,6 +184,10 @@
           <span><strong>Importar backup</strong><small>Restaura um arquivo exportado antes</small></span>
           <input type="file" id="file-import" accept="application/json,.json" class="sr-only">
         </label>
+        <button class="menu-item" id="btn-suggestions" type="button" hidden>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z"/></svg>
+          <span><strong>Sugestões do pessoal</strong><small id="suggestions-hint">Jogos que as pessoas adicionaram para você levar à lista do canal</small></span>
+        </button>
         <label class="menu-item">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
           <span><strong>Mostrar jogos ocultos</strong><small id="hidden-count">Nenhum jogo oculto</small></span>
@@ -189,6 +197,23 @@
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
           <span><strong>Restaurar lista original</strong><small id="reset-hint">Apaga favoritos, adições e edições deste navegador</small></span>
         </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Owner: games people added, to bring into the channel's list -->
+  <dialog id="dlg-suggestions" class="dialog" aria-labelledby="dlg-suggestions-title">
+    <div class="dialog-card">
+      <div class="panel panel-sm">
+        <span class="panel-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z"/></svg></span>
+        <h2 class="panel-title" id="dlg-suggestions-title">Sugestões do pessoal</h2>
+        <button class="icon-btn panel-close" type="button" data-close aria-label="Fechar">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="dialog-body">
+        <p class="play-intro">Jogos que as pessoas adicionaram só para elas. Adicione à lista do canal para todo mundo ver.</p>
+        <ul class="suggestions" id="suggestions-list"></ul>
       </div>
     </div>
   </dialog>
