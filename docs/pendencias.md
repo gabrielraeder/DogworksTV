@@ -1,0 +1,44 @@
+# O que falta fazer
+
+Lista do que ficou para o dono do site fazer, por ordem. Para o contexto de cada decisão, veja [historico.md](historico.md).
+
+## Para colocar no ar
+
+- [ ] **Criar a chave da Steam Web API:** <https://steamcommunity.com/dev/apikey>
+  - A Steam pede um nome de domínio. Use o domínio onde o site vai ficar (pode ser o `*.workers.dev` e trocar depois).
+  - Sem ela, o login funciona, mas a biblioteca Steam não é detectada.
+- [ ] **Criar a chave do IsThereAnyDeal:** registre um app em <https://isthereanydeal.com/apps/my/>.
+  - Sem ela, o modal mostra só o preço da Steam.
+- [ ] **Testar localmente com as chaves:**
+  1. Copie `.dev.vars.example` para `.dev.vars` e preencha.
+  2. Rode `npm install` e `npm run dev`.
+  3. Abra <http://localhost:8787>.
+  4. Teste o **login real com a Steam**, o "Eu tenho" e o modal de preços. O login real ainda não foi testado.
+- [ ] **Publicar:**
+  ```bash
+  npx wrangler login
+  npm run deploy                          # cria o D1 no primeiro deploy e aplica as migrations
+  npx wrangler secret put STEAM_API_KEY
+  npx wrangler secret put ITAD_API_KEY
+  ```
+- [ ] **Commit e push.** O repositório ainda não tem nenhum commit; o remote é `origin` no GitHub.
+  - Não versione o `.dev.vars`, que já está no `.gitignore`.
+  - Depois do primeiro deploy, considere salvar o `database_id` que o Wrangler mostrar no `wrangler.jsonc`.
+- [ ] *(Opcional)* **Domínio próprio:** em Workers & Pages → `dogworks-games` → Settings → Domains & Routes.
+  - Com domínio próprio, o cache de preços e da busca na Steam passa a funcionar. No `workers.dev`, o Cache API não tem efeito.
+  - Se trocar o domínio, atualize o domínio da chave da Steam.
+
+## Revisar conteúdo
+
+- [ ] **Conferir a classificação dos jogos** em `scripts/seed.json`. As categorias foram definidas por conhecimento geral, não por dados oficiais. Depois de editar, rode `npm run build:data`.
+- [ ] **Conferir jogos que podem ter os servidores desligados ou ter sido retirados das lojas:** Second Extinction, Divine Knockout, Hood: Outlaws & Legends, Wild Card Football e NBA 2K21. O Spellbreak já foi deixado de fora.
+- [ ] **Jogos com poucas tags da Steam:** por exemplo, o Borderlands 2 aparece só como "Multijogador". Dá para ajustar à mão no site (Editar) ou no seed.
+
+## Decisões em aberto e ideias
+
+- [ ] **Excluir conta e dados (importante para privacidade/LGPD):** ainda não existe um botão para a pessoa apagar o próprio usuário e as marcações. Nome e avatar da Steam aparecem publicamente na lista "Quem tem". Vale avisar isso na tela de login e criar um `DELETE /api/me`.
+- [ ] **Favoritos e jogos adicionados no banco:** hoje ficam só no navegador. Com o D1 pronto, dá para:
+  - salvar os favoritos na conta Steam da pessoa
+  - deixar só o dono do site (pelo Steam ID) adicionar jogos que aparecem para todo mundo
+- [ ] **Jogos exclusivos da Epic** adicionados pelo site não ganham imagem automática; é preciso colar a URL da imagem. O IsThereAnyDeal devolve imagens (`assets.banner400`), o que daria para aproveitar quando a chave estiver configurada.
+- [ ] **Atualizar a lista base** quando a biblioteca da Epic mudar. Rode `npm run build:data:refresh` no PC com o Epic Games Launcher instalado.
