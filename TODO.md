@@ -17,6 +17,8 @@ Ideias de funcionalidades para o site, em ordem de prioridade. Para tarefas de c
   - [x] Aviso no topo de quantos jogos da sua lista estão em promoção
   - [ ] No "Dá pra jogar com quem?": mostrar também os jogos que uma pessoa tem e as outras querem
 
+- [x] **Biblioteca da Epic.** Não há API pública para ler a biblioteca de outra pessoa. Em **Opções → Marcar meus jogos**, a pessoa importa o cache do Epic Games Launcher (`catcache.bin`, lido só no navegador) ou marca vários jogos de uma vez em qualquer plataforma.
+
 ## Outras ideias
 
 - [ ] **"Quero jogar"**: cada pessoa marca os jogos que quer jogar na live, com um ranking dos mais pedidos.

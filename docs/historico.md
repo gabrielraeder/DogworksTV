@@ -92,6 +92,7 @@ Decisões:
   - `GET /api/owners?key=…`, `POST /api/owners/counts` `{ keys }` (devolve `counts` e `owners`: quem tem cada jogo)
   - `GET /api/members`: pessoas para o "Jogar com quem?" (quem tem marcação ou biblioteca Steam pública)
   - `DELETE /api/me`: apaga a conta e todos os dados da pessoa
+  - `POST /api/ownership/bulk` `{ platform, add: [keys], remove: [keys] }`: marca ou desmarca vários jogos de uma vez (usado pela importação da Epic, que lê o `catcache.bin` no navegador)
   - `POST /api/deals` `{ games: [{ key, appid?, title? }] }`: promoções atuais da lista toda (IsThereAnyDeal, em lote, cache de 1 hora)
   - `GET /api/itad/image?title=…`: imagem de um jogo que não está na Steam
   - `GET /api/channel`: mudanças do dono na lista (`added`, `overrides`, `removed`)

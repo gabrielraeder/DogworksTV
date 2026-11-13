@@ -3,7 +3,7 @@
 import { searchSteam, getSteamDetails } from '../lib/steam.js';
 import { HttpError, json, readJsonBody, cached } from './http.js';
 import { loginRedirect, handleCallback, handleLogout, deleteAccount, currentUser, requireUser, refreshUser } from './auth.js';
-import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf, listMembers } from './owners.js';
+import { serializeMe, manualMarks, setOwnership, setOwnershipBulk, ownerCounts, ownersOf, listMembers } from './owners.js';
 import { getPrices } from './prices.js';
 import { getDeals, getItadImage } from './deals.js';
 import { isOwner, assertOwner, getChannel, saveChannelGame, removeChannelGame, restoreChannelGame, listSuggestions } from './channel.js';
@@ -66,6 +66,12 @@ async function route(request, env, ctx) {
     const body = await readJsonBody(request);
     const user = await requireUser(request, env);
     await setOwnership(env, user.steam_id, body);
+    return me(env, user);
+  }
+  if (path === '/api/ownership/bulk' && method === 'POST') {
+    const body = await readJsonBody(request);
+    const user = await requireUser(request, env);
+    await setOwnershipBulk(env, user.steam_id, body);
     return me(env, user);
   }
   if (path === '/api/owners' && method === 'GET') return json(await ownersOf(env, q.get('key')));

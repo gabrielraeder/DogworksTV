@@ -14,6 +14,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 - **Adicionar jogos**: digite o nome ou cole um link da Steam ou da Epic. Nome, imagem, links e modos co-op/PvP são preenchidos pela Steam.
 - Editar e ocultar jogos; backup em JSON
 - **Lista do canal editável pelo site** (só o dono): adicionar, editar, tirar e restaurar jogos para todo mundo, e aprovar as sugestões do pessoal
+- **Marcar meus jogos**: marcar vários de uma vez e importar a biblioteca da Epic a partir do launcher no Windows
 - **Lista de desejos da Steam**: coração nos jogos da sua lista, filtro, aviso quando estão em promoção e "Quem quer" no modal
 - **Promoções**: selo de desconto nos cards, filtro **Em promoção** e ordenação por desconto (Steam e Epic, via IsThereAnyDeal)
 - **Link direto** para cada jogo (`?jogo=<id>`), com o botão **Copiar link** no modal

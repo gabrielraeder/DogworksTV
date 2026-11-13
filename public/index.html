@@ -179,6 +179,10 @@
       </div>
       <div class="dialog-body menu-list">
         <div id="account-panel"></div>
+        <button class="menu-item" id="btn-mine" type="button" hidden>
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Marcar meus jogos</strong><small>Marque vários de uma vez ou importe sua biblioteca da Epic</small></span>
+        </button>
         <button class="menu-item" id="btn-export" type="button">
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
           <span><strong>Exportar backup</strong><small>Baixa favoritos, jogos adicionados e edições (.json)</small></span>
@@ -201,6 +205,56 @@
           <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></svg>
           <span><strong>Restaurar lista original</strong><small id="reset-hint">Apaga favoritos, adições e edições deste navegador</small></span>
         </button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Mark many games at once on a platform, or import the Epic library from the launcher cache -->
+  <dialog id="dlg-mine" class="dialog" aria-labelledby="dlg-mine-title">
+    <div class="dialog-card">
+      <div class="panel panel-sm">
+        <span class="panel-icon"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <h2 class="panel-title" id="dlg-mine-title">Marcar meus jogos</h2>
+        <button class="icon-btn panel-close" type="button" data-close aria-label="Fechar"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+      </div>
+      <div class="dialog-body">
+        <div class="mine-platforms" role="radiogroup" aria-label="Plataforma">
+          <label><input type="radio" name="mine-platform" value="epic" checked><span class="chip">Epic Games</span></label>
+          <label><input type="radio" name="mine-platform" value="steam"><span class="chip">Steam</span></label>
+          <label><input type="radio" name="mine-platform" value="outra"><span class="chip">Outra</span></label>
+        </div>
+
+        <section class="epic-import" id="epic-import">
+          <div class="epic-import-head">
+            <div>
+              <strong>Importar da Epic Games</strong>
+              <small>Lê a biblioteca que o Epic Games Launcher guarda no seu PC (Windows). O arquivo é lido aqui no navegador e não é enviado para lugar nenhum.</small>
+            </div>
+            <button class="btn btn-primary" type="button" id="btn-epic-file"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>Escolher arquivo</button>
+            <input type="file" id="epic-file" class="sr-only" accept=".bin">
+          </div>
+          <details class="epic-guide" id="epic-guide">
+            <summary>Como achar o arquivo</summary>
+            <ol>
+              <li>Clique em <strong>Escolher arquivo</strong>. O caminho do arquivo é copiado e a janela de abrir arquivo aparece.</li>
+              <li>Clique no campo <strong>Nome</strong> da janela, cole com <kbd>Ctrl</kbd>+<kbd>V</kbd> e aperte <kbd>Enter</kbd>.</li>
+              <li>Se não colar, digite o caminho:<br><code id="epic-path">C:\ProgramData\Epic\EpicGamesLauncher\Data\Catalog\catcache.bin</code></li>
+            </ol>
+            <p>A pasta <code>ProgramData</code> é oculta no Windows, por isso é mais fácil colar o caminho do que procurar. Abra o Epic Games Launcher pelo menos uma vez antes, para o arquivo estar atualizado.</p>
+          </details>
+          <p class="hint" id="epic-status" aria-live="polite"></p>
+        </section>
+
+        <label class="search">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input id="mine-q" type="search" placeholder="Buscar jogo…" autocomplete="off" aria-label="Buscar jogo">
+        </label>
+        <p class="hint" id="mine-summary"></p>
+        <ul class="mine-list" id="mine-list" aria-label="Jogos"></ul>
+      </div>
+      <div class="dialog-footer">
+        <button class="btn btn-ghost" type="button" data-close>Cancelar</button>
+        <button class="btn btn-primary" type="button" id="btn-mine-save" disabled>Salvar</button>
       </div>
     </div>
   </dialog>

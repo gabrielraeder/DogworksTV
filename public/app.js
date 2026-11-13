@@ -577,6 +577,7 @@ function syncToolbar() {
   $('#btn-only-owned').hidden = !auth.user;
   $('#sort-owners').hidden = !auth.api;
   $('#btn-suggestions').hidden = !isOwnerUser();
+  $('#btn-mine').hidden = !auth.user;
   $('#btn-only-sale').hidden = !hasDeals();
   $('#btn-only-wish').hidden = !(auth.user && auth.wishlist.size);
   $('#btn-only-wish').setAttribute('aria-pressed', String(!!prefs.onlyWish && auth.wishlist.size > 0));
@@ -872,6 +873,7 @@ dlgDetail.addEventListener('click', (e) => {
   if (btn && state.detailId) runAction(btn.dataset.action, state.detailId);
   const own = e.target.closest('[data-platform]');
   if (own) toggleOwnership(own);
+  if (e.target.closest('[data-open-mine]')) openMine();
 });
 detailEl.addEventListener('error', imageFallback, true);
 
@@ -1045,7 +1047,8 @@ function ownHtml(g) {
         </button>`;
       }).join('')}
     </div>
-    ${autoSteam ? '<p class="hint">Steam detectado automaticamente na sua biblioteca.</p>' : ''}`;
+    ${autoSteam ? '<p class="hint">Steam detectado automaticamente na sua biblioteca.</p>' : ''}
+    <button type="button" class="link-btn" data-open-mine>Marcar vários jogos de uma vez ou importar da Epic</button>`;
 }
 
 async function toggleOwnership(btn) {
@@ -1314,6 +1317,201 @@ $('#sort').addEventListener('change', (e) => {
   state.store.prefs.sort = e.target.value;
   saveStore();
   render();
+});
+
+/* ---------------- "Marcar meus jogos": many marks at once + Epic import ---------------- */
+
+// Where the Epic Games Launcher keeps its catalog cache on Windows (base64 JSON of the library).
+const EPIC_CACHE_PATH = 'C:\\ProgramData\\Epic\\EpicGamesLauncher\\Data\\Catalog\\catcache.bin';
+const PLATFORM_LABEL = { epic: 'Epic Games', steam: 'Steam', outra: 'outra plataforma' };
+
+const dlgMine = $('#dlg-mine');
+const mineList = $('#mine-list');
+const mine = { platform: 'epic', initial: new Set(), checked: new Set(), found: new Set() };
+
+const minePlatform = () => dlgMine.querySelector('input[name="mine-platform"]:checked').value;
+const autoSteam = (g) => mine.platform === 'steam' && myOwnership(g).autoSteam;
+
+// Every game in the list once (by key), A–Z.
+function mineGames() {
+  const seen = new Set();
+  return allGames()
+    .filter((g) => !g.removed && !seen.has(g.key) && seen.add(g.key))
+    .sort((a, b) => collator.compare(a.name, b.name));
+}
+
+function mineChanges() {
+  return {
+    add: [...mine.checked].filter((k) => !mine.initial.has(k)),
+    remove: [...mine.initial].filter((k) => !mine.checked.has(k)),
+  };
+}
+
+function updateMineSummary() {
+  const games = mineGames();
+  const { add, remove } = mineChanges();
+  const total = games.filter((g) => mine.checked.has(g.key) || autoSteam(g)).length;
+  $('#mine-summary').textContent =
+    `${total} de ${games.length} jogos marcados na ${PLATFORM_LABEL[mine.platform]}` +
+    (add.length || remove.length ? ` · ${add.length} para marcar, ${remove.length} para desmarcar` : '');
+  const n = add.length + remove.length;
+  $('#btn-mine-save').disabled = !n;
+  $('#btn-mine-save').textContent = n ? `Salvar (${n})` : 'Salvar';
+}
+
+function renderMine() {
+  const q = norm($('#mine-q').value);
+  const list = mineGames().filter((g) => !q || norm(g.name).includes(q));
+  mineList.innerHTML =
+    list
+      .map((g) => {
+        const auto = autoSteam(g);
+        const changed = mine.checked.has(g.key) !== mine.initial.has(g.key);
+        const img = safeUrl(g.image);
+        return `<li><label class="mine-item${changed ? ' changed' : ''}">
+          <input type="checkbox" data-key="${esc(g.key)}" ${auto || mine.checked.has(g.key) ? 'checked' : ''} ${auto ? 'disabled' : ''}>
+          ${img ? `<img src="${esc(img)}" alt="" loading="lazy">` : '<span class="placeholder-thumb"></span>'}
+          <span class="mine-name">${esc(g.name)}</span>
+          ${auto ? '<small>detectado na Steam</small>' : mine.found.has(g.key) ? '<small class="found">no launcher</small>' : ''}
+        </label></li>`;
+      })
+      .join('') || '<li class="hint">Nenhum jogo com esse nome.</li>';
+  updateMineSummary();
+}
+
+function resetMine() {
+  mine.platform = minePlatform();
+  mine.initial = new Set(auth.manual.filter((m) => m.platform === mine.platform).map((m) => m.key));
+  mine.checked = new Set(mine.initial);
+  mine.found = new Set();
+  $('#epic-import').hidden = mine.platform !== 'epic';
+  $('#epic-status').textContent = '';
+  $('#epic-status').className = 'hint';
+  renderMine();
+}
+
+function openMine() {
+  if (!auth.user) return toast('Entre com a Steam para marcar seus jogos.');
+  if (dlgMenu.open) dlgMenu.close();
+  if (dlgDetail.open) dlgDetail.close();
+  $('#mine-q').value = '';
+  dlgMine.querySelector('input[value="epic"]').checked = true;
+  resetMine();
+  dlgMine.showModal();
+}
+
+$('#btn-mine').addEventListener('click', openMine);
+
+dlgMine.addEventListener('click', (e) => {
+  if (e.target.closest('[data-close]') || e.target === dlgMine) dlgMine.close();
+});
+
+dlgMine.addEventListener('change', (e) => {
+  if (e.target.name === 'mine-platform') return resetMine();
+  const key = e.target.dataset?.key;
+  if (!key) return;
+  if (e.target.checked) mine.checked.add(key);
+  else mine.checked.delete(key);
+  e.target.closest('.mine-item').classList.toggle('changed', mine.checked.has(key) !== mine.initial.has(key));
+  updateMineSummary();
+});
+
+$('#mine-q').addEventListener('input', renderMine);
+
+// Looser name for matching: no edition words, no "(…)", "&" = "and". So "Dead Island Definitive
+// Edition" matches "Dead Island" and "Never Alone (Kisima Ingitchuna)" matches "Never Alone".
+const EDITION_RE =
+  /\b(game of the year|goty|deluxe|definitive|complete|standard|ultimate|gold|premium|enhanced|remastered|director s cut|anniversary|edition)\b/g;
+const baseTitle = (s) =>
+  compact(norm(String(s).replace(/\([^)]*\)/g, ' ').replace(/&/g, ' and ')).replace(EDITION_RE, ' '));
+
+// Titles of the games in the Epic launcher cache (catcache.bin: base64 of a JSON array).
+async function readEpicCache(file) {
+  const bin = atob((await file.text()).trim());
+  const items = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, (c) => c.charCodeAt(0))));
+  if (!Array.isArray(items)) throw new Error('formato');
+  const titles = new Set();
+  for (const item of items) {
+    const paths = (item.categories || []).map((c) => c.path);
+    if (paths.includes('games') && item.title) titles.add(item.title);
+  }
+  return titles;
+}
+
+$('#btn-epic-file').addEventListener('click', () => {
+  // Copy the path first (the page still has focus), then open the file picker.
+  const copy = navigator.clipboard?.writeText(EPIC_CACHE_PATH);
+  $('#epic-file').click();
+  const status = $('#epic-status');
+  Promise.resolve(copy)
+    .then(() => {
+      status.className = 'hint';
+      status.innerHTML = 'Caminho copiado: clique no campo <strong>Nome</strong> da janela, cole com Ctrl+V e aperte Enter.';
+    })
+    .catch(() => {
+      $('#epic-guide').open = true;
+      status.className = 'hint';
+      status.textContent = 'Digite na janela o caminho mostrado em “Como achar o arquivo”.';
+    });
+});
+
+$('#epic-file').addEventListener('change', async (e) => {
+  const file = e.target.files?.[0];
+  e.target.value = '';
+  if (!file) return;
+  const status = $('#epic-status');
+  let titles;
+  try {
+    titles = await readEpicCache(file);
+  } catch {
+    status.className = 'hint error';
+    status.textContent = 'Esse arquivo não é o da biblioteca da Epic. Escolha o catcache.bin (veja “Como achar o arquivo”).';
+    return;
+  }
+  const exact = new Set([...titles].map(compact));
+  const loose = new Set([...titles].map(baseTitle));
+  mine.found = new Set(
+    mineGames()
+      .filter((g) => exact.has(compact(g.name)) || loose.has(baseTitle(g.name)))
+      .map((g) => g.key),
+  );
+  const fresh = [...mine.found].filter((k) => !mine.checked.has(k));
+  fresh.forEach((k) => mine.checked.add(k));
+  $('#mine-q').value = '';
+  renderMine();
+  status.className = mine.found.size ? 'hint' : 'hint warn';
+  status.innerHTML = mine.found.size
+    ? `Achei <strong>${mine.found.size}</strong> jogos desta lista entre os ${titles.size} da sua biblioteca Epic` +
+      (fresh.length ? `; <strong>${fresh.length}</strong> novos ficaram marcados. Confira e clique em <strong>Salvar</strong>.` : ', e todos já estavam marcados.')
+    : `Nenhum dos ${titles.size} jogos da sua biblioteca Epic está nesta lista.`;
+});
+
+$('#btn-mine-save').addEventListener('click', async () => {
+  const btn = $('#btn-mine-save');
+  const { add, remove } = mineChanges();
+  btn.disabled = true;
+  try {
+    setMe(await api('/api/ownership/bulk', { method: 'POST', body: { platform: mine.platform, add, remove } }));
+  } catch (err) {
+    btn.disabled = false;
+    if (err.status === 401) {
+      dlgMine.close();
+      signOutLocally();
+      renderAccount();
+      syncToolbar();
+      refreshAll();
+      return toast('Sua sessão expirou. Entre com a Steam de novo.');
+    }
+    return toast(isOffline(err) ? 'Sem conexão com o servidor' : err.message);
+  }
+  dlgMine.close();
+  await loadCounts();
+  refreshAll();
+  toast(
+    `Pronto: ${add.length} ${add.length === 1 ? 'jogo marcado' : 'jogos marcados'}` +
+      (remove.length ? ` e ${remove.length} desmarcados` : '') +
+      ` na ${PLATFORM_LABEL[mine.platform]}`,
+  );
 });
 
 /* ---------------- suggestions (owner) ---------------- */

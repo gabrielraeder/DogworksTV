@@ -879,10 +879,65 @@ button, input, select { font: inherit; color: inherit; }
 .account-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .account-actions .btn { background: var(--surface-2); }
 .btn-danger { color: var(--red-hi); }
+
+.link-btn {
+  all: unset;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--sky);
+  text-decoration: underline;
+  cursor: pointer;
+}
+.link-btn:focus-visible { outline: 2px solid var(--sky); outline-offset: 2px; border-radius: 2px; }
 .account-actions .btn-danger[data-armed] { border-color: var(--red-hi); }
 
 .chip-owned .icon { width: 15px; height: 15px; }
 .chip-owned[aria-pressed="true"] { background: var(--blue-soft); border-color: var(--blue-hi); color: #c9ceff; }
+
+/* ---------- "Marcar meus jogos" ---------- */
+.mine-platforms { display: flex; gap: 6px; flex-wrap: wrap; }
+.mine-platforms input { position: absolute; opacity: 0; pointer-events: none; }
+.mine-platforms input:checked + .chip { background: var(--blue-soft); border-color: var(--blue-hi); color: #c9ceff; }
+.mine-platforms input:focus-visible + .chip { outline: 2px solid var(--sky); outline-offset: 2px; }
+
+.epic-import {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px dashed var(--border);
+  background: var(--bg-2);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.epic-import[hidden] { display: none; }
+.epic-import-head { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+.epic-import-head > div { flex: 1 1 260px; display: flex; flex-direction: column; gap: 2px; }
+.epic-import-head small { color: var(--muted); font-size: 13px; }
+.epic-guide { font-size: 13px; color: var(--muted); }
+.epic-guide summary { cursor: pointer; color: var(--sky); font-weight: 600; }
+.epic-guide ol { margin: 8px 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px; }
+.epic-guide p { margin: 0; }
+.epic-guide code { word-break: break-all; background: var(--surface); padding: 1px 6px; border-radius: 4px; color: var(--text); }
+.epic-guide kbd { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0 5px; font-size: 12px; color: var(--text); }
+.epic-import .hint { margin: 0; }
+
+.mine-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.mine-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.mine-item:hover { background: var(--surface-2); }
+.mine-item input { width: 18px; height: 18px; accent-color: var(--blue-hi); flex: none; }
+.mine-item img, .mine-item .placeholder-thumb { width: 64px; height: 30px; object-fit: cover; border-radius: 4px; flex: none; background: var(--surface-2); }
+.mine-item .mine-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.mine-item small { flex: none; font-size: 11px; color: var(--muted); }
+.mine-item .found { color: #beee11; }
+.mine-item.changed { background: rgba(43, 54, 201, 0.15); }
+.mine-item input:disabled + img, .mine-item input:disabled ~ .mine-name { opacity: 0.7; }
 
 /* ---------- Channel list (owner) ---------- */
 .channel-check {

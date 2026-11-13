@@ -56,6 +56,34 @@ export async function setOwnership(env, steamId, { key, platform, owned }) {
   }
 }
 
+// Marks or unmarks many games at once on one platform ("Marcar meus jogos", Epic import).
+// { platform, add: [keys], remove: [keys] }
+export async function setOwnershipBulk(env, steamId, { platform, add, remove }) {
+  if (!PLATFORMS.includes(platform)) throw new HttpError(400, 'Plataforma inválida');
+  const clean = (v) => [...new Set((Array.isArray(v) ? v : []).filter((k) => typeof k === 'string' && KEY_RE.test(k)))];
+  const toAdd = clean(add);
+  const toRemove = clean(remove);
+  if (toAdd.length + toRemove.length > 2000) throw new HttpError(400, 'Jogos demais de uma vez');
+  const stmts = [];
+  if (toAdd.length) {
+    stmts.push(
+      env.DB.prepare(
+        `INSERT OR IGNORE INTO ownership (steam_id, game_key, platform, created_at)
+         SELECT ?1, value, ?2, ?3 FROM json_each(?4)`,
+      ).bind(steamId, platform, Date.now(), JSON.stringify(toAdd)),
+    );
+  }
+  if (toRemove.length) {
+    stmts.push(
+      env.DB.prepare(
+        `DELETE FROM ownership WHERE steam_id = ?1 AND platform = ?2
+         AND game_key IN (SELECT value FROM json_each(?3))`,
+      ).bind(steamId, platform, JSON.stringify(toRemove)),
+    );
+  }
+  if (stmts.length) await env.DB.batch(stmts);
+}
+
 // Map of key -> Set(steam_id) combining manual marks and detected Steam libraries.
 async function ownersByKey(env, keys) {
   const map = new Map(keys.map((k) => [k, new Set()]));
