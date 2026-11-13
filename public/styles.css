@@ -18,6 +18,8 @@
   --parchment-dim: #b9b190;
   --gold: #f2c14e;
   --sky: #48a8ff;
+  --live: #e91916;
+  --live-hi: #ff3b30;
   --text: #eeede8;
   --muted: #9da0aa;
   --radius: 10px;
@@ -140,6 +142,108 @@ button, input, select { font: inherit; color: inherit; }
 }
 
 .hero-stats strong { color: var(--parchment); }
+
+/* "Ao vivo" badge over the logo, and the Twitch player that opens in the hero */
+.brand-wrap { position: relative; min-width: 0; }
+
+.live-badge,
+.live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  background: var(--live);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 11px;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.live-badge {
+  position: absolute;
+  left: 36px; /* center of the 72px logo */
+  top: 72px;
+  transform: translate(-50%, -60%);
+  border: 2px solid var(--bg);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  transition: background 0.15s;
+}
+
+.live-badge:hover,
+.live-badge[aria-expanded='true'] { background: var(--live-hi); }
+
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #fff;
+  animation: live-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes live-pulse {
+  50% { opacity: 0.35; }
+}
+
+.hero-live {
+  max-width: 1280px;
+  margin: 20px auto 0;
+  animation: live-in 0.25s ease-out;
+}
+
+@keyframes live-in {
+  from { opacity: 0; transform: translateY(-6px); }
+}
+
+.hero-live-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.hero-live-info {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px 10px;
+  flex-wrap: wrap;
+}
+
+.hero-live-info strong {
+  min-width: 0;
+  max-width: 100%;
+  color: var(--parchment);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.hero-live-info .muted { font-size: 14px; }
+
+.hero-live-player {
+  width: min(100%, calc(70vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  background: #000;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+.hero-live-player iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
 
 /* ---------- Buttons ---------- */
 .btn {
@@ -1353,6 +1457,7 @@ button, input, select { font: inherit; color: inherit; }
 @media (max-width: 600px) {
   .hero { padding-top: 20px; }
   .brand-logo { width: 56px; height: 56px; }
+  .live-badge { left: 28px; top: 56px; }
   .brand-name { font-size: 32px; }
   .brand-sub { font-size: 11px; }
   .hero-actions { width: 100%; }
@@ -1385,4 +1490,5 @@ button, input, select { font: inherit; color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition: none !important; }
+  .live-dot, .hero-live { animation: none; }
 }

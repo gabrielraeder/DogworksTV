@@ -23,11 +23,16 @@
 
   // Not secret. OWNER_STEAM_IDS: Steam IDs (17 digits, comma-separated) that can edit the
   // channel's list on the site. Shown in Opções when signed in.
+  // TWITCH_CHANNEL: channel checked for the "ao vivo" badge and shown in the hero player.
+  // TWITCH_CLIENT_ID: app "games-list-live" at https://dev.twitch.tv/console/apps.
   "vars": {
     "OWNER_STEAM_IDS": "76561198013191819",
+    "TWITCH_CHANNEL": "dogworkstv",
+    "TWITCH_CLIENT_ID": "5w4spmeagxw07i0iqmv7b3a8jqqrcp",
   },
 
   // Secrets (set with `npx wrangler secret put <NAME>`; locally in .dev.vars):
   //   STEAM_API_KEY  — Steam Web API key: profile name/avatar and library detection
   //   ITAD_API_KEY   — IsThereAnyDeal API key: Steam + Epic prices in BRL
+  //   TWITCH_CLIENT_SECRET — secret of the Twitch app above: "ao vivo" badge and player
 }

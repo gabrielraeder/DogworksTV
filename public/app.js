@@ -2293,6 +2293,101 @@ $('#btn-reset').addEventListener('click', async (e) => {
   toast('Lista restaurada');
 });
 
+/* ---------------- live on Twitch ---------------- */
+
+// While the channel is live, the hero shows the "ao vivo" badge and opens the Twitch player.
+// Closing the player leaves only the badge; that choice is remembered for this stream
+// (by its start time), so the next stream opens the player again.
+
+const LIVE_CLOSED_KEY = 'dogworks-games:live-closed';
+const LIVE_POLL_MS = 2 * 60 * 1000;
+
+const live = { info: null, open: false };
+const btnLive = $('#btn-live');
+const heroLive = $('#hero-live');
+const livePlayer = $('#live-player');
+
+function rememberLiveClosed(startedAt) {
+  try {
+    if (startedAt) localStorage.setItem(LIVE_CLOSED_KEY, startedAt);
+    else localStorage.removeItem(LIVE_CLOSED_KEY);
+  } catch {}
+}
+
+function liveClosedByUser(info) {
+  try {
+    return localStorage.getItem(LIVE_CLOSED_KEY) === info.startedAt;
+  } catch {
+    return false;
+  }
+}
+
+function setLiveOpen(open) {
+  live.open = Boolean(open && live.info);
+  heroLive.hidden = !live.open;
+  btnLive.setAttribute('aria-expanded', String(live.open));
+  btnLive.title = live.open ? 'Fechar a live' : 'Assistir a live aqui';
+  if (!live.open) {
+    livePlayer.replaceChildren(); // removing the iframe stops the video and the sound
+    return;
+  }
+  if (livePlayer.firstChild) return;
+  const src = new URL('https://player.twitch.tv/');
+  src.search = new URLSearchParams({
+    channel: live.info.channel,
+    parent: location.hostname, // Twitch only plays the embed on the domain named here
+    autoplay: 'true',
+    muted: 'true', // browsers block autoplay with sound
+  });
+  livePlayer.innerHTML = `<iframe src="${esc(src)}" title="Live de ${esc(live.info.channel)} na Twitch" allow="autoplay; fullscreen" allowfullscreen></iframe>`;
+}
+
+function renderLive() {
+  const info = live.info;
+  btnLive.hidden = !info;
+  if (!info) {
+    setLiveOpen(false);
+    return;
+  }
+  $('#live-title').textContent = info.title || `${info.channel} está ao vivo`;
+  const viewers = Number.isFinite(info.viewers) ? `${info.viewers.toLocaleString('pt-BR')} assistindo` : '';
+  $('#live-meta').textContent = [info.game, viewers].filter(Boolean).join(' · ');
+}
+
+async function loadLive() {
+  if (!auth.api) return;
+  let info = null;
+  try {
+    const res = await api('/api/live');
+    if (res.live) info = res;
+  } catch {
+    return; // keep what is on screen; the next poll tries again
+  }
+  const startedNow = info && info.startedAt !== live.info?.startedAt;
+  live.info = info;
+  renderLive();
+  if (startedNow) setLiveOpen(!liveClosedByUser(info));
+}
+
+btnLive.addEventListener('click', () => {
+  const open = !live.open;
+  rememberLiveClosed(open ? null : live.info?.startedAt);
+  setLiveOpen(open);
+});
+
+$('#btn-live-close').addEventListener('click', () => {
+  rememberLiveClosed(live.info?.startedAt);
+  setLiveOpen(false);
+  btnLive.focus();
+});
+
+setInterval(() => {
+  if (!document.hidden) loadLive();
+}, LIVE_POLL_MS);
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) loadLive();
+});
+
 /* ---------------- boot ---------------- */
 
 function handleLoginReturn() {
@@ -2328,6 +2423,7 @@ async function boot() {
   handleLoginReturn();
   if (moved) toast(moved);
   openFromUrl();
+  loadLive(); // not awaited, like the sales below
   loadDeals(); // not awaited: the list shows first, sale badges appear when ready
 }
 

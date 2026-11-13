@@ -21,6 +21,7 @@ Lista do que ficou para o dono do site fazer, por ordem. Para o contexto de cada
   npm run deploy                          # cria o D1 no primeiro deploy e aplica as migrations
   npx wrangler secret put STEAM_API_KEY
   npx wrangler secret put ITAD_API_KEY
+  npx wrangler secret put TWITCH_CLIENT_SECRET
   ```
 - [x] **Commit e push.** O repositório está ligado ao GitHub: cada push na `main` refaz o deploy (`npm run deploy`, que aplica as migrations e depois publica).
   - Não versione o `.dev.vars`, que já está no `.gitignore`.

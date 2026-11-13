@@ -1,8 +1,11 @@
 # Copie para .dev.vars (que não vai para o git) e preencha. Usado só no `npm run dev`.
-# Em produção, configure com: npx wrangler secret put STEAM_API_KEY  (e ITAD_API_KEY)
+# Em produção, configure com: npx wrangler secret put STEAM_API_KEY  (e ITAD_API_KEY, TWITCH_CLIENT_SECRET)
 
 # https://steamcommunity.com/dev/apikey — nome/avatar e detecção da biblioteca Steam
 STEAM_API_KEY=
 
 # https://isthereanydeal.com/apps/my/ — preços da Steam e da Epic em R$
 ITAD_API_KEY=
+
+# https://dev.twitch.tv/console/apps (app games-list-live → Gerenciar → Novo segredo) — selo "ao vivo" e player no topo
+TWITCH_CLIENT_SECRET=

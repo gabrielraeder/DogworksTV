@@ -38,9 +38,11 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 |---|---|---|
 | `STEAM_API_KEY` | Nome e avatar do perfil e detecção automática da biblioteca Steam | O login funciona e o nome/avatar vêm do perfil público, mas os jogos precisam ser marcados à mão |
 | `ITAD_API_KEY` | Preço da Epic, menor preço histórico, selos e filtro de promoção, imagem de jogos fora da Steam | Só aparece o preço da Steam no modal; sem selos de promoção |
+| `TWITCH_CLIENT_SECRET` | Selo "ao vivo" no topo e o player da live, que abre no topo enquanto o canal está no ar | O site nunca mostra o canal como ao vivo |
 
 - **Steam:** crie em <https://steamcommunity.com/dev/apikey>. A Steam pede um nome de domínio; use o domínio do site.
 - **IsThereAnyDeal:** crie uma conta, registre um app em <https://isthereanydeal.com/apps/my/> e copie a *API key*.
+- **Twitch:** o app `games-list-live` está registrado em <https://dev.twitch.tv/console/apps>. O *Client ID* fica em `TWITCH_CLIENT_ID` no `wrangler.jsonc` (não é secreto) e o *Client Secret* é gerado em **Gerenciar → Novo segredo**. O canal verificado é `TWITCH_CHANNEL`, também no `wrangler.jsonc`.
 
 ## Rodar localmente
 
@@ -68,6 +70,7 @@ O login com Steam funciona no `localhost`, porque a Steam redireciona de volta p
    ```bash
    npx wrangler secret put STEAM_API_KEY
    npx wrangler secret put ITAD_API_KEY
+   npx wrangler secret put TWITCH_CLIENT_SECRET
    ```
 
 O site fica em `https://dogworks-games.<sua-conta>.workers.dev`. Para usar um domínio próprio, adicione em **Workers & Pages → dogworks-games → Settings → Domains & Routes**. No domínio próprio, o cache de preços e da busca na Steam também passa a funcionar.

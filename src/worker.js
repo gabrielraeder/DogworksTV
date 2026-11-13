@@ -9,6 +9,7 @@ import { getDeals, getItadImage } from './deals.js';
 import { MAX_VOTES, myVotes, setVote, voteCounts, votersOf, ranking } from './votes.js';
 import { isOwner, assertOwner, getChannel, saveChannelGame, removeChannelGame, restoreChannelGame, listSuggestions } from './channel.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
+import { getLive } from './twitch.js';
 
 const HOUR = 3600;
 
@@ -151,6 +152,9 @@ async function route(request, env, ctx) {
     if (title.length < 2) throw new HttpError(400, 'Informe o nome do jogo');
     return cached(request, ctx, 24 * HOUR, () => getItadImage(env, title));
   }
+
+  // --- is the channel live? (badge and player in the hero) ---
+  if (path === '/api/live' && method === 'GET') return cached(request, ctx, 60, () => getLive(env));
 
   // --- prices ---
   if (path === '/api/prices' && method === 'GET') {

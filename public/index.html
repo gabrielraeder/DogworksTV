@@ -15,13 +15,18 @@
 <body>
   <header class="hero">
     <div class="hero-inner">
-      <a class="brand" href="https://www.twitch.tv/dogworkstv" target="_blank" rel="noopener">
-        <img class="brand-logo" src="assets/logo.png" alt="Mascote do DogworksTV" width="72" height="72">
-        <span class="brand-text">
-          <span class="brand-name">DogworksTV</span>
-          <span class="brand-sub">Jogos Co-op &amp; Multiplayer</span>
-        </span>
-      </a>
+      <div class="brand-wrap">
+        <a class="brand" href="https://www.twitch.tv/dogworkstv" target="_blank" rel="noopener">
+          <img class="brand-logo" src="assets/logo.png" alt="Mascote do DogworksTV" width="72" height="72">
+          <span class="brand-text">
+            <span class="brand-name">DogworksTV</span>
+            <span class="brand-sub">Jogos Co-op &amp; Multiplayer</span>
+          </span>
+        </a>
+        <button class="live-badge" id="btn-live" type="button" aria-controls="hero-live" aria-expanded="false" hidden>
+          <span class="live-dot" aria-hidden="true"></span>Ao vivo
+        </button>
+      </div>
       <div class="hero-actions">
         <div id="account" class="account-slot"></div>
         <a class="btn btn-ghost" href="https://www.twitch.tv/dogworkstv" target="_blank" rel="noopener">
@@ -38,6 +43,19 @@
         </button>
       </div>
     </div>
+    <section class="hero-live" id="hero-live" aria-label="Live na Twitch" hidden>
+      <div class="hero-live-head">
+        <p class="hero-live-info">
+          <span class="live-tag"><span class="live-dot" aria-hidden="true"></span>Ao vivo</span>
+          <strong id="live-title"></strong>
+          <span class="muted" id="live-meta"></span>
+        </p>
+        <button class="icon-btn" id="btn-live-close" type="button" aria-label="Fechar a live" title="Fechar a live">
+          <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div class="hero-live-player" id="live-player"></div>
+    </section>
     <p class="hero-stats" id="stats" aria-live="polite"></p>
   </header>
 
