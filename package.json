@@ -6,7 +6,7 @@
   "description": "DogworksTV · lista de jogos co-op e multiplayer (Cloudflare Workers + D1)",
   "scripts": {
     "dev": "wrangler d1 migrations apply dogworks-games --local && wrangler dev",
-    "deploy": "wrangler deploy && wrangler d1 migrations apply dogworks-games --remote",
+    "deploy": "wrangler d1 migrations apply dogworks-games --remote && wrangler deploy",
     "db:migrate:local": "wrangler d1 migrations apply dogworks-games --local",
     "db:migrate:remote": "wrangler d1 migrations apply dogworks-games --remote",
     "build:data": "node scripts/build-library.mjs",

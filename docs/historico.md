@@ -86,7 +86,8 @@ Decisões:
   - binding `DB` (D1 `dogworks-games`) sem `database_id`, que é criado sozinho no primeiro deploy
 - Rotas (`src/worker.js`):
   - `GET /api/auth/login`, `GET /api/auth/callback`, `POST /api/auth/logout`
-  - `GET /api/me`, `POST /api/me/sync` (sincroniza a biblioteca Steam)
+  - `GET /api/me` (inclui `library`: favoritos, adicionados, edições, ocultos), `POST /api/me/sync` (sincroniza a biblioteca Steam)
+  - `POST /api/library/flag` `{ id, flag: 'favorite' | 'hidden', on }`, `POST /api/library/game` `{ id, custom, data }`, `POST /api/library/remove` `{ id }`, `POST /api/library/import` `{ mode: 'merge' | 'replace', favorites, hidden, custom, overrides }`
   - `POST /api/ownership` `{ key, platform, owned }`
   - `GET /api/owners?key=…`, `POST /api/owners/counts` `{ keys }`
   - `GET /api/steam/search?q=…`, `GET /api/steam/details?appid=…`
@@ -95,6 +96,7 @@ Decisões:
   - `users`: a biblioteca Steam fica em `steam_appids`, um array JSON, consultado com `json_each`
   - `sessions`
   - `ownership`: `platform` ∈ `steam | epic | outra`
+  - `user_games` (`migrations/0002_user_games.sql`): uma linha por usuário × jogo, com `favorite`, `hidden`, `custom` e `data` (JSON do jogo adicionado ou dos campos editados de um jogo base)
 - **Chave do jogo** (`game_key`): `steam:<appid>` quando há link da Steam, senão `name:<nome normalizado>`. É ela que liga o mesmo jogo entre usuários diferentes.
 - **Segurança:**
   - o OpenID é validado com `check_authentication`, e `op_endpoint`, `return_to` e `claimed_id` são conferidos
@@ -105,7 +107,16 @@ Decisões:
 - **Segredos** (opcionais): `STEAM_API_KEY` e `ITAD_API_KEY`. No local ficam em `.dev.vars`; em produção, use `wrangler secret put`.
   - Sem a da Steam: nome e avatar vêm do XML público do perfil, e a biblioteca não é detectada.
   - Sem a do ITAD: aparece só o preço da Steam.
-- **Continua no navegador** (localStorage, chave `dogworks-games:v1`): favoritos, jogos adicionados, edições, ocultos e preferências.
+- **No navegador** (localStorage, chave `dogworks-games:v1`): preferências de exibição (ordenação, filtros) e, só para quem não está logado, favoritos, jogos adicionados, edições e ocultos. No primeiro login, esses dados são enviados para a conta (`/api/library/import` com `merge`) e apagados do navegador.
+
+## 5.1. Favoritos e jogos adicionados na conta (D1)
+
+- Pedido: levar para o banco o que ainda ficava só no navegador.
+- Mantido o mesmo comportamento de antes, só que guardado na conta: cada pessoa tem os próprios favoritos, jogos adicionados, edições e ocultos. Uma lista de jogos compartilhada, controlada pelo dono do site, ficou como ideia em [pendencias.md](pendencias.md).
+- O site salva cada alteração na hora (uma requisição por vez, para não chegar fora de ordem). Se o servidor recusar, a lista é recarregada da conta e aparece um aviso.
+- Importar backup e "Restaurar lista original" substituem a lista da conta quando a pessoa está logada.
+- Limites por conta: 2000 jogos marcados e 500 adicionados. Campos e URLs são validados no servidor.
+- Testado no `wrangler dev` com um usuário de teste (apagado depois): migração do navegador para a conta, favoritar, adicionar, editar jogo base, remover e desfazer, sair e entrar de novo, restaurar lista.
 
 ### Testes feitos
 

@@ -11,11 +11,12 @@
     "run_worker_first": ["/api/*"]
   },
 
-  // database_id is filled in automatically on the first `wrangler deploy` (automatic provisioning).
+  // D1 database created on the first deploy. Keep database_id pinned so every deploy and migration targets it.
   "d1_databases": [
     {
       "binding": "DB",
       "database_name": "dogworks-games",
+      "database_id": "d0747279-f203-489d-ae33-730ff969019f",
       "migrations_dir": "migrations"
     }
   ]

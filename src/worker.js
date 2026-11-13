@@ -5,11 +5,23 @@ import { HttpError, json, readJsonBody, cached } from './http.js';
 import { loginRedirect, handleCallback, handleLogout, currentUser, requireUser, refreshUser } from './auth.js';
 import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf } from './owners.js';
 import { getPrices } from './prices.js';
+import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
 
 const HOUR = 3600;
 
-async function me(env, user) {
-  return json(serializeMe(user, user ? await manualMarks(env, user.steam_id) : []));
+// POST routes that change one game in the signed-in user's list.
+const LIBRARY = {
+  '/api/library/flag': setFlag, // { id, flag: 'favorite' | 'hidden', on }
+  '/api/library/game': saveGame, // { id, custom, data, favorite?, addedAt? }
+  '/api/library/remove': removeGame, // { id }
+};
+
+// withLibrary: also send favorites/added/edited/hidden games (only on page load, so it never
+// overwrites changes the page is still sending).
+async function me(env, user, { withLibrary = false } = {}) {
+  const body = serializeMe(user, user ? await manualMarks(env, user.steam_id) : []);
+  if (user && withLibrary) body.library = await getLibrary(env, user.steam_id);
+  return json(body);
 }
 
 async function route(request, env, ctx) {
@@ -26,7 +38,7 @@ async function route(request, env, ctx) {
   }
 
   // --- current user ---
-  if (path === '/api/me' && method === 'GET') return me(env, await currentUser(request, env));
+  if (path === '/api/me' && method === 'GET') return me(env, await currentUser(request, env), { withLibrary: true });
   if (path === '/api/me/sync' && method === 'POST') {
     await readJsonBody(request);
     const user = await requireUser(request, env);
@@ -45,6 +57,20 @@ async function route(request, env, ctx) {
   if (path === '/api/owners/counts' && method === 'POST') {
     const body = await readJsonBody(request);
     return json(await ownerCounts(env, body.keys));
+  }
+
+  // --- favorites, hidden, added and edited games (per account) ---
+  if (LIBRARY[path] && method === 'POST') {
+    const body = await readJsonBody(request);
+    const user = await requireUser(request, env);
+    await LIBRARY[path](env, user.steam_id, body);
+    return json({ ok: true });
+  }
+  if (path === '/api/library/import' && method === 'POST') {
+    // { mode: 'merge' | 'replace', favorites, hidden, custom, overrides }
+    const body = await readJsonBody(request);
+    const user = await requireUser(request, env);
+    return json({ library: await importLibrary(env, user.steam_id, body) });
   }
 
   // --- Steam store proxy ---

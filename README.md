@@ -19,7 +19,8 @@ Site com a lista de jogos co-op e multiplayer, com o visual do canal [twitch.tv/
 | Dado | Onde fica |
 |---|---|
 | Lista base de jogos | `public/data/games.json` (igual para todo mundo) |
-| Favoritos, jogos adicionados, edições, ocultos | No navegador de cada pessoa (localStorage). Use **Opções → Exportar backup** |
+| Favoritos, jogos adicionados, edições, ocultos | Na conta Steam da pessoa (banco D1), quando ela está logada. Sem login, ficam no navegador e vão para a conta no primeiro login. **Opções → Exportar backup** continua disponível |
+| Ordenação e filtros escolhidos | No navegador (localStorage) |
 | Login, "Eu tenho", quem tem cada jogo | Banco D1 da Cloudflare (compartilhado) |
 
 ## Chaves de API (opcionais, mas recomendadas)
@@ -50,7 +51,7 @@ O login com Steam funciona no `localhost`, porque a Steam redireciona de volta p
    ```bash
    npx wrangler login
    ```
-2. Publique. No primeiro deploy, o Wrangler cria o banco D1 `dogworks-games` sozinho, e depois as migrations são aplicadas:
+2. Publique. O `npm run deploy` aplica as migrations no D1 (`database_id` fixado no `wrangler.jsonc`) e depois publica o Worker, para o código novo nunca rodar sem as tabelas de que precisa. O site também é publicado sozinho a cada push na `main`, pela integração com o GitHub:
    ```bash
    npm run deploy
    ```
