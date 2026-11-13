@@ -11,11 +11,11 @@ Ideias de funcionalidades para o site, em ordem de prioridade. Para tarefas de c
 - [x] **Promoções.** Selo "-90%" nos cards (com preço, loja e data de fim no tooltip), filtro **Em promoção** e ordenação **Maior desconto**. Uma consulta ao IsThereAnyDeal para a lista toda (`POST /api/deals`), com cache de 1 hora.
   - [x] Imagem automática para jogos que não estão na Steam, como os exclusivos da Epic (`GET /api/itad/image`).
 - [x] **Lista do canal editável pelo site.** O dono (Steam ID em `OWNER_STEAM_IDS`) adiciona, edita, tira e restaura jogos que aparecem para todo mundo, sem mexer no `seed.json` nem fazer deploy. Em **Opções → Sugestões do pessoal**, vê os jogos que as pessoas adicionaram e põe na lista do canal com um clique.
-- [ ] **Lista de desejos da Steam.** Ler a lista de cada pessoa, como já é feito com a biblioteca. Funciona para quem tem os detalhes de jogos públicos no perfil Steam.
-  - "Quem quer" no modal do jogo, ao lado de "Quem tem"
-  - Selo "Na sua lista de desejos" e filtro
-  - Avisar quando um jogo da lista de desejos estiver em promoção (combina com o item de promoções)
-  - No "Dá pra jogar com quem?": mostrar também os jogos que uma pessoa tem e as outras querem
+- [x] **Lista de desejos da Steam.** Lida no login e no **Sincronizar biblioteca**, como a biblioteca. Funciona para quem tem os detalhes de jogos públicos no perfil Steam.
+  - [x] "Quem quer" no modal do jogo, abaixo de "Quem tem"
+  - [x] Selo de coração nos jogos da sua lista e filtro **Lista de desejos**
+  - [x] Aviso no topo de quantos jogos da sua lista estão em promoção
+  - [ ] No "Dá pra jogar com quem?": mostrar também os jogos que uma pessoa tem e as outras querem
 
 ## Outras ideias
 

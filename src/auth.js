@@ -1,6 +1,6 @@
 // Steam sign-in (OpenID 2.0) and cookie sessions stored in D1.
 
-import { getPlayerProfile, getOwnedAppids } from '../lib/steam.js';
+import { getPlayerProfile, getOwnedAppids, getWishlistAppids } from '../lib/steam.js';
 import { HttpError, parseCookies } from './http.js';
 
 const STEAM_OPENID = 'https://steamcommunity.com/openid/login';
@@ -62,16 +62,15 @@ async function verifyOpenId(url) {
 // Refreshes profile + Steam library for a user and upserts it.
 export async function refreshUser(env, steamId) {
   const profile = await getPlayerProfile(steamId, env.STEAM_API_KEY);
-  let appids = null;
-  try {
-    appids = await getOwnedAppids(steamId, env.STEAM_API_KEY);
-  } catch {
-    appids = null;
-  }
+  const [appids, wishlist] = await Promise.all([
+    getOwnedAppids(steamId, env.STEAM_API_KEY).catch(() => null),
+    getWishlistAppids(steamId, env.STEAM_API_KEY).catch(() => null), // null = Steam failed: keep the old one
+  ]);
   const t = now();
   await env.DB.prepare(
-    `INSERT INTO users (steam_id, name, avatar, profile_url, steam_appids, library_visible, library_synced_at, created_at, updated_at)
-     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?7, ?7)
+    `INSERT INTO users (steam_id, name, avatar, profile_url, steam_appids, library_visible, library_synced_at,
+                        wishlist_appids, wishlist_synced_at, created_at, updated_at)
+     VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?7, ?7)
      ON CONFLICT (steam_id) DO UPDATE SET
        name = excluded.name,
        avatar = excluded.avatar,
@@ -79,9 +78,21 @@ export async function refreshUser(env, steamId) {
        steam_appids = CASE WHEN excluded.library_visible = 1 THEN excluded.steam_appids ELSE users.steam_appids END,
        library_visible = excluded.library_visible,
        library_synced_at = excluded.library_synced_at,
+       wishlist_appids = CASE WHEN excluded.wishlist_synced_at IS NULL THEN users.wishlist_appids ELSE excluded.wishlist_appids END,
+       wishlist_synced_at = COALESCE(excluded.wishlist_synced_at, users.wishlist_synced_at),
        updated_at = excluded.updated_at`,
   )
-    .bind(steamId, profile.name, profile.avatar, profile.profileUrl, JSON.stringify(appids || []), appids ? 1 : 0, t)
+    .bind(
+      steamId,
+      profile.name,
+      profile.avatar,
+      profile.profileUrl,
+      JSON.stringify(appids || []),
+      appids ? 1 : 0,
+      t,
+      JSON.stringify(wishlist || []),
+      wishlist ? t : null,
+    )
     .run();
 }
 

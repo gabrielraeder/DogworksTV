@@ -23,11 +23,13 @@ export function serializeMe(user, manual) {
       profileUrl: user.profile_url,
       libraryVisible: !!user.library_visible,
       librarySyncedAt: user.library_synced_at,
+      wishlistSyncedAt: user.wishlist_synced_at,
     },
     owned: {
       manual: manual.map((r) => ({ key: r.game_key, platform: r.platform })),
       steamAppids: user ? JSON.parse(user.steam_appids || '[]') : [],
     },
+    wishlist: user ? JSON.parse(user.wishlist_appids || '[]') : [],
   };
 }
 
@@ -80,11 +82,28 @@ async function ownersByKey(env, keys) {
   return map;
 }
 
-// counts: key -> number of owners; owners: key -> steam ids (used by "Jogar com quem?").
+// key -> number of people with the game on their Steam wishlist (Steam games only).
+async function wantedByKey(env, keys) {
+  const wanted = {};
+  const appids = keys.filter((k) => k.startsWith('steam:')).map((k) => Number(k.slice(6)));
+  for (const part of chunk(appids, D1_MAX_PARAMS)) {
+    const { results } = await env.DB.prepare(
+      `SELECT j.value AS appid, COUNT(*) AS n FROM users u, json_each(u.wishlist_appids) j
+       WHERE j.value IN (${placeholders(part.length)}) GROUP BY j.value`,
+    )
+      .bind(...part)
+      .all();
+    for (const r of results) wanted[`steam:${r.appid}`] = r.n;
+  }
+  return wanted;
+}
+
+// counts: key -> number of owners; owners: key -> steam ids (used by "Jogar com quem?");
+// wanted: key -> number of people with it on their Steam wishlist.
 export async function ownerCounts(env, keys) {
   if (!Array.isArray(keys)) throw new HttpError(400, 'Lista inválida');
   const valid = [...new Set(keys.filter((k) => typeof k === 'string' && KEY_RE.test(k)))].slice(0, 2000);
-  const map = await ownersByKey(env, valid);
+  const [map, wanted] = await Promise.all([ownersByKey(env, valid), wantedByKey(env, valid)]);
   const counts = {};
   const owners = {};
   for (const [k, set] of map) {
@@ -92,7 +111,7 @@ export async function ownerCounts(env, keys) {
     counts[k] = set.size;
     owners[k] = [...set];
   }
-  return { counts, owners };
+  return { counts, owners, wanted };
 }
 
 // People who can be picked in "Jogar com quem?": anyone with a mark or a visible Steam library.
@@ -134,5 +153,17 @@ export async function ownersOf(env, key) {
   }
 
   const owners = [...byUser.values()].sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
-  return { owners };
+
+  // people with it on their Steam wishlist ("Quem quer")
+  let wanters = [];
+  if (key.startsWith('steam:')) {
+    const { results } = await env.DB.prepare(
+      `SELECT u.name, u.avatar, u.profile_url FROM users u, json_each(u.wishlist_appids) j
+       WHERE j.value = ?1 ORDER BY u.name COLLATE NOCASE`,
+    )
+      .bind(Number(key.slice(6)))
+      .all();
+    wanters = results.map((r) => ({ name: r.name, avatar: r.avatar, profileUrl: r.profile_url }));
+  }
+  return { owners, wanters };
 }

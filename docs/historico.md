@@ -102,6 +102,7 @@ Decisões:
   - `users`: a biblioteca Steam fica em `steam_appids`, um array JSON, consultado com `json_each`
   - `sessions`
   - `ownership`: `platform` ∈ `steam | epic | outra`
+  - `users.wishlist_appids` (`migrations/0004_wishlist.sql`): lista de desejos da Steam, lida por `IWishlistService/GetWishlist`
   - `channel_games` (`migrations/0003_channel_games.sql`): mudanças do dono na lista, por cima do `games.json`
   - `user_games` (`migrations/0002_user_games.sql`): uma linha por usuário × jogo, com `favorite`, `hidden`, `custom` e `data` (JSON do jogo adicionado ou dos campos editados de um jogo base)
 - **Chave do jogo** (`game_key`): `steam:<appid>` quando há link da Steam, senão `name:<nome normalizado>`. É ela que liga o mesmo jogo entre usuários diferentes.

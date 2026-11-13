@@ -965,6 +965,12 @@ button, input, select { font: inherit; color: inherit; }
 .badge .icon { width: 12px; height: 12px; stroke-width: 2.6; }
 .badge-owned { background: var(--blue); color: #fff; }
 .badge-sale { background: #4c6b22; color: #beee11; font-weight: 700; }
+.badge-wish { background: #b8336a; color: #fff; }
+.badge-wish .icon { fill: currentColor; }
+.chip-wish .icon { width: 15px; height: 15px; }
+.chip-wish[aria-pressed="true"] { background: rgba(184, 51, 106, 0.25); border-color: #e05a94; color: #ff9cc6; }
+.chip-wish[aria-pressed="true"] .icon { fill: currentColor; }
+.wish-sale { color: #ff9cc6; }
 
 .chip-sale .icon { width: 15px; height: 15px; }
 .chip-sale[aria-pressed="true"] { background: rgba(76, 107, 34, 0.35); border-color: #beee11; color: #beee11; }

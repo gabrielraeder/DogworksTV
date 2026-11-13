@@ -24,6 +24,7 @@ const ICON = {
   close: svg('<path d="M18 6 6 18M6 6l12 12"/>'),
   check: svg('<path d="M20 6 9 17l-5-5"/>'),
   tag: svg('<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r=".5"/>'),
+  heart: svg('<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>'),
   link: svg('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
   trend: svg('<path d="m22 17-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/>'),
 };
@@ -136,7 +137,15 @@ const isOffline = (e) => e.message === 'offline' || e instanceof TypeError;
 // and in the Steam account while signed in. Display prefs always stay in the browser.
 
 const emptyLibrary = () => ({ favorites: [], custom: [], hidden: [], overrides: {} });
-const defaultPrefs = () => ({ sort: 'name', category: 'all', onlyFav: false, onlyOwned: false, onlySale: false, playWith: [] });
+const defaultPrefs = () => ({
+  sort: 'name',
+  category: 'all',
+  onlyFav: false,
+  onlyOwned: false,
+  onlySale: false,
+  onlyWish: false,
+  playWith: [],
+});
 
 function sanitizeLibrary(s) {
   if (!s || typeof s !== 'object') return emptyLibrary();
@@ -204,6 +213,8 @@ const auth = {
   owners: {}, // key -> [steam ids] of everyone who has it
   members: null, // people who can be picked in "Jogar com quem?"
   deals: {}, // key -> current sale { cut, shop, price, regular, url, expiry }
+  wishlist: new Set(), // appids on the signed-in person's Steam wishlist
+  wanted: {}, // key -> number of people with it on their Steam wishlist
 };
 
 const hasDeals = () => Object.keys(auth.deals).length > 0;
@@ -224,6 +235,7 @@ function setMe(data) {
   auth.user = data.user;
   auth.manual = data.owned.manual;
   auth.steamAppids = new Set(data.owned.steamAppids);
+  auth.wishlist = new Set(data.wishlist || []);
   if (data.library) useLibrary(data.library);
   else if (!data.user) useLibrary(null);
 }
@@ -233,7 +245,9 @@ function signOutLocally() {
   auth.user = null;
   auth.manual = [];
   auth.steamAppids = new Set();
+  auth.wishlist = new Set();
   state.local.prefs.onlyOwned = false;
+  state.local.prefs.onlyWish = false;
   useLibrary(null);
   saveStore();
 }
@@ -325,6 +339,9 @@ function allGames() {
     game.owned = auth.user ? myOwnership(game).platforms.size > 0 : false;
     game.ownersCount = auth.counts[game.key] || 0;
     game.deal = auth.deals[game.key] || null;
+    const appid = steamAppId(game.steamUrl);
+    game.wished = !!(auth.user && appid && auth.wishlist.has(Number(appid)));
+    game.wantedCount = auth.wanted[game.key] || 0;
     return game;
   });
 }
@@ -430,6 +447,7 @@ function cardHtml(g) {
       ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async">` : `<span class="placeholder">${esc(g.name)}</span>`}
       <div class="badges">
         ${g.deal ? `<span class="badge badge-sale" title="${esc(dealTitle(g.deal))}">-${g.deal.cut}%</span>` : ''}
+        ${g.wished ? `<span class="badge badge-wish" title="Na sua lista de desejos da Steam" aria-label="Na sua lista de desejos">${ICON.heart}</span>` : ''}
         ${g.owned ? `<span class="badge badge-owned">${ICON.check}Você tem</span>` : ''}
         ${g.ownersCount ? `<span class="badge" title="${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'} este jogo">${ICON.users}${g.ownersCount}</span>` : ''}
         ${g.source === 'custom' ? '<span class="badge badge-custom">Adicionado</span>' : ''}
@@ -465,6 +483,7 @@ function render() {
   const onlyOwned = prefs.onlyOwned && !!auth.user;
   const people = playWith();
   const onlySale = prefs.onlySale && hasDeals();
+  const onlyWish = prefs.onlyWish && auth.wishlist.size > 0;
 
   const pool = games.filter(
     (g) =>
@@ -473,6 +492,7 @@ function render() {
       (!onlyOwned || g.owned) &&
       (!people.length || everyoneHas(g, people)) &&
       (!onlySale || g.deal) &&
+      (!onlyWish || g.wished) &&
       matchesQuery(g, q),
   );
 
@@ -486,6 +506,7 @@ function render() {
     if (prefs.onlyFav && !games.some((g) => g.fav)) msg = 'Você ainda não marcou favoritos. Clique na ★ de um jogo.';
     else if (onlyOwned && !games.some((g) => g.owned)) msg = 'Você ainda não marcou nenhum jogo como seu. Abra um jogo e use “Eu tenho”.';
     else if (onlySale && !games.some((g) => g.deal)) msg = 'Nenhum jogo da lista está em promoção agora.';
+    else if (onlyWish && !games.some((g) => g.wished)) msg = 'Nenhum jogo desta lista está na sua lista de desejos da Steam.';
     else if (people.length && !games.some((g) => everyoneHas(g, people)))
       msg = 'Nenhum jogo que todas essas pessoas têm. Tente tirar alguém em “Jogar com”.';
     main.innerHTML = `
@@ -536,11 +557,15 @@ function renderStats(games) {
   const owned = shown.filter((g) => g.owned).length;
   const hidden = games.length - shown.length;
   const onSale = shown.filter((g) => g.deal).length;
+  const wishOnSale = shown.filter((g) => g.wished && g.deal).length;
   $('#stats').innerHTML =
     `<strong>${shown.length}</strong> jogos · <strong>${favs}</strong> favoritos` +
     (auth.user ? ` · você tem <strong>${owned}</strong>` : '') +
     (custom ? ` · <strong>${custom}</strong> adicionados por você` : '') +
-    (onSale ? ` · <strong>${onSale}</strong> em promoção` : '');
+    (onSale ? ` · <strong>${onSale}</strong> em promoção` : '') +
+    (wishOnSale
+      ? ` · <strong class="wish-sale">${wishOnSale}</strong> da sua lista de desejos ${wishOnSale === 1 ? 'está' : 'estão'} em promoção`
+      : '');
   $('#hidden-count').textContent = hidden ? `${hidden} ${hidden === 1 ? 'jogo oculto' : 'jogos ocultos'}` : 'Nenhum jogo oculto';
 }
 
@@ -553,6 +578,8 @@ function syncToolbar() {
   $('#sort-owners').hidden = !auth.api;
   $('#btn-suggestions').hidden = !isOwnerUser();
   $('#btn-only-sale').hidden = !hasDeals();
+  $('#btn-only-wish').hidden = !(auth.user && auth.wishlist.size);
+  $('#btn-only-wish').setAttribute('aria-pressed', String(!!prefs.onlyWish && auth.wishlist.size > 0));
   $('#btn-only-sale').setAttribute('aria-pressed', String(!!prefs.onlySale && hasDeals()));
   $('#sort-sale').hidden = !hasDeals();
   const n = playWith().length;
@@ -611,6 +638,11 @@ function renderAccount() {
             : 'Não consegui ler sua biblioteca Steam. Deixe “Detalhes de jogos” como <strong>Público</strong> na privacidade do perfil Steam e sincronize, ou marque os jogos à mão.'
         }
       </p>
+      <p class="hint">${
+        auth.wishlist.size
+          ? `Lista de desejos da Steam: <strong>${auth.wishlist.size}</strong> jogos.`
+          : 'Lista de desejos da Steam vazia ou privada.'
+      }</p>
       <p class="hint">Favoritos, jogos adicionados e edições ficam salvos na sua conta, em qualquer navegador.</p>
       <p class="hint">${PRIVACY_NOTE}</p>
       <p class="hint">Seu Steam ID: <code>${esc(u.steamId)}</code>${u.isOwner ? ' · <strong>dono do canal</strong>: suas edições na lista valem para todo mundo.' : ''}</p>
@@ -881,6 +913,10 @@ function renderDetail(loadRemote) {
             <section class="detail-section" aria-labelledby="sec-owners">
               <h3 class="section-title" id="sec-owners">${ICON.users}Quem tem <span class="section-count" id="owners-count"></span></h3>
               <ul class="owners" id="detail-owners"><li class="hint">Carregando…</li></ul>
+            </section>
+            <section class="detail-section" aria-labelledby="sec-wanters" id="sec-wanters-wrap" hidden>
+              <h3 class="section-title" id="sec-wanters">${ICON.heart}Quem quer <span class="section-count" id="wanters-count"></span></h3>
+              <ul class="owners" id="detail-wanters"></ul>
             </section>`
           : ''
       }
@@ -1034,14 +1070,30 @@ async function toggleOwnership(btn) {
   }
 }
 
+const personHtml = (o) => {
+  const avatar = safeUrl(o.avatar);
+  const profile = safeUrl(o.profileUrl);
+  return `<li class="owner">
+    <a href="${esc(profile)}" target="_blank" rel="noopener" class="owner-link">
+      ${avatar ? `<img src="${esc(avatar)}" alt="" width="36" height="36" loading="lazy">` : '<span class="owner-avatar"></span>'}
+      <span class="owner-name">${esc(o.name)}${o.name === auth.user?.name ? ' <small>(você)</small>' : ''}</span>
+    </a>
+  </li>`;
+};
+
 async function loadOwners(g) {
   let owners = null;
+  let wanters = [];
   try {
-    ({ owners } = await api(`/api/owners?key=${encodeURIComponent(g.key)}`));
+    ({ owners, wanters = [] } = await api(`/api/owners?key=${encodeURIComponent(g.key)}`));
   } catch {}
   if (state.detailId !== g.id) return;
   const list = $('#detail-owners');
   if (!list) return;
+  // "Quem quer": people with it on their Steam wishlist
+  $('#sec-wanters-wrap').hidden = !wanters.length;
+  $('#wanters-count').textContent = wanters.length ? `(${wanters.length})` : '';
+  $('#detail-wanters').innerHTML = wanters.map(personHtml).join('');
   $('#owners-count').textContent = owners?.length ? `(${owners.length})` : '';
   if (!owners) {
     list.innerHTML = '<li class="hint error">Não foi possível carregar.</li>';
@@ -1134,9 +1186,10 @@ async function loadCounts() {
   if (!auth.api) return;
   try {
     const keys = [...new Set(allGames().map((g) => g.key))];
-    const { counts, owners } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
+    const { counts, owners, wanted } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
     auth.counts = counts;
     auth.owners = owners || {};
+    auth.wanted = wanted || {};
   } catch {}
 }
 
@@ -1153,7 +1206,11 @@ document.addEventListener('click', async (e) => {
       renderAccount();
       syncToolbar();
       refreshAll();
-      toast(auth.user.libraryVisible ? `Biblioteca sincronizada: ${auth.steamAppids.size} jogos` : 'Sua biblioteca Steam está privada');
+      toast(
+        auth.user.libraryVisible
+          ? `Biblioteca sincronizada: ${auth.steamAppids.size} jogos, ${auth.wishlist.size} na lista de desejos`
+          : 'Sua biblioteca Steam está privada',
+      );
     } catch (e2) {
       toast(e2.message);
       btn.disabled = false;
@@ -1233,6 +1290,13 @@ $('#btn-only-fav').addEventListener('click', () => {
 
 $('#btn-only-owned').addEventListener('click', () => {
   state.store.prefs.onlyOwned = !state.store.prefs.onlyOwned;
+  saveStore();
+  syncToolbar();
+  render();
+});
+
+$('#btn-only-wish').addEventListener('click', () => {
+  state.store.prefs.onlyWish = !state.store.prefs.onlyWish;
   saveStore();
   syncToolbar();
   render();
