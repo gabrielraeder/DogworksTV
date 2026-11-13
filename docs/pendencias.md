@@ -25,9 +25,9 @@ Lista do que ficou para o dono do site fazer, por ordem. Para o contexto de cada
 - [x] **Commit e push.** O repositório está ligado ao GitHub: cada push na `main` refaz o deploy (`npm run deploy`, que aplica as migrations e depois publica).
   - Não versione o `.dev.vars`, que já está no `.gitignore`.
   - O `database_id` do D1 já está fixado no `wrangler.jsonc`.
-- [ ] _(Opcional)_ **Domínio próprio:** em Workers & Pages → `dogworks-games` → Settings → Domains & Routes.
+- [x] **Domínio próprio:** o site está em <https://games.dogworkstv.com/> (Workers & Pages → `dogworks-games` → Settings → Domains & Routes).
   - Com domínio próprio, o cache de preços e da busca na Steam passa a funcionar. No `workers.dev`, o Cache API não tem efeito.
-  - Se trocar o domínio, atualize o domínio da chave da Steam.
+  - A chave da Steam foi renovada em 13/11/2026. Se trocar de domínio, o domínio da chave não precisa mudar: a Steam não limita o uso por domínio.
 
 ## Revisar conteúdo
 

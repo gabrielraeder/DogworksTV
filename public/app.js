@@ -496,9 +496,24 @@ function renderAccount() {
 
 /* ---------------- toast ---------------- */
 
+// The toast is a popover so it shows in the browser's top layer, above an open modal
+// <dialog> and its blurred backdrop. Re-showing it puts it above the newest dialog.
+const toastEl = $('#toast');
+const popoverSupported = typeof toastEl.showPopover === 'function';
+if (!popoverSupported) toastEl.hidden = true;
+
+function setToastVisible(visible) {
+  if (!popoverSupported) {
+    toastEl.hidden = !visible;
+    return;
+  }
+  if (toastEl.matches(':popover-open')) toastEl.hidePopover();
+  if (visible) toastEl.showPopover();
+}
+
 let toastTimer;
 function toast(message, action) {
-  const el = $('#toast');
+  const el = toastEl;
   el.innerHTML = '';
   el.append(message);
   if (action) {
@@ -508,13 +523,13 @@ function toast(message, action) {
     btn.textContent = action.label;
     btn.onclick = () => {
       action.run();
-      el.hidden = true;
+      setToastVisible(false);
     };
     el.append(btn);
   }
-  el.hidden = false;
+  setToastVisible(true);
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => (el.hidden = true), action ? 6000 : 3000);
+  toastTimer = setTimeout(() => setToastVisible(false), action ? 6000 : 3000);
 }
 
 /* ---------------- local actions (favorite, hide, remove, edit) ---------------- */

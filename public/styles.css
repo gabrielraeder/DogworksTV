@@ -610,6 +610,7 @@ button, input, select { font: inherit; color: inherit; }
 .dialog {
   width: min(680px, calc(100vw - 32px));
   max-height: calc(100dvh - 32px);
+  overflow: hidden; /* only .dialog-body scrolls */
   padding: 0;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -680,8 +681,6 @@ button, input, select { font: inherit; color: inherit; }
   display: flex;
   flex-direction: column;
   gap: 4px;
-  max-height: 228px;
-  overflow-y: auto;
 }
 
 .results:empty { display: none; }
@@ -800,6 +799,11 @@ button, input, select { font: inherit; color: inherit; }
 /* ---------- Toast & footer ---------- */
 .toast {
   position: fixed;
+  /* reset the browser's default popover box (centered, bordered) */
+  inset: auto;
+  margin: 0;
+  border: 0;
+  overflow: visible;
   left: 50%;
   bottom: 20px;
   transform: translateX(-50%);
