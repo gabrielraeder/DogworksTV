@@ -632,7 +632,7 @@ function renderAccount() {
     return;
   }
   if (!auth.user) {
-    slot.innerHTML = `<a class="btn btn-steam" href="/api/auth/login">${LOGO('steam')}<span>Entrar com Steam</span></a>`;
+    slot.innerHTML = `<a class="btn btn-steam" href="/api/auth/login" aria-label="Entrar com Steam">${LOGO('steam')}<span class="hide-sm">Entrar com Steam</span></a>`;
     panel.innerHTML = `
       <div class="account-card">
         <p>Entre com a Steam para marcar os jogos que você tem, ver quem mais tem cada jogo e guardar seus favoritos e jogos adicionados na sua conta (hoje eles ficam só neste navegador).</p>
@@ -1483,6 +1483,7 @@ function openMine() {
 }
 
 $('#btn-mine').addEventListener('click', openMine);
+$('#btn-epic').addEventListener('click', openMine); // openMine already starts on Epic
 
 dlgMine.addEventListener('click', (e) => {
   if (e.target.closest('[data-close]') || e.target === dlgMine) dlgMine.close();

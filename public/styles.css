@@ -279,6 +279,45 @@ button, input, select { font: inherit; color: inherit; }
 
 .btn-ghost:hover { border-color: rgba(255, 255, 255, 0.4); }
 
+/* Icon-only button, same height as the text buttons next to it */
+.btn-square { padding-inline: 0; width: 43px; justify-content: center; }
+.btn-square .logo { width: 18px; height: 18px; }
+#btn-epic:hover { background: #fff; border-color: #fff; color: #121212; }
+
+/* Hover/focus hint for icon-only buttons (the text is also in aria-label) */
+[data-tip] { position: relative; }
+[data-tip]::after {
+  content: attr(data-tip);
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translate(-50%, -4px);
+  padding: 5px 9px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: #0e0f13;
+  color: var(--text);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s, transform 0.15s;
+  z-index: 30;
+}
+[data-tip]:focus-visible { z-index: 30; }
+[data-tip]:focus-visible::after { opacity: 1; transform: translate(-50%, 0); }
+@media (hover: hover) {
+  /* only with a mouse: on touch screens :hover sticks after a tap */
+  [data-tip]:hover { z-index: 30; }
+  [data-tip]:hover::after { opacity: 1; transform: translate(-50%, 0); }
+  .hero-actions > [data-tip]:last-child:hover::after { transform: none; }
+}
+/* the last button sits at the right edge: open the hint towards the left */
+.hero-actions > [data-tip]:last-child::after { left: auto; right: 0; transform: translateY(-4px); }
+.hero-actions > [data-tip]:last-child:focus-visible::after { transform: none; }
+
 .icon-btn {
   display: inline-grid;
   place-items: center;
@@ -1461,7 +1500,7 @@ button, input, select { font: inherit; color: inherit; }
   .brand-name { font-size: 32px; }
   .brand-sub { font-size: 11px; }
   .hero-actions { width: 100%; }
-  .hero-actions .btn-primary { flex: 1; justify-content: center; }
+  .hero-actions .btn-primary:not(.btn-square) { flex: 1; justify-content: center; }
   .hide-sm { display: none; }
   .toolbar-inner { grid-template-columns: minmax(0, 1fr); }
   .toolbar-inner > * { min-width: 0; }
@@ -1481,8 +1520,7 @@ button, input, select { font: inherit; color: inherit; }
   .two-col { grid-template-columns: 1fr; }
   .preview { max-width: 260px; }
   .panel-icon { width: 52px; }
-  .btn-steam span { display: none; }
-  .btn-steam { padding: 9px 12px; }
+  .account-slot .btn-steam { width: 43px; padding-inline: 0; justify-content: center; }
   .detail-body { padding: 4px 16px 16px; }
   .detail-footer { gap: 6px; }
   .detail-stores .with-label { padding-inline: 10px; }
