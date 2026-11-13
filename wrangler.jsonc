@@ -8,7 +8,7 @@
   // Static site in public/. Only /api/* runs the Worker; everything else is served as a file.
   "assets": {
     "directory": "./public",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": ["/api/*"],
   },
 
   // D1 database created on the first deploy. Keep database_id pinned so every deploy and migration targets it.
@@ -17,15 +17,15 @@
       "binding": "DB",
       "database_name": "dogworks-games",
       "database_id": "d0747279-f203-489d-ae33-730ff969019f",
-      "migrations_dir": "migrations"
-    }
+      "migrations_dir": "migrations",
+    },
   ],
 
   // Not secret. OWNER_STEAM_IDS: Steam IDs (17 digits, comma-separated) that can edit the
   // channel's list on the site. Shown in Opções when signed in.
   "vars": {
-    "OWNER_STEAM_IDS": ""
-  }
+    "OWNER_STEAM_IDS": "76561198013191819",
+  },
 
   // Secrets (set with `npx wrangler secret put <NAME>`; locally in .dev.vars):
   //   STEAM_API_KEY  — Steam Web API key: profile name/avatar and library detection
