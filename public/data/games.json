@@ -1,0 +1,2566 @@
+[
+  {
+    "id": "borderlands-2",
+    "name": "Borderlands 2",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/49520/header.jpg?t=1793288352",
+    "description": "The Ultimate Vault Hunter’s Upgrade lets you get the most out of the Borderlands 2 experience.",
+    "genres": [
+      "Ação",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/49520/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Borderlands%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "borderlands-3",
+    "name": "Borderlands 3",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/397540/header.jpg?t=1793288452",
+    "description": "O “shooter-looter” original regressa com quadriliões de armas numa nova aventura caótica! Descobre novos mundos e inimigos na pele de um de quatro novos Vault Hunters com diferentes habilidades e estilos de personalização.",
+    "genres": [
+      "Ação",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-lan",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/397540/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Borderlands%203&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "borderlands-the-pre-sequel",
+    "name": "Borderlands: The Pre-Sequel",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/261640/header.jpg?t=1750081341",
+    "description": "Launch into the Borderlands universe and shoot ‘n’ loot your way through a brand new adventure that rockets you onto Pandora’s moon in Borderlands: The Pre-Sequel!",
+    "genres": [
+      "Ação",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/261640/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Borderlands%3A%20The%20Pre-Sequel&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "tiny-tina-s-assault-on-dragon-keep-a-wonderlands-one-shot-adventure",
+    "name": "Tiny Tina's Assault on Dragon Keep: A Wonderlands One-shot Adventure",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1712840/header.jpg?t=1677522819",
+    "description": "Esmaga esqueletos, derrota dragões e enfrenta golems gigantes no Tiny Tina's Assault on Dragon Keep: A Wonderlands One-Shot Adventure. Descobre a aclamada aventura de 2013 repleta de fantasia, diversão e montanhas de espólios mágicos!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-lan"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1712840/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Tiny%20Tina's%20Assault%20on%20Dragon%20Keep%3A%20A%20Wonderlands%20One-shot%20Adventure&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "destiny-2",
+    "name": "Destiny 2",
+    "category": "coop-online",
+    "note": "Co-op PvE e PvP",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1085660/0ccf0dc0a8c4ec078db7ab99ddc820b2fa884441/header.jpg?t=1781815889",
+    "description": "Explora os mistérios de Sol e vive o emocionante combate do jogo de tiros na primeira pessoa Destiny 2. Desbloqueia habilidades poderosas e obtém equipamento único ao longo das missões da história e dos modos cooperativo e PvP.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Grátis para Jogar"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1085660/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Destiny%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "killing-floor-2",
+    "name": "Killing Floor 2",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/232090/header.jpg?t=1774538987",
+    "description": "In KILLING FLOOR 2, players descend into continental Europe after it has been overrun by horrific, murderous clones called Zeds that were created by rogue elements of the Horzine Corporation. 6-player Co-Op & 12-player VS Zed-slaughtering mayhem.",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/232090/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Killing%20Floor%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "world-war-z",
+    "name": "World War Z",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/699130/b35277055fbb7e07c26c5e31e4398684c6461d53/header.jpg?t=1794590968",
+    "description": "World War Z é um jogo de tiro cooperativo de cortar a respiração para até 4 jogadores, com enormes hordas de centenas de zombies, focado em ação acelerada e espetacularmente macabra e um incluindo também um novo modo na primeira pessoa.",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/699130/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=World%20War%20Z&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "remnant-from-the-ashes",
+    "name": "Remnant: From the Ashes",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/617290/header.jpg?t=1764657526",
+    "description": "The world has been thrown into chaos by an ancient evil from another dimension. As one of the last remnants of humanity, you must set out alone or alongside up to two other survivors to face down hordes of deadly enemies to try to carve a foothold, rebuild, and retake what was lost.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/617290/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Remnant%3A%20From%20the%20Ashes&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "godfall",
+    "name": "Godfall",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/928960/header.jpg?t=1781819000",
+    "description": "Aperion está à beira da ruína. Tu és o último dos cavaleiros valorianos, guerreiros divinos, mestres do combate corpo a corpo, equipados com as lendárias armaduras Valorplates. Ascende em Godfall, o primeiro RPG de ação corpo a corpo do tipo looter-slasher.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/928960/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Godfall&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "second-extinction",
+    "name": "Second Extinction",
+    "category": "coop-online",
+    "note": "Verifique se os servidores ainda estão ativos",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/offer/fcd3387b58864614b66952d0430d2b9a/EGS_SecondExtinction_SystemicReaction_S1_2560x1440-4a9d265c505b45c75b65916c366f5fca?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Second%20Extinction&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "daemon-x-machina",
+    "name": "DAEMON X MACHINA",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1167450/header.jpg?t=1752000237",
+    "description": "Pilot your fully customizable Arsenal mech and join your fellow mercenaries in defending humanity from the corrupted machines and gigantic robots in this post-apocalyptic action game!",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1167450/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=DAEMON%20X%20MACHINA&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "dying-light",
+    "name": "Dying Light",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/239140/9d1b810b85ae46a0acbdfddf583ccbb81271183e/header.jpg?t=1793627304",
+    "description": "Jogo de sobrevivência na primeira pessoa num cenário pós-apocalíptico em mundo aberto, à mercê de mortos-vivos esfomeados. Percorre uma cidade devastada por um vírus epidémico. Procura mantimentos, fabrica armas e enfrenta a horda de infetados.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/239140/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Dying%20Light&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "nioh-the-complete-edition",
+    "name": "Nioh: The Complete Edition",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/485510/header.jpg?t=1775540073",
+    "description": "Prepara a tua espada – batalhas intensas por toda a parte neste RPG de ação que se desenrola numa terra devastada pela guerra civil. Para triunfar precisarás de ser paciente, aprender os pontos fortes de cada adversário, humano ou demónio, e saber quando atacar os seus pontos fracos.",
+    "genres": [
+      "Ação",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/485510/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Nioh%3A%20The%20Complete%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "torchlight-ii",
+    "name": "Torchlight II",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/200710/header.jpg?t=1792118316",
+    "description": "A aventura continua no Torchlight II! Um RPG de Ação cheio de batalhas épicas, tesouros abundantes e um mundo completamente aleatório. Leve seus amigos na jornada com o modo multijogador por rede local ou on-line.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/200710/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Torchlight%20II&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "ark-survival-evolved",
+    "name": "ARK: Survival Evolved",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/346110/header.jpg?t=1793226330",
+    "description": "Stranded on the shores of a mysterious island, you must learn to survive. Use your cunning to kill or tame the primeval creatures roaming the land, and encounter other players to survive, dominate... and escape!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "Multijogador Massivo Online (MMO)",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "mmo",
+      "coop"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/346110/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=ARK%3A%20Survival%20Evolved&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "lego-fortnite-odyssey",
+    "name": "LEGO Fortnite Odyssey",
+    "category": "coop-online",
+    "note": "Dentro do Fortnite",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/item/fn/FNJN_33-10_StormKing_EGS_Launcher_KeyArt_Blade_2560x1440_2560x1440-2032d630894747068dec414b1538205c?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=LEGO%20Fortnite%20Odyssey&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "the-lord-of-the-rings-return-to-moria",
+    "name": "The Lord of the Rings: Return to Moria",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2933130/6b8f8cf6304969c5c1d72fb3b33e5a31a1255f83/header.jpg?t=1790022388",
+    "description": "O único jogo de criação e sobrevivência ambientado na Quarta Era da Terra-média™",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/2933130/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=The%20Lord%20of%20the%20Rings%3A%20Return%20to%20Moria&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "lost-castle",
+    "name": "Lost Castle",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/434650/header.jpg?t=1759298493",
+    "description": "Lost Castle es un RPG de acción con elementos roguelike y mazmorras aleatorias al que pueden jugar hasta cuatro jugadores en online o local.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/434650/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Lost%20Castle&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "saints-row",
+    "name": "Saints Row",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/742420/header.jpg?t=1764670956",
+    "description": "Bem-vindo a Santo Ileso, uma animada cidade fictícia no sudoeste americano. Num mundo repleto de crime, onde fações de criminosos lutam pelo poder, um grupo de jovens amigos embarcam numa empreitada criminosa na tentativa de chegar ao topo pelas próprias mãos.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/742420/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Saints%20Row&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "saints-row-iv-re-elected",
+    "name": "Saints Row IV: Re-Elected",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/206420/header.jpg?t=1764670979",
+    "description": "Vive os disparates insanos de Saints Row IV. Os Saints foram da Penthouse para a Casa Branca, mas a Terra foi invadida e cabe-te a ti salvá-la com um arsenal de superpoderes e armas estranhas no jogo de mundo aberto mais agreste de sempre.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/206420/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Saints%20Row%20IV%3A%20Re-Elected&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "saints-row-the-third-remastered",
+    "name": "Saints Row: The Third Remastered",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/978300/header.jpg?t=1764671001",
+    "description": "The Full Package Remastered – com gráficos melhorados, luzes refinadas, ambientes retrabalhados e efeitos visuais, Steelport e The Third Street Saints estão no seu melhor.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/978300/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Saints%20Row%3A%20The%20Third%20Remastered&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "watch-dogs-2",
+    "name": "Watch Dogs 2",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/447040/header.jpg?t=1751986887",
+    "description": "Bem-vindo a São Francisco. Joga na pele de Marcus, um jovem e brilhante ciberpirata, e junta-te ao notório grupo de ciberpiratas, DedSec. O teu objetivo: executar a maior pirataria informática da história.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/447040/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Watch%20Dogs%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "trine-enchanted-edition",
+    "name": "Trine Enchanted Edition",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/35700/header.jpg?t=1793622545",
+    "description": "Three Heroes make their way through dangers untold in a fairytale world of great castles and strange machinery, featuring physics-based puzzles, beautiful sights and online and local co-op.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie",
+      "RPG",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/35700/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Trine%20Enchanted%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "trine-2-complete-story",
+    "name": "Trine 2: Complete Story",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/35720/header.jpg?t=1793622626",
+    "description": "Three Heroes make their way through a fairytale world of forgotten ruins, scheming goblins and incredible contraptions, featuring physics-based puzzles, beautiful sights and online and local co-op.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/35720/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Trine%202%3A%20Complete%20Story&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "trine-3-the-artifacts-of-power",
+    "name": "Trine 3: The Artifacts of Power",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/319910/header.jpg?t=1793622135",
+    "description": "Trine 3: The Artifacts of Power is a platforming game of action, puzzles and adventure, and the sequel to the award winning Trine and Trine 2. Reunite with the three heroes in an all-new adventure, now for the first time in full 3D!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/319910/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Trine%203%3A%20The%20Artifacts%20of%20Power&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "trine-4-definitive-edition",
+    "name": "Trine 4: Definitive Edition",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/690640/64169d6388ed69eb94b7c9d77e4e7fb80f597025/header.jpg?t=1793616299",
+    "description": "The best-selling Trine series returns to the magic of 2.5D! Join three iconic heroes as they set off on a quest through fantastical fairytale landscapes to save the world from the Nightmare Prince's shadows.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/690640/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Trine%204%3A%20Definitive%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "we-were-here-together",
+    "name": "We Were Here Together",
+    "category": "coop-online",
+    "note": "Exatamente 2 jogadores",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/865360/header.jpg?t=1792420725",
+    "description": "Ao explorarmos estes ermos gélidos, o azar bate-nos à porta outra vez. No meio do nevão feroz, um foguete luminoso ilumina o céu, seguido de um pedido de ajuda pelo rádio — fraco, moribundo... Mais ninguém os pode ajudar. Mas será que conseguimos regressar — juntos?",
+    "genres": [
+      "Aventura",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/865360/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=We%20Were%20Here%20Together&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "escape-academy",
+    "name": "Escape Academy",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1812090/header.jpg?t=1794083770",
+    "description": "Welcome to Escape Academy. Train to become the ultimate Escapist. Solve Puzzles. Hack Servers. Meet the Faculty. Brew the perfect cup of tea. Escape Rooms in single player or co-op with a friend - local or online!",
+    "genres": [
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1812090/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Escape%20Academy&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "unrailed",
+    "name": "Unrailed!",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1016920/header.jpg?t=1789381506",
+    "description": "Unrailed! is a co-op multiplayer game where you have to work together with your friends to build a train track across endless procedurally generated worlds. Master random encounters with its inhabitants, upgrade your train and keep it from derailing!",
+    "genres": [
+      "Ação",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1016920/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Unrailed!&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "totally-reliable-delivery-service",
+    "name": "Totally Reliable Delivery Service",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1011670/header.jpg?t=1773072467",
+    "description": "Totally Reliable Delivery Service é uma simulação de física ragdoll sobre péssimos entregadores de encomendas. Trabalha em equipa utilizando máquinas estranhas, dispositivos úteis e as maravilhas da física para entregar encomendas no destino de forma fiável.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie",
+      "Corridas",
+      "Simulação"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1011670/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Totally%20Reliable%20Delivery%20Service&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "overcooked-2",
+    "name": "Overcooked! 2",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/728880/9305414f49b2f7aee7f7198dc507d6b66383fdd6/header.jpg?t=1789548883",
+    "description": "Overcooked regressa com uma nova dose de caótica ação culinária! Volta ao Reino das Cebolas e cria a tua equipa de chefes para entrar em partidas cooperativas locais ou online para até quatro jogadores. Aperta bem o avental... chegou a hora de salvar o mundo (de novo!)",
+    "genres": [
+      "Ação",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/728880/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Overcooked!%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "gloomhaven",
+    "name": "Gloomhaven",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/780290/header.jpg?t=1788792171",
+    "description": "Lead your band of mercenaries in the land of Gloomhaven, work with unsavoury individuals, shape the fate of the region, fight your way through horrific places and get rich or die trying in this ruthless Tactical-RPG.",
+    "genres": [
+      "Aventura",
+      "RPG",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/780290/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Gloomhaven&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "for-the-king",
+    "name": "For The King",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/527230/header.jpg?t=1793907567",
+    "description": "For The King is a strategic RPG that blends tabletop and roguelike elements in a challenging adventure that spans the realms. Set off on a single player experience or play cooperatively both online and locally.",
+    "genres": [
+      "Aventura",
+      "Indie",
+      "RPG",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/527230/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=For%20The%20King&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "bloons-td-6",
+    "name": "Bloons TD 6",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/960090/header.jpg?t=1782123772",
+    "description": "Incrível Jogo de Defesa de Torres",
+    "genres": [
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/960090/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Bloons%20TD%206&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "orcs-must-die-3",
+    "name": "Orcs Must Die! 3",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1522820/header.jpg?t=1726499308",
+    "description": "Corta, queima, lança, esturrica, esmaga e estripa hordas gigantescas de orcs repugnantes no muito aguardado novo capítulo da premiada série Orcs Must Die!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1522820/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Orcs%20Must%20Die!%203&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "dungeons-3",
+    "name": "Dungeons 3",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/493900/header.jpg?t=1730285250",
+    "description": "At last, the Dungeon Lord has successfully united the forces of evil and established his dark empire. Time for the next step in his most diabolical quest: expansion!",
+    "genres": [
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/493900/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Dungeons%203&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "farming-simulator-19",
+    "name": "Farming Simulator 19",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/787860/header.jpg?t=1786447399",
+    "description": "A série com vendas de muitos milhões dá um gigante salto em frente com um motor de gráficos totalmente revisto, oferecendo as imagens e os efeitos visuais mais espantosos e envolventes, bem como a experiência agrícola mais intensa e completa de sempre.",
+    "genres": [
+      "Simulação"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/787860/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Farming%20Simulator%2019&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "mudrunner",
+    "name": "MudRunner",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/675010/header.jpg?t=1784714181",
+    "description": "MudRunner is the ultimate off-road experience putting the players in the driver seat and dares them to take charge of incredible all-terrain vehicles, venturing across extreme Siberian landscapes with only a map and compass as guides!",
+    "genres": [
+      "Simulação"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/675010/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=MudRunner&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "thehunter-call-of-the-wild",
+    "name": "theHunter: Call of the Wild",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/518790/00f0df3558439a6a2cc4fbd7a658b00fb71353ea/header.jpg?t=1794305713",
+    "description": "Descobre uma autêntica experiência de caça num mundo aberto e dinâmico, que reage a cada movimento teu. Segue o rasto das presas, enfrenta o inesperado e domina a arte da caça, por tua conta ou com amigos.",
+    "genres": [
+      "Aventura",
+      "Simulação",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/518790/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=theHunter%3A%20Call%20of%20the%20Wild&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "elite-dangerous",
+    "name": "Elite Dangerous",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/359320/header.jpg?t=1759842966",
+    "description": "Controla a tua própria nave e forja o teu destino numa galáxia em constante mutação. Combate, minera e faz trocas, ou descobre o desconhecido neste universo à escala real.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Multijogador Massivo Online (MMO)",
+      "RPG",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "mmo",
+      "coop"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/359320/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Elite%20Dangerous&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "tropico-5",
+    "name": "Tropico 5",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/245620/header.jpg?t=1755702263",
+    "description": "Return to the remote island nation of Tropico and expand your Dynasty’s reign from the early colonial period to beyond the 21st Century, facing new challenges including advanced trading mechanics, technology and scientific research, as well as cooperative and competitive MULTIPLAYER.",
+    "genres": [
+      "RPG",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/245620/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Tropico%205&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "the-escapists-2",
+    "name": "The Escapists 2",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/641990/header.jpg?t=1791478007",
+    "description": "Cria, rouba, combate e escapa! The Escapists 2 traz-te de volta à vida de recluso, onde terás de fugir das prisões mais implacáveis do mundo. Também inclui um modo multijogador! Tens o que é preciso para escapar?",
+    "genres": [
+      "Indie",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/641990/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=The%20Escapists%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "riverbond",
+    "name": "Riverbond",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/459370/header.jpg?t=1662663986",
+    "description": "Riverbond is a ‘shoot-and-slash’ dungeon crawler with solo and couch co-op play, set in a stunning voxel world.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/459370/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Riverbond&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "tunche",
+    "name": "Tunche",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/887450/header.jpg?t=1721399704",
+    "description": "Tunche is a charming hand-drawn action game with roguelike elements. Team up with your friends or play solo. Choose from 5 unique characters and restore peace in the Amazon rainforest!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/887450/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Tunche&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "toejam-earl-back-in-the-groove",
+    "name": "ToeJam & Earl: Back in the Groove!",
+    "category": "coop-online",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/516110/header.jpg?t=1665656956",
+    "description": "ToeJam & Earl: Back in the Groove! is a mash-up of the very best features of the classic console games with a ton of fresh improvements! Explore Earth as funky aliens from planet Funkotron trying to find your missing ship pieces to get back home in this casual co-op roguelike.",
+    "genres": [
+      "Aventura",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/516110/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=ToeJam%20%26%20Earl%3A%20Back%20in%20the%20Groove!&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "lego-star-wars-the-skywalker-saga",
+    "name": "LEGO Star Wars: The Skywalker Saga",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/920210/header.jpg?t=1793839537",
+    "description": "Joga no universo dos nove filmes da saga de Luke Skywalker num videojogo sem paralelo. Com mais de 300 personagens jogáveis, mais de 100 veículos e 23 planetas para explorar, esta galáxia longínqua nunca foi tão divertida! *Inclui a personagem jogável Obi-Wan Kenobi Clássico",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/920210/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=LEGO%20Star%20Wars%3A%20The%20Skywalker%20Saga&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "guacamelee-2",
+    "name": "Guacamelee! 2",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/534550/header.jpg?t=1771966042",
+    "description": "Regressa ao Mexiverso na muito aguardada sequela do aclamado Guacamelee! Enche de porrada tudo o que vires à frente em espetaculares níveis criados à mão. O jogo tem um modo cooperativo para 4 jogadores, novas técnicas de lucha incríveis, bosses atrevidos, o dobro dos inimigos e 300% mais galinhas!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/534550/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Guacamelee!%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "guacamelee-super-turbo-championship-edition",
+    "name": "Guacamelee! Super Turbo Championship Edition",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/275390/header.jpg?t=1764280942",
+    "description": "A versão definitiva do grande sucesso em ação com plataformas ao estilo \"Metroidvania\", Guacamelee! Super Turbo Championship Edition (STCE), traz novos níveis, poderes, desafios e melhorias à desastrada e divertida aventura original, inspirada na temática mexicana.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/275390/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Guacamelee!%20Super%20Turbo%20Championship%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "moving-out",
+    "name": "Moving Out",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/996770/header.jpg?t=1781014487",
+    "description": "Moving Out é um caricato simulador de mudanças que dá um novo significado a \"cooperativo de sofá\"! Estás pronto para uma carreira em mobiliário? No papel de um funcionário de arrumação e relocalização técnicas, vais aceitar mudanças por toda a movimentada cidade de Packmore.",
+    "genres": [
+      "Ação",
+      "Casual",
+      "Indie",
+      "Simulação"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/996770/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Moving%20Out&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "hyper-light-drifter",
+    "name": "Hyper Light Drifter",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/257850/header.jpg?t=1762899660",
+    "description": "Explore a beautiful, vast and ruined world riddled with dangers and lost technologies.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-local",
+      "coop",
+      "coop-local"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/257850/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Hyper%20Light%20Drifter&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "salt-and-sanctuary",
+    "name": "Salt and Sanctuary",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/283640/header.jpg?t=1729712419",
+    "description": "Explore a haunting, punishing island in this stylized 2D action RPG. Salt and Sanctuary combines fast and brutal 2D combat with richly developed RPG mechanics in a cursed realm of forgotten cities, blood-soaked dungeons, and desecrated monuments.",
+    "genres": [
+      "Ação",
+      "Indie",
+      "RPG"
+    ],
+    "tags": [
+      "multiplayer",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/283640/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Salt%20and%20Sanctuary&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "never-alone",
+    "name": "Never Alone",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/295790/header.jpg?t=1791926653",
+    "description": "Experience the epic journey of Nuna and Fox as they search for the source of an eternal blizzard that threatens the survival of everything they have ever known.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/295790/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Never%20Alone&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "cook-serve-delicious-3",
+    "name": "Cook, Serve, Delicious! 3?!",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1000030/header.jpg?t=1756841213",
+    "description": "Aventure-se nesta massiva sequência da série que já vendeu milhões, Cook, Serve, Delicious!, enquanto você viaja pelos Estados Unidos para participar do Iron Cook Championships.",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1000030/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Cook%2C%20Serve%2C%20Delicious!%203%3F!&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "stubbs-the-zombie-in-rebel-without-a-pulse",
+    "name": "Stubbs the Zombie in Rebel Without a Pulse",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/7800/header.jpg?t=1680629661",
+    "description": "Be the Zombie. Kick A** and Take Brains.",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/7800/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Stubbs%20the%20Zombie%20in%20Rebel%20Without%20a%20Pulse&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "sonic-mania",
+    "name": "Sonic Mania",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/584400/header.jpg?t=1785856230",
+    "description": "Descobre a derradeira celebração do passado e do futuro com Sonic Mania, uma aventura em 2D totalmente nova do Sonic, com jogabilidade a 60 FPS e gráficos em HD retro deslumbrantes.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-local",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/584400/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Sonic%20Mania&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "black-widow-recharged",
+    "name": "Black Widow: Recharged",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1714180/header.jpg?t=1637569674",
+    "description": "Defend your spider web from an onslaught of bugs in this frenetic revival of the cult classic twin-stick shooter, all while jamming to an infectious original score by Megan McDuffee. Play solo or tag in a friend for local co-op across 30 unique challenges or the endless arcade mode.",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1714180/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Black%20Widow%3A%20Recharged&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "speed-brawl",
+    "name": "Speed Brawl",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/468670/5ced44a73dc63d6192114d79d4c5c60bc6b0b36b/header.jpg?t=1760554938",
+    "description": "Speed Brawl is a co-op platform beat 'em up about moving fast and hitting hard! Maintain your momentum, build your combos, and unleash powerful special moves. Find your own fighting style, and assemble the finest team of brawlers ever seen. Then do it all again faster... faster... FASTER!!!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/468670/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Speed%20Brawl&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "20xx",
+    "name": "20XX",
+    "category": "coop-local",
+    "note": "Co-op local e online",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/322110/header.jpg?t=1588889694",
+    "description": "20XX is a roguelike action platformer that you can play with a friend. Jump and shoot your way through ever-changing levels, collect awesome new powers, and battle mighty bosses in the name of saving the human race maybe!",
+    "genres": [
+      "Ação",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/322110/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=20XX&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "yooka-laylee",
+    "name": "Yooka-Laylee",
+    "category": "coop-local",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/360830/e813fdd4b8d4acd419826b321d6a4e82578901ac/header.jpg?t=1763031099",
+    "description": "Yooka-Laylee é o novo jogo de plataformas em mundo aberto da veterana no género - Playtonic!",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-local",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/360830/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Yooka-Laylee&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "hell-let-loose",
+    "name": "Hell Let Loose",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/686810/7655099ca004b09198b83713ad0d8215b98f7d5f/header_alt_assets_6.jpg?t=1790181050",
+    "description": "Hell Let Loose é um jogo de tiros na primeira pessoa realista da Segunda Guerra Mundial, com batalhas abertas para mais de 100 jogadores, abrangendo infantaria, tanques, artilharia e frente de batalha dinâmica. No seu cerne encontramos um meta inigualável, baseado em recursos e estratégia, muito fácil de aprender, mas difícil de dominar.",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Multijogador Massivo Online (MMO)",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/686810/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Hell%20Let%20Loose&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "rising-storm-2-vietnam",
+    "name": "Rising Storm 2: Vietnam",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/418460/header.jpg?t=1789745392",
+    "description": "Red Orchestra Series' take on Vietnam: 64-player MP matches; 20+ maps; US Army & Marines, PAVN/NVA, NLF/VC; Australians and ARVN forces; 50+ weapons; 4 flyable helicopters; mines, traps and tunnels; Brutal. Authentic. Gritty. Character customization. And napalm in the morning.",
+    "genres": [
+      "Ação",
+      "Multijogador Massivo Online (MMO)",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/418460/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Rising%20Storm%202%3A%20Vietnam&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "verdun",
+    "name": "Verdun",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/242860/9525bbcc30aa9d4238755496b55c2c7956b854cf/header.jpg?t=1790860260",
+    "description": "Verdun é o primeiro FPS multijogador passado num ambiente realista da Primeira Guerra Mundial. A impiedosa guerra de trincheiras oferece uma experiência única de campo de batalha, mergulhando-te e à tua equipa em intensas batalhas em que terás de alternar o ataque e a defesa.",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Multijogador Massivo Online (MMO)",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/242860/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Verdun&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "tannenberg",
+    "name": "Tannenberg",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/633460/e98ea1b3f788ecd1a5e09dcfb882e028e3ae06c0/header.jpg?t=1790860291",
+    "description": "Participa em combates autênticos da Primeira Guerra Mundial em batalhas de conquista com 64 jogadores na Frente Oriental. Prepara a espingarda, afia o sabre e não percas a máscara de gás! Prepara-te para participar num dos conflitos mais importantes da história!",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Multijogador Massivo Online (MMO)",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/633460/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Tannenberg&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "isonzo",
+    "name": "Isonzo",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1556790/0a5effbfb551f15d935485b88b47775b148888e5/header_alt_assets_6.jpg?t=1794479227",
+    "description": "A tua destreza tática será posta à prova nas sangrentas batalhas Alpinas deste FPS autêntico da série WW1. Trava batalhas nos picos pitorescos, vales acidentados e cidades paradisíacas do norte de Itália. Vive a Grande Guerra na Frente Italiana de uma forma nunca imaginada!",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Multijogador Massivo Online (MMO)",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1556790/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Isonzo&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "rogue-company",
+    "name": "Rogue Company",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/872200/header.jpg?t=1702321005",
+    "description": "Junte-se a mais de 20 milhões de jogadores em Rogue Company, o shooter de ação tático em terceira pessoa definitivo! Torne-se um agente com armas poderosas, dispositivos de alta tecnologia e habilidades decisivas. Aceite a missão e mergulhe em modos de jogo 4x4 e 6x6. Jogue DE GRAÇA hoje!",
+    "genres": [
+      "Ação",
+      "Grátis para Jogar"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/872200/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Rogue%20Company&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "eximius-seize-the-frontline",
+    "name": "Eximius: Seize the Frontline",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/505740/58326cb3d334b62697d4b7a6f6ecb7807ff056f1/header.jpg?t=1761190232",
+    "description": "EXIMIUS is a FPS/RTS hybrid that focuses on squad-based combat. The game features an intense 5v5 multiplayer experience with each team comprising of 4 Squad Officers and one Commander.",
+    "genres": [
+      "Ação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/505740/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Eximius%3A%20Seize%20the%20Frontline&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "chivalry-2",
+    "name": "Chivalry 2",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1824220/header.jpg?t=1744201613",
+    "description": "Chivalry 2 é um jogo de combate multijogador na primeira pessoa, inspirado por batalhas medievais cinematográficas épicas. Desde lutas de espadas a ataques de flechas flamejantes, passando por enormes cercos a castelos, vais participar em todos os momentos icónicos do combate medieval.",
+    "genres": [
+      "Ação",
+      "Multijogador Massivo Online (MMO)"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1824220/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Chivalry%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "mordhau",
+    "name": "MORDHAU",
+    "category": "pvp",
+    "note": "Modo Horde é co-op",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/629760/header.jpg?t=1777933284",
+    "description": "MORDHAU é um slasher medieval multijogador. Crie seu mercenário e trave batalhas brutais com combate ágil, cercos a castelos, cargas de cavalaria e muito mais.",
+    "genres": [
+      "Ação",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/629760/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=MORDHAU&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "hood-outlaws-legends",
+    "name": "Hood: Outlaws & Legends",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/salesEvent/salesEvent/EGS_HoodOutlawsLegends_SumoDigital_S1_2560x1440-8ba1f9be04e3d0c07f9890a0bb8860c7?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Hood%3A%20Outlaws%20%26%20Legends&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "fortnite",
+    "name": "Fortnite",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/item/fn/FNBR_43-00_MSEE_KeyArt_FN_Logo_EGS_Launcher_Blade_2560x1440_2560x1440-a9895631b9894a25a1ff84906fa38610?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Fortnite&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "blazing-sails",
+    "name": "Blazing Sails",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1158940/header.jpg?t=1744285471",
+    "description": "Sobrevive no Blazing Sails, um jogo de piratas JvJ frenético! Cria o teu próprio pirata e navio. Junta-te a outros jogadores e comanda a tua poderosa embarcação. Explora diferentes modos de jogo, mapas, armas, navios e muito mais, enquanto derrotas tripulações em batalhas épicas na terra e mar.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1158940/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Blazing%20Sails&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "divine-knockout",
+    "name": "Divine Knockout",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/item/1200aeb2f87c48349594d96554e2833d/S1_DKO_1920x1080-725ebcd09d6cca173b6da05b7bcefd27?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Divine%20Knockout&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "rocket-league",
+    "name": "Rocket League",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252950/3abd9ab079c8896a4762dbe34a853d89b7f704df/header_alt_assets_17.jpg?t=1791210513",
+    "description": "Futebol e condução encontram-se uma vez mais na aguardada sequela do clássico de arena baseado na física que conquistou os jogadores, o Supersonic Acrobatic Rocket-Powered Battle-Cars!",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Corridas",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/252950/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Rocket%20League&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "rocket-racing",
+    "name": "Rocket Racing",
+    "category": "pvp",
+    "note": "Dentro do Fortnite",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/item/fn/EN_28RR_1P_EGS_2560x1440_2560x1440-a9d3c2f38d6fe1670f08bac6af5d6f32?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Rocket%20Racing&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "nba-2k21",
+    "name": "NBA 2K21",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1225330/header.jpg?t=1675896152",
+    "description": "NOTA: Os servidores multijogador do NBA 2K21 serão desativados a partir de 31/12/2022. Após esta data, todas as funcionalidades do jogo que requerem servidores online cessarão de funcionar.",
+    "genres": [
+      "Simulação",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1225330/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=NBA%202K21&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "wild-card-football",
+    "name": "Wild Card Football",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://cdn1.epicgames.com/item/3072dbe471f84dac8b2e9ba8af253ee2/EGS_WildCardFootball_SaberInteractive_S1_2560x1440-8a226b013b7731e5b5d905d82747a1f8?resize=1&w=460",
+    "description": "",
+    "genres": [],
+    "tags": [],
+    "steamUrl": null,
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Wild%20Card%20Football&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "redout-2",
+    "name": "Redout 2",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1799930/header.jpg?t=1787936128",
+    "description": "O jogo de corrida mais rápido do universo. Redout 2 é um tributo aos jogos de corrida clássicos em estilo arcade e a sequência do jogo Redout, aclamado pela crítica. Alcance velocidades impossíveis em corridas futuristas alucinantes, na extensa campanha solo ou no modo multijogador competitivo.",
+    "genres": [
+      "Ação",
+      "Corridas",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1799930/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Redout%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "redout-enhanced-edition",
+    "name": "Redout: Enhanced Edition",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/517710/header.jpg?t=1730303625",
+    "description": "Redout é uma corrida de Anti-Gravidade pura, um tributo aos monstros clásicos das corridas de arcade. Foi criado para oferecer uma experiência drástica, satisfatória, difícil e rápida, repleta daquela vertigem própria do gênero.",
+    "genres": [
+      "Corridas"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/517710/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Redout%3A%20Enhanced%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "hot-wheels-unleashed",
+    "name": "HOT WHEELS UNLEASHED",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1271700/header.jpg?t=1785493574",
+    "description": "Coleciona as melhores viaturas do universo Hot Wheels™, constrói pistas espetaculares e lança-te em corridas de tirar o fôlego.",
+    "genres": [
+      "Corridas"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1271700/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=HOT%20WHEELS%20UNLEASHED&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "the-drone-racing-league-simulator",
+    "name": "The Drone Racing League Simulator",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/641780/header.jpg?t=1770343945",
+    "description": "The DRL Simulator is the premier FPV racing game and simulator. The DRL Sim offers a robust, evolving feature set, including high-intensity drone racing. It packs tracks that DRL's real world pilots compete on, with more added every season. And, it's the only place to fly DRL's exclusive drone, the Racer4!",
+    "genres": [
+      "Ação",
+      "Indie",
+      "Corridas",
+      "Simulação",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/641780/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=The%20Drone%20Racing%20League%20Simulator&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "steep",
+    "name": "Steep",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/460920/0e27cc9c517c046f3ce08e34253eca5d402b3177/header.jpg?t=1777994343",
+    "description": "Percorra o mundo aberto dos Alpes, onde a neve é sempre fresca e a adrenalina nunca acaba. Desafie e domine a montanha sozinho ou com amigos em skis, wingsuits, snowboards e parapentes. Grave e compartilhe suas proezas.",
+    "genres": [
+      "Ação",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/460920/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Steep&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "dead-by-daylight",
+    "name": "Dead by Daylight",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/381210/header.jpg?t=1793724618",
+    "description": "10 years of horror. 10 years of jump scares and close calls. 10 years of brutal sacrifices and thrilling escapes. Trapped forever in a realm of eldritch evil where even death is not an escape, four determined Survivors face a bloodthirsty Killer in a vicious game of nerve and wits.",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/381210/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Dead%20by%20Daylight&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "midnight-ghost-hunt",
+    "name": "Midnight Ghost Hunt",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/915810/header.jpg?t=1723598682",
+    "description": "The chaotic multiplayer hide-and-seek game. Possess seemingly harmless objects as Ghosts or chase them down as Hunters before the clock strikes midnight!",
+    "genres": [
+      "Ação",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/915810/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Midnight%20Ghost%20Hunt&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "first-class-trouble",
+    "name": "First Class Trouble",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/953880/header.jpg?t=1788455874",
+    "description": "First Class Trouble is a party game where players must work together and against each other to survive a disaster. The goal is to shut down a deadly A.I. Some players are impostors, secretly playing as human-looking killer robots intent on betraying the other players.",
+    "genres": [
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/953880/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=First%20Class%20Trouble&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "town-of-salem-2",
+    "name": "Town of Salem 2",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2140510/1d03d42e93f40dc1828d02e9290d4820e8f31340/header.jpg?t=1754334665",
+    "description": "Um jogo de decepção e dedução. Entre a cidade de Salem estão aqueles que trabalham contra os inocentes. Assassinato, Mistério, Magia e muito mais!",
+    "genres": [
+      "Ação",
+      "Casual",
+      "RPG",
+      "Estratégia",
+      "Grátis para Jogar"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/2140510/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Town%20of%20Salem%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "dnf-duel",
+    "name": "DNF Duel",
+    "category": "pvp",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1216060/header.jpg?t=1718155570",
+    "description": "Prepare-se para a luta suprema no novo jogo de Dungeon & Fighter!",
+    "genres": [
+      "Ação",
+      "Casual"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1216060/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=DNF%20Duel&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "sid-meier-s-civilization-vi",
+    "name": "Sid Meier's Civilization VI",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289070/header.jpg?t=1792718069",
+    "description": "O Civilization VI oferece novas formas de interagires com o teu mundo, expandires o teu império através do mapa, avançares a tua cultura e competires contra os maiores líderes históricos para construíres uma civilização que resistirá ao passar do tempo.",
+    "genres": [
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-lan",
+      "pvp-local",
+      "split-screen",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/289070/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Sid%20Meier's%20Civilization%20VI&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "total-war-warhammer",
+    "name": "Total War: WARHAMMER",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/364360/header.jpg?t=1780389642",
+    "description": "O Old World está às tuas ordens. Lidera Legendary Lords numa combinação de campanha por turnos e batalhas estratégicas em tempo real repletas de magia, e decide o destino da raça que escolheste na luta contra o Chaos.",
+    "genres": [
+      "Ação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-lan",
+      "coop",
+      "coop-online",
+      "coop-lan"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/364360/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Total%20War%3A%20WARHAMMER&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "total-war-warhammer-iii",
+    "name": "Total War: WARHAMMER III",
+    "category": "estrategia",
+    "note": "Campanha co-op",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1142710/header.jpg?t=1790321531",
+    "description": "O final cataclísmico da trilogia Total War: WARHAMMER chegou. Reúna seus exércitos e adentre o Reino do Caos, uma dimensão de terrores enlouquecedores, onde será decidido o destino do mundo. Você dominará os seus demônios... ou os comandará?",
+    "genres": [
+      "Ação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-lan",
+      "coop",
+      "coop-online",
+      "coop-lan"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1142710/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Total%20War%3A%20WARHAMMER%20III&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "a-total-war-saga-troy",
+    "name": "A Total War Saga: TROY",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1099410/header.jpg?t=1763642600",
+    "description": "Inspired by The Iliad and brought to life through the award-winning strategy game series, A Total War Saga: TROY brings a blend of grand, turn-based empire management and spectacular real-time battles to the heart of the Trojan War.",
+    "genres": [
+      "Ação",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-lan",
+      "coop",
+      "coop-online",
+      "coop-lan"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1099410/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=A%20Total%20War%20Saga%3A%20TROY&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "europa-universalis-iv",
+    "name": "Europa Universalis IV",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/236850/header.jpg?t=1790873960",
+    "description": "Governa a tua terra e domina o mundo com liberdade, profundidade e precisão histórica incomparáveis. Escreve uma nova história do mundo e ergue um império notável.",
+    "genres": [
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/236850/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Europa%20Universalis%20IV&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "galactic-civilizations-iii",
+    "name": "Galactic Civilizations III",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/226860/header.jpg?t=1788799461",
+    "description": "Build a civilization that will stand the test of time in the largest space-based strategy game ever! Choose from dozens of unique races and make a name for yourself across the galaxy through diplomacy, espionage, technological advances, and more.",
+    "genres": [
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/226860/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Galactic%20Civilizations%20III&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "warhammer-40-000-gladius-relics-of-war",
+    "name": "Warhammer 40,000: Gladius - Relics of War",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/489630/3222d08a9992bd35d64d51cb308270af3c276428/header.jpg?t=1779382255",
+    "description": "Warhammer 40,000: Gladius – Relics of War brings you to a world of terror and violence. Four factions will engage in a brutal war for dominance over the planet’s resources. In the first turn-based 4X strategy game set in Warhammer 40,000 you will lead one of four unique factions.",
+    "genres": [
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-lan",
+      "pvp-local",
+      "coop",
+      "coop-online",
+      "coop-lan",
+      "coop-local",
+      "split-screen",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/489630/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Warhammer%2040%2C000%3A%20Gladius%20-%20Relics%20of%20War&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "wargame-red-dragon",
+    "name": "Wargame: Red Dragon",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/251060/header.jpg?t=1777991009",
+    "description": "The new reference in RTS at its best! The Wargame series returns to duty, larger, richer and more spectacular than ever before. In Wargame Red Dragon, you are engaged in a large-scale conflict where Western forces clash against the Communist bloc.",
+    "genres": [
+      "Indie",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/251060/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Wargame%3A%20Red%20Dragon&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "offworld-trading-company",
+    "name": "Offworld Trading Company",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271240/header.jpg?t=1790866876",
+    "description": "Mars has been colonized, and Earth's corporate titans fight to dominate this new market. Competition is fierce in this fast-paced economic RTS from Civilization IV Lead Designer, Soren Johnson.",
+    "genres": [
+      "Indie",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/271240/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Offworld%20Trading%20Company&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "xcom-2",
+    "name": "XCOM 2",
+    "category": "estrategia",
+    "note": "Multiplayer 1v1",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/268500/header.jpg?t=1772813016",
+    "description": "Os alienígenas dominam a Terra e prometem um futuro brilhante para a humanidade, mas escondem um objetivo sinistro. Como líder de uma força de guerrilha em tremenda inferioridade numérica, terás de iniciar um movimento de resistência global para eliminar a ameaça alienígena e salvar a humanidade da extinção.",
+    "genres": [
+      "Estratégia"
+    ],
+    "tags": [],
+    "steamUrl": "https://store.steampowered.com/app/268500/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=XCOM%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "legion-td-2",
+    "name": "Legion TD 2",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/469600/c479d6518d32066b33ed4d7451bc6fa569b35904/header.jpg?t=1786564865",
+    "description": "Um jogo de estratégia tática no modelo tower defense multijogador e individual, com infinitas possibilidades de criação. Defenda ondas de inimigos e destrua o chefe inimigo antes que eles destruam o seu. Legion TD 2 é um jogo único de trabalho em equipe e previsão. Divirta-se com 1-8 jogadores.",
+    "genres": [
+      "Casual",
+      "Indie",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "coop",
+      "coop-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/469600/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Legion%20TD%202&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "a-game-of-thrones-the-board-game-digital-edition",
+    "name": "A Game Of Thrones: The Board Game Digital Edition",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1075190/header.jpg?t=1742483806",
+    "description": "A Game of Thrones: The Board Game – Digital Edition is the digital adaptation of the top-selling strategy board game from Fantasy Flight Games.",
+    "genres": [
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1075190/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=A%20Game%20Of%20Thrones%3A%20The%20Board%20Game%20Digital%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "chess-ultra",
+    "name": "Chess Ultra",
+    "category": "estrategia",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/518060/header.jpg?t=1764082204",
+    "description": "Apresentamos o Chess Ultra, o jogo de xadrez mais espetacular alguma vez criado. Desfruta de gráficos espetaculares em 4K, um multijogador online sem interrupções, uma IA aprovada pelos Grandes Mestres, e compatibilidade total com a realidade virtual.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie",
+      "RPG",
+      "Simulação",
+      "Desporto",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "crossplay"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/518060/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Chess%20Ultra&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "runbow",
+    "name": "Runbow",
+    "category": "party",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/464650/header.jpg?t=1572362744",
+    "description": "Runbow, and all its 9-player madness, is now on Steam!With tons of competitive modes for up to 9 players--locally and online--and a massive Single Player Adventure, Runbow is the crazy, colour-based platformer you've been waiting for.",
+    "genres": [
+      "Ação",
+      "Aventura",
+      "Casual",
+      "Indie",
+      "Corridas"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online",
+      "pvp-local",
+      "coop",
+      "coop-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/464650/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Runbow&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "prop-sumo",
+    "name": "Prop Sumo",
+    "category": "party",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3089420/61bb501ec41d3bdd52f15558970f7cd80d48dbd7/header.jpg?t=1783329505",
+    "description": "Prop Sumo is a party fighting game that pits ordinary props against each other in extraordinary battles! Beat up your friends and dominate the scoreboard!",
+    "genres": [
+      "Ação",
+      "Casual",
+      "Indie"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/3089420/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Prop%20Sumo&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "totally-accurate-battle-simulator",
+    "name": "Totally Accurate Battle Simulator",
+    "category": "party",
+    "note": "",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/508440/header.jpg?t=1730715415",
+    "description": "Lidere os molengas vermelhos e azuis de terras antigas, lugares assustadores e mundos fantásticos. Veja-os lutar em simulações feitas com o sistema de física mais molenga já criado.",
+    "genres": [
+      "Indie",
+      "Simulação",
+      "Estratégia"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/508440/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Totally%20Accurate%20Battle%20Simulator&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "horizon-chase-turbo",
+    "name": "Horizon Chase Turbo",
+    "category": "party",
+    "note": "Tela dividida",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/389140/header.jpg?t=1780329689",
+    "description": "Thrilling arcade racing game, inspired by the super-fun-straight-to-the-point classic racing games from the 90s.",
+    "genres": [
+      "Ação",
+      "Casual",
+      "Indie",
+      "Corridas",
+      "Desporto"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-local",
+      "split-screen"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/389140/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Horizon%20Chase%20Turbo&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "star-wars-battlefront-ii-celebration-edition",
+    "name": "STAR WARS Battlefront II: Celebration Edition",
+    "category": "outros",
+    "note": "PvP com modos co-op",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1237950/header.jpg?t=1777393714",
+    "description": "Sê o herói da derradeira fantasia de batalha de STAR WARS™ com STAR WARS™ Battlefront™ II: Edição Celebration!",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1237950/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=STAR%20WARS%20Battlefront%20II%3A%20Celebration%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "tomb-raider-goty",
+    "name": "Tomb Raider GOTY",
+    "category": "outros",
+    "note": "Tem PvP online",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/203160/13a6dfaa4655377988aa627f03b2322f8bf18ec9/header_alt_assets_0.jpg?t=1792674634",
+    "description": "Tomb Raider explores the intense origin story of Lara Croft and her ascent from a young woman to a hardened survivor.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [
+      "multiplayer"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/203160/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Tomb%20Raider%20GOTY&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "rise-of-the-tomb-raider-20-year-celebration",
+    "name": "Rise of the Tomb Raider: 20 Year Celebration",
+    "category": "outros",
+    "note": "Modo Endurance co-op",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/391220/29279804029df9b7540caef5c086c9f0393e2e2d/header_alt_assets_0.jpg?t=1792675385",
+    "description": "Rise of the Tomb Raider: 20 Year Celebration includes the base game and Season Pass featuring all-new content. Explore Croft Manor in the new “Blood Ties” story, then defend it against a zombie invasion in “Lara’s Nightmare”.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [],
+    "steamUrl": "https://store.steampowered.com/app/391220/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Rise%20of%20the%20Tomb%20Raider%3A%2020%20Year%20Celebration&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "shadow-of-the-tomb-raider-definitive-edition",
+    "name": "Shadow of the Tomb Raider: Definitive Edition",
+    "category": "outros",
+    "note": "Co-op em tumbas de DLC",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/750920/86f9744a410121ff869cc19f63aa9e3dfcf54b8d/header_alt_assets_0.jpg?t=1792675045",
+    "description": "As Lara Croft races to save the world from a Maya apocalypse, she must become the Tomb Raider she is destined to be.",
+    "genres": [
+      "Ação",
+      "Aventura"
+    ],
+    "tags": [],
+    "steamUrl": "https://store.steampowered.com/app/750920/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=Shadow%20of%20the%20Tomb%20Raider%3A%20Definitive%20Edition&sortBy=relevancy&sortDir=DESC"
+  },
+  {
+    "id": "deathloop",
+    "name": "DEATHLOOP",
+    "category": "outros",
+    "note": "Invasão PvP",
+    "owned": [
+      "epic"
+    ],
+    "image": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1252330/header.jpg?t=1750785409",
+    "description": "DEATHLOOP é um FPS de nova geração da Arkane Lyon, o estúdio galardoado responsável pelo Dishonored. No DEATHLOOP, dois assassinos rivais encontram-se presos num misterioso ciclo temporal na ilha de Blackreef, condenados a repetir o mesmo dia para toda a eternidade.",
+    "genres": [
+      "Ação"
+    ],
+    "tags": [
+      "multiplayer",
+      "pvp",
+      "pvp-online"
+    ],
+    "steamUrl": "https://store.steampowered.com/app/1252330/",
+    "epicUrl": "https://store.epicgames.com/pt-BR/browse?q=DEATHLOOP&sortBy=relevancy&sortDir=DESC"
+  }
+]

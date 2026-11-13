@@ -1,0 +1,21 @@
+{
+  "name": "games-list",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "DogworksTV · lista de jogos co-op e multiplayer (Cloudflare Workers + D1)",
+  "scripts": {
+    "dev": "wrangler d1 migrations apply dogworks-games --local && wrangler dev",
+    "deploy": "wrangler deploy && wrangler d1 migrations apply dogworks-games --remote",
+    "db:migrate:local": "wrangler d1 migrations apply dogworks-games --local",
+    "db:migrate:remote": "wrangler d1 migrations apply dogworks-games --remote",
+    "build:data": "node scripts/build-library.mjs",
+    "build:data:refresh": "node scripts/build-library.mjs --refresh"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "wrangler": "^4.162.0"
+  }
+}

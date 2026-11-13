@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dogworks-games",
+  "main": "src/worker.js",
+  "compatibility_date": "2026-11-13",
+  "observability": { "enabled": true },
+
+  // Static site in public/. Only /api/* runs the Worker; everything else is served as a file.
+  "assets": {
+    "directory": "./public",
+    "run_worker_first": ["/api/*"]
+  },
+
+  // database_id is filled in automatically on the first `wrangler deploy` (automatic provisioning).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "dogworks-games",
+      "migrations_dir": "migrations"
+    }
+  ]
+
+  // Secrets (set with `npx wrangler secret put <NAME>`; locally in .dev.vars):
+  //   STEAM_API_KEY  — Steam Web API key: profile name/avatar and library detection
+  //   ITAD_API_KEY   — IsThereAnyDeal API key: Steam + Epic prices in BRL
+}
