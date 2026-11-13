@@ -1023,6 +1023,7 @@ button, input, select { font: inherit; color: inherit; }
 }
 
 .detail-hero .fav-btn { right: 56px; top: 10px; z-index: 1; }
+.detail-hero .detail-share { right: 102px; color: #fff; }
 
 .detail-close {
   position: absolute;
@@ -1231,6 +1232,7 @@ button, input, select { font: inherit; color: inherit; }
 .detail-footer { flex-wrap: wrap; align-items: center; }
 .detail-stores { display: flex; gap: 6px; margin-right: auto; }
 .detail-footer .btn .icon { width: 16px; height: 16px; }
+.btn-icon { width: 40px; height: 40px; padding: 0; justify-content: center; }
 
 /* ---------- Responsive ---------- */
 
@@ -1264,7 +1266,7 @@ button, input, select { font: inherit; color: inherit; }
   .btn-steam { padding: 9px 12px; }
   .detail-body { padding: 4px 16px 16px; }
   .detail-footer { gap: 6px; }
-  .detail-stores { width: 100%; margin: 0 0 4px; }
+  .detail-stores .with-label { padding-inline: 10px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

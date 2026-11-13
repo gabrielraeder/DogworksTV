@@ -887,6 +887,8 @@ function renderDetail(loadRemote) {
       ${img ? `<img src="${esc(img)}" alt="" data-name="${esc(g.name)}">` : `<span class="placeholder">${esc(g.name)}</span>`}
       <button class="fav-btn" type="button" data-action="fav" aria-pressed="${g.fav}"
         aria-label="${g.fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}">${ICON.star}</button>
+      <button class="fav-btn detail-share" type="button" data-action="share" title="Copiar link"
+        aria-label="Copiar o link de ${esc(g.name)}">${ICON.link}</button>
       <button class="icon-btn detail-close" type="button" data-close aria-label="Fechar">${ICON.close}</button>
     </div>
     <div class="detail-body">
@@ -923,12 +925,11 @@ function renderDetail(loadRemote) {
     </div>
     <div class="dialog-footer detail-footer">
       <div class="detail-stores">${storeLinksHtml(g, true)}</div>
-      <button class="btn btn-ghost" type="button" data-action="share" title="Copiar o link deste jogo">${ICON.link}<span class="hide-sm">Copiar link</span></button>
-      <button class="btn btn-ghost" type="button" data-action="edit">${ICON.edit}Editar</button>
+      <button class="btn btn-ghost btn-icon" type="button" data-action="edit" title="Editar" aria-label="Editar">${ICON.edit}</button>
       ${
         g.source === 'custom'
-          ? `<button class="btn btn-ghost" type="button" data-action="remove">${ICON.trash}Remover</button>`
-          : `<button class="btn btn-ghost" type="button" data-action="hide">${g.hidden ? ICON.eye : ICON.eyeOff}${g.hidden ? 'Mostrar' : 'Ocultar'}</button>`
+          ? `<button class="btn btn-ghost btn-icon" type="button" data-action="remove" title="Remover" aria-label="Remover">${ICON.trash}</button>`
+          : `<button class="btn btn-ghost btn-icon" type="button" data-action="hide" title="${g.hidden ? 'Mostrar' : 'Ocultar'}" aria-label="${g.hidden ? 'Mostrar' : 'Ocultar'}">${g.hidden ? ICON.eye : ICON.eyeOff}</button>`
       }
       ${
         g.source === 'base' && isOwnerUser()
