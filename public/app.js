@@ -24,6 +24,7 @@ const ICON = {
   close: svg('<path d="M18 6 6 18M6 6l12 12"/>'),
   check: svg('<path d="M20 6 9 17l-5-5"/>'),
   tag: svg('<path d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.7 8.7a2.4 2.4 0 0 0 3.4 0l6.6-6.6a2.4 2.4 0 0 0 0-3.4Z"/><circle cx="7.5" cy="7.5" r=".5"/>'),
+  link: svg('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>'),
   trend: svg('<path d="m22 17-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/>'),
 };
 
@@ -288,6 +289,56 @@ function allGames() {
 }
 
 const findGame = (id) => allGames().find((g) => g.id === id);
+
+/* ---------------- direct links (?jogo=…) ---------------- */
+
+// Base games link by their id. Games someone added link by Steam appid ("steam-620"), so the
+// link also works for other people who have the same game; otherwise by their own id.
+function linkId(g) {
+  const appid = steamAppId(g.steamUrl);
+  return g.source === 'custom' && appid ? `steam-${appid}` : g.id;
+}
+
+function findByLinkId(value) {
+  const games = allGames();
+  const appid = (String(value).match(/^steam-(\d+)$/) || [])[1];
+  return (
+    games.find((g) => g.id === value) ||
+    (appid && (games.find((g) => g.source === 'base' && steamAppId(g.steamUrl) === appid) ||
+      games.find((g) => steamAppId(g.steamUrl) === appid)))
+  );
+}
+
+const gameUrl = (g) => `${location.origin}/?jogo=${encodeURIComponent(linkId(g))}`;
+
+// Keeps the address bar in sync with the open game, so it can be copied or reloaded.
+function setUrlGame(g) {
+  const url = new URL(location.href);
+  if (g) url.searchParams.set('jogo', linkId(g));
+  else url.searchParams.delete('jogo');
+  if (url.href !== location.href) history.replaceState(null, '', url);
+}
+
+function openFromUrl() {
+  const value = new URLSearchParams(location.search).get('jogo');
+  if (!value) return;
+  const g = findByLinkId(value);
+  if (g) openDetail(g.id);
+  else {
+    setUrlGame(null);
+    toast('Esse jogo não está na lista.');
+  }
+}
+
+async function copyGameLink(g) {
+  const url = gameUrl(g);
+  try {
+    await navigator.clipboard.writeText(url);
+    toast(`Link de ${g.name} copiado`);
+  } catch {
+    toast(url); // clipboard blocked: show it so it can be copied by hand
+  }
+}
 
 function haystack(g) {
   const tagLabels = g.tags.map((t) => TAGS[t]?.label || '');
@@ -629,6 +680,9 @@ function runAction(action, id) {
       if (dlgDetail.open) dlgDetail.close();
       openGameDialog(game);
       break;
+    case 'share':
+      copyGameLink(game);
+      break;
   }
 }
 
@@ -662,9 +716,14 @@ function openDetail(id) {
   state.detailId = id;
   renderDetail(true);
   if (!dlgDetail.open) dlgDetail.showModal();
+  setUrlGame(findGame(id));
 }
 
-dlgDetail.addEventListener('close', () => (state.detailId = null));
+dlgDetail.addEventListener('close', () => {
+  if (dlgDetail.open) return; // reopened with another game before this event arrived
+  state.detailId = null;
+  setUrlGame(null);
+});
 dlgDetail.addEventListener('click', (e) => {
   if (e.target === dlgDetail || e.target.closest('[data-close]')) return dlgDetail.close();
   const btn = e.target.closest('[data-action]');
@@ -718,6 +777,7 @@ function renderDetail(loadRemote) {
     </div>
     <div class="dialog-footer detail-footer">
       <div class="detail-stores">${storeLinksHtml(g, true)}</div>
+      <button class="btn btn-ghost" type="button" data-action="share" title="Copiar o link deste jogo">${ICON.link}<span class="hide-sm">Copiar link</span></button>
       <button class="btn btn-ghost" type="button" data-action="edit">${ICON.edit}Editar</button>
       ${
         g.source === 'custom'
@@ -1557,7 +1617,9 @@ function handleLoginReturn() {
   const params = new URLSearchParams(location.search);
   const login = params.get('login');
   if (!login) return;
-  history.replaceState(null, '', location.pathname + location.hash);
+  const url = new URL(location.href);
+  url.searchParams.delete('login');
+  history.replaceState(null, '', url);
   if (login === 'ok' && auth.user) toast(`Bem-vindo, ${auth.user.name}!`);
   else if (login === 'erro') toast('Não foi possível entrar com a Steam. Tente de novo.');
 }
@@ -1583,6 +1645,7 @@ async function boot() {
   render();
   handleLoginReturn();
   if (moved) toast(moved);
+  openFromUrl();
 }
 
 boot();

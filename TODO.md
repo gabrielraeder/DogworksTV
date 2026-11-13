@@ -6,8 +6,8 @@ Ideias de funcionalidades para o site, em ordem de prioridade. Para tarefas de c
 
 - [x] **Privacidade e excluir conta.** Aviso no login de que nome e avatar da Steam aparecem em "Quem tem", e botão **Opções → Apagar minha conta** (`DELETE /api/me`). Apaga o usuário, as marcações, os favoritos, os jogos adicionados e as sessões.
 - [x] **"Dá pra jogar com quem?"** Botão **Jogar com** na barra de filtros: escolha as pessoas e a lista mostra só os jogos que todas têm (marcados à mão ou na biblioteca Steam pública).
-- [ ] **Link direto para um jogo.** `games.dogworkstv.com/?jogo=deep-rock-galactic` abre o modal do jogo, com um botão "Copiar link".
-  - Depois: uma página por jogo com prévia no Discord (Open Graph) e um comando de bot na Twitch (`!jogo deep rock`).
+- [x] **Link direto para um jogo.** `games.dogworkstv.com/?jogo=deep-rock-galactic` abre o modal do jogo, e o modal tem o botão **Copiar link**. Jogos adicionados por alguém usam `?jogo=steam-<appid>`.
+  - [ ] Depois: uma página por jogo com prévia no Discord (Open Graph) e um comando de bot na Twitch (`!jogo deep rock`).
 - [ ] **Promoções.** Selo "-60%" nos cards e filtro "Em promoção", consultando vários jogos de uma vez no IsThereAnyDeal e guardando em cache por algumas horas.
   - Junto: imagem automática para jogos só da Epic, usando as imagens do IsThereAnyDeal (`assets.banner400`).
 - [ ] **Lista do canal editável pelo site.** Só o dono (pelo Steam ID) adiciona, edita e remove jogos que aparecem para todo mundo, sem mexer no `seed.json` nem fazer deploy. Os jogos adicionados pelas outras pessoas viram sugestões para o dono aprovar.
