@@ -13,6 +13,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 - **Modal do jogo** (clique no card): descrição, preços na Steam e na Epic em R$, promoções, menor preço já registrado e a lista de **quem tem** o jogo
 - **Adicionar jogos**: digite o nome ou cole um link da Steam ou da Epic. Nome, imagem, links e modos co-op/PvP são preenchidos pela Steam.
 - Editar e ocultar jogos; backup em JSON
+- **Promoções**: selo de desconto nos cards, filtro **Em promoção** e ordenação por desconto (Steam e Epic, via IsThereAnyDeal)
 - **Link direto** para cada jogo (`?jogo=<id>`), com o botão **Copiar link** no modal
 - **Jogar com quem?**: escolha algumas pessoas e veja só os jogos que todas têm
 - **Privacidade:** aviso no login e **Opções → Apagar minha conta**
@@ -31,7 +32,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 | Chave | Para que serve | Sem ela |
 |---|---|---|
 | `STEAM_API_KEY` | Nome e avatar do perfil e detecção automática da biblioteca Steam | O login funciona e o nome/avatar vêm do perfil público, mas os jogos precisam ser marcados à mão |
-| `ITAD_API_KEY` | Preço da Epic, preço da Steam via IsThereAnyDeal e menor preço histórico | Só aparece o preço da Steam |
+| `ITAD_API_KEY` | Preço da Epic, menor preço histórico, selos e filtro de promoção, imagem de jogos fora da Steam | Só aparece o preço da Steam no modal; sem selos de promoção |
 
 - **Steam:** crie em <https://steamcommunity.com/dev/apikey>. A Steam pede um nome de domínio; use o domínio do site.
 - **IsThereAnyDeal:** crie uma conta, registre um app em <https://isthereanydeal.com/apps/my/> e copie a *API key*.

@@ -930,6 +930,10 @@ button, input, select { font: inherit; color: inherit; }
 .badge { display: inline-flex; align-items: center; gap: 4px; }
 .badge .icon { width: 12px; height: 12px; stroke-width: 2.6; }
 .badge-owned { background: var(--blue); color: #fff; }
+.badge-sale { background: #4c6b22; color: #beee11; font-weight: 700; }
+
+.chip-sale .icon { width: 15px; height: 15px; }
+.chip-sale[aria-pressed="true"] { background: rgba(76, 107, 34, 0.35); border-color: #beee11; color: #beee11; }
 
 .toast-action {
   margin-left: 12px;

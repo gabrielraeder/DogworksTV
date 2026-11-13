@@ -136,7 +136,7 @@ const isOffline = (e) => e.message === 'offline' || e instanceof TypeError;
 // and in the Steam account while signed in. Display prefs always stay in the browser.
 
 const emptyLibrary = () => ({ favorites: [], custom: [], hidden: [], overrides: {} });
-const defaultPrefs = () => ({ sort: 'name', category: 'all', onlyFav: false, onlyOwned: false, playWith: [] });
+const defaultPrefs = () => ({ sort: 'name', category: 'all', onlyFav: false, onlyOwned: false, onlySale: false, playWith: [] });
 
 function sanitizeLibrary(s) {
   if (!s || typeof s !== 'object') return emptyLibrary();
@@ -202,7 +202,16 @@ const auth = {
   counts: {}, // key -> number of owners
   owners: {}, // key -> [steam ids] of everyone who has it
   members: null, // people who can be picked in "Jogar com quem?"
+  deals: {}, // key -> current sale { cut, shop, price, regular, url, expiry }
 };
+
+const hasDeals = () => Object.keys(auth.deals).length > 0;
+
+function dealTitle(d) {
+  const shop = d.shop === 'epic' ? 'Epic' : 'Steam';
+  const until = d.expiry ? ` até ${new Date(d.expiry).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })}` : '';
+  return `${shop}: ${formatMoney(d.price)} (de ${formatMoney(d.regular)})${until}`;
+}
 
 // Steam ids picked in "Jogar com quem?" (only meaningful with the API).
 const playWith = () => (auth.api ? state.store.prefs.playWith : []);
@@ -284,6 +293,7 @@ function allGames() {
     game.key = gameKey(game);
     game.owned = auth.user ? myOwnership(game).platforms.size > 0 : false;
     game.ownersCount = auth.counts[game.key] || 0;
+    game.deal = auth.deals[game.key] || null;
     return game;
   });
 }
@@ -356,6 +366,7 @@ function sortGames(list) {
   return list.sort((a, b) => {
     if (sort === 'fav' && a.fav !== b.fav) return a.fav ? -1 : 1;
     if (sort === 'owners' && a.ownersCount !== b.ownersCount) return b.ownersCount - a.ownersCount;
+    if (sort === 'sale' && (a.deal?.cut || 0) !== (b.deal?.cut || 0)) return (b.deal?.cut || 0) - (a.deal?.cut || 0);
     if (sort === 'recent' && (a.addedAt || 0) !== (b.addedAt || 0)) return (b.addedAt || 0) - (a.addedAt || 0);
     return collator.compare(a.name, b.name);
   });
@@ -387,6 +398,7 @@ function cardHtml(g) {
     <div class="card-media">
       ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async">` : `<span class="placeholder">${esc(g.name)}</span>`}
       <div class="badges">
+        ${g.deal ? `<span class="badge badge-sale" title="${esc(dealTitle(g.deal))}">-${g.deal.cut}%</span>` : ''}
         ${g.owned ? `<span class="badge badge-owned">${ICON.check}Você tem</span>` : ''}
         ${g.ownersCount ? `<span class="badge" title="${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'} este jogo">${ICON.users}${g.ownersCount}</span>` : ''}
         ${g.source === 'custom' ? '<span class="badge badge-custom">Adicionado</span>' : ''}
@@ -420,6 +432,7 @@ function render() {
   const games = allGames();
   const onlyOwned = prefs.onlyOwned && !!auth.user;
   const people = playWith();
+  const onlySale = prefs.onlySale && hasDeals();
 
   const pool = games.filter(
     (g) =>
@@ -427,6 +440,7 @@ function render() {
       (!prefs.onlyFav || g.fav) &&
       (!onlyOwned || g.owned) &&
       (!people.length || everyoneHas(g, people)) &&
+      (!onlySale || g.deal) &&
       matchesQuery(g, q),
   );
 
@@ -439,6 +453,7 @@ function render() {
     let msg = 'Nenhum jogo encontrado com esses filtros.';
     if (prefs.onlyFav && !games.some((g) => g.fav)) msg = 'Você ainda não marcou favoritos. Clique na ★ de um jogo.';
     else if (onlyOwned && !games.some((g) => g.owned)) msg = 'Você ainda não marcou nenhum jogo como seu. Abra um jogo e use “Eu tenho”.';
+    else if (onlySale && !games.some((g) => g.deal)) msg = 'Nenhum jogo da lista está em promoção agora.';
     else if (people.length && !games.some((g) => everyoneHas(g, people)))
       msg = 'Nenhum jogo que todas essas pessoas têm. Tente tirar alguém em “Jogar com”.';
     main.innerHTML = `
@@ -488,10 +503,12 @@ function renderStats(games) {
   const custom = shown.filter((g) => g.source === 'custom').length;
   const owned = shown.filter((g) => g.owned).length;
   const hidden = games.length - shown.length;
+  const onSale = shown.filter((g) => g.deal).length;
   $('#stats').innerHTML =
     `<strong>${shown.length}</strong> jogos · <strong>${favs}</strong> favoritos` +
     (auth.user ? ` · você tem <strong>${owned}</strong>` : '') +
-    (custom ? ` · <strong>${custom}</strong> adicionados por você` : '');
+    (custom ? ` · <strong>${custom}</strong> adicionados por você` : '') +
+    (onSale ? ` · <strong>${onSale}</strong> em promoção` : '');
   $('#hidden-count').textContent = hidden ? `${hidden} ${hidden === 1 ? 'jogo oculto' : 'jogos ocultos'}` : 'Nenhum jogo oculto';
 }
 
@@ -502,6 +519,9 @@ function syncToolbar() {
   $('#btn-only-owned').setAttribute('aria-pressed', String(!!prefs.onlyOwned));
   $('#btn-only-owned').hidden = !auth.user;
   $('#sort-owners').hidden = !auth.api;
+  $('#btn-only-sale').hidden = !hasDeals();
+  $('#btn-only-sale').setAttribute('aria-pressed', String(!!prefs.onlySale && hasDeals()));
+  $('#sort-sale').hidden = !hasDeals();
   const n = playWith().length;
   $('#btn-play-with').hidden = !auth.api;
   $('#btn-play-with').setAttribute('aria-pressed', String(n > 0));
@@ -994,6 +1014,25 @@ async function moveLocalToAccount() {
   }
 }
 
+// Current sales for every game in the list (one request; cached on the server for an hour).
+async function loadDeals() {
+  if (!auth.api) return;
+  const seen = new Set();
+  const games = [];
+  for (const g of allGames()) {
+    if (seen.has(g.key)) continue;
+    seen.add(g.key);
+    games.push({ key: g.key, appid: steamAppId(g.steamUrl), title: g.name });
+  }
+  try {
+    ({ deals: auth.deals } = await api('/api/deals', { method: 'POST', body: { games } }));
+  } catch {
+    auth.deals = {};
+  }
+  syncToolbar();
+  render();
+}
+
 async function loadCounts() {
   if (!auth.api) return;
   try {
@@ -1097,6 +1136,13 @@ $('#btn-only-fav').addEventListener('click', () => {
 
 $('#btn-only-owned').addEventListener('click', () => {
   state.store.prefs.onlyOwned = !state.store.prefs.onlyOwned;
+  saveStore();
+  syncToolbar();
+  render();
+});
+
+$('#btn-only-sale').addEventListener('click', () => {
+  state.store.prefs.onlySale = !state.store.prefs.onlySale;
   saveStore();
   syncToolbar();
   render();
@@ -1334,10 +1380,13 @@ async function runSteamSearch(q) {
     if (seq !== steamSeq) return;
     if (!items.length) {
       steamResults.innerHTML = '';
+      const title = epic ? titleCase(epic.name) : q;
+      const image = await fillImageFromItad(title);
+      if (seq !== steamSeq) return;
       setStatus(
         epic
-          ? 'Não está na Steam. Preenchi o nome e o link da Epic; cole uma URL de imagem se quiser.'
-          : 'Nada encontrado na Steam. Você pode preencher manualmente abaixo.',
+          ? `Não está na Steam. Preenchi o nome e o link da Epic${image ? ' e a imagem' : '; cole uma URL de imagem se quiser'}.`
+          : `Nada encontrado na Steam. ${image ? 'Achei uma imagem no IsThereAnyDeal; preencha' : 'Você pode preencher'} o resto abaixo.`,
         'warn',
       );
       return;
@@ -1361,6 +1410,20 @@ async function runSteamSearch(q) {
     if (seq !== steamSeq) return;
     steamResults.innerHTML = '';
     setStatus(isOffline(e) ? API_OFFLINE_MSG : e.message, 'error');
+  }
+}
+
+// Games that are not on Steam (e.g. Epic exclusives) get their image from IsThereAnyDeal.
+async function fillImageFromItad(title) {
+  if (form.image.value.trim()) return false;
+  try {
+    const { image } = await api(`/api/itad/image?title=${encodeURIComponent(title)}`);
+    if (!image || form.image.value.trim()) return false;
+    form.image.value = image;
+    updatePreview();
+    return true;
+  } catch {
+    return false;
   }
 }
 
@@ -1511,6 +1574,7 @@ form.addEventListener('submit', async (e) => {
   dlgGame.close();
   await loadCounts();
   render();
+  loadDeals();
 
   requestAnimationFrame(() => {
     const card = main.querySelector(`.card[data-id="${CSS.escape(id)}"]`);
@@ -1646,6 +1710,7 @@ async function boot() {
   handleLoginReturn();
   if (moved) toast(moved);
   openFromUrl();
+  loadDeals(); // not awaited: the list shows first, sale badges appear when ready
 }
 
 boot();

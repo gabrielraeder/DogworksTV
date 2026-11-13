@@ -6,7 +6,7 @@ const ITAD = 'https://api.isthereanydeal.com';
 const SHOPS = { 61: 'steam', 16: 'epic' };
 const COUNTRY = 'BR';
 
-async function itadFetch(env, path, init = {}) {
+export async function itadFetch(env, path, init = {}) {
   const res = await fetch(`${ITAD}${path}`, {
     ...init,
     headers: {

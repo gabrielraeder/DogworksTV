@@ -92,6 +92,8 @@ Decisões:
   - `GET /api/owners?key=…`, `POST /api/owners/counts` `{ keys }` (devolve `counts` e `owners`: quem tem cada jogo)
   - `GET /api/members`: pessoas para o "Jogar com quem?" (quem tem marcação ou biblioteca Steam pública)
   - `DELETE /api/me`: apaga a conta e todos os dados da pessoa
+  - `POST /api/deals` `{ games: [{ key, appid?, title? }] }`: promoções atuais da lista toda (IsThereAnyDeal, em lote, cache de 1 hora)
+  - `GET /api/itad/image?title=…`: imagem de um jogo que não está na Steam
   - `GET /api/steam/search?q=…`, `GET /api/steam/details?appid=…`
   - `GET /api/prices?appid=…` ou `?title=…`
 - Banco (`migrations/0001_init.sql`):

@@ -5,6 +5,7 @@ import { HttpError, json, readJsonBody, cached } from './http.js';
 import { loginRedirect, handleCallback, handleLogout, deleteAccount, currentUser, requireUser, refreshUser } from './auth.js';
 import { serializeMe, manualMarks, setOwnership, ownerCounts, ownersOf, listMembers } from './owners.js';
 import { getPrices } from './prices.js';
+import { getDeals, getItadImage } from './deals.js';
 import { getLibrary, setFlag, saveGame, removeGame, importLibrary } from './library.js';
 
 const HOUR = 3600;
@@ -91,6 +92,17 @@ async function route(request, env, ctx) {
     const details = await getSteamDetails(appid);
     if (!details) throw new HttpError(404, 'Jogo não encontrado na Steam');
     return json(details, 200, { 'Cache-Control': `public, max-age=${HOUR}` });
+  }
+
+  // --- sales for the whole list, and images for games not on Steam ---
+  if (path === '/api/deals' && method === 'POST') {
+    const body = await readJsonBody(request);
+    return getDeals(request, env, ctx, body);
+  }
+  if (path === '/api/itad/image' && method === 'GET') {
+    const title = (q.get('title') || '').trim().slice(0, 120);
+    if (title.length < 2) throw new HttpError(400, 'Informe o nome do jogo');
+    return cached(request, ctx, 24 * HOUR, () => getItadImage(env, title));
   }
 
   // --- prices ---
