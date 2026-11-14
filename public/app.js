@@ -507,7 +507,9 @@ function rowHtml(g) {
   const d = g.deal;
   const meta = [
     g.owned ? `<span class="meta-owned">${ICON.check}Você tem</span>` : '',
-    g.ownersCount ? `<span>${ICON.users}${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'}</span>` : '',
+    g.ownersCount
+      ? `<span title="${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'} este jogo">${ICON.users}${g.ownersCount}</span>`
+      : '',
     g.votes ? `<span class="meta-vote">${ICON.flame}${g.votes} ${g.votes === 1 ? 'quer' : 'querem'} jogar na live</span>` : '',
     g.wished ? `<span class="meta-wish">${ICON.heart}Na sua lista de desejos</span>` : '',
     g.genres.length ? `<span>${esc(g.genres.slice(0, 3).join(' · '))}</span>` : '',
