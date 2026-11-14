@@ -31,7 +31,7 @@
   // SITE_URL: address of the site. When set, other hosts (the old games.dogworkstv.com)
   // redirect there keeping path and query. Empty = no redirect.
   "vars": {
-    "SITE_URL": "",
+    "SITE_URL": "https://dogworkstv.com/games",
     "OWNER_STEAM_IDS": "76561198013191819",
     "TWITCH_CHANNEL": "dogworkstv",
     "TWITCH_CLIENT_ID": "5w4spmeagxw07i0iqmv7b3a8jqqrcp",

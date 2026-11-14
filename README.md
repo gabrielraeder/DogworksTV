@@ -1,6 +1,6 @@
 # DogworksTV · Jogos Co-op & Multiplayer
 
-Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>), com o visual do canal [twitch.tv/dogworkstv](https://www.twitch.tv/dogworkstv). Roda no **Cloudflare Workers**, com banco **D1**.
+Site com a lista de jogos co-op e multiplayer (<https://dogworkstv.com/games/>; o endereço antigo games.dogworkstv.com redireciona para lá), com o visual do canal [twitch.tv/dogworkstv](https://www.twitch.tv/dogworkstv). Roda no **Cloudflare Workers**, com banco **D1**.
 
 > Como o projeto foi construído e por quê: [docs/historico.md](docs/historico.md) · O que falta configurar: [docs/pendencias.md](docs/pendencias.md) · Ideias: [TODO.md](TODO.md)
 
