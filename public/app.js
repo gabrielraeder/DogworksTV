@@ -112,7 +112,14 @@ const titleCase = (s) => s.replace(/\b\w/g, (c) => c.toUpperCase());
 const collator = new Intl.Collator('pt-BR', { sensitivity: 'base', numeric: true });
 
 const formatMoney = (p) =>
-  p ? new Intl.NumberFormat('pt-BR', { style: 'currency', currency: p.currency || 'BRL' }).format(p.amount) : '';
+  !p
+    ? ''
+    : p.amount === 0
+      ? 'Grátis'
+      : new Intl.NumberFormat('pt-BR', { style: 'currency', currency: p.currency || 'BRL' }).format(p.amount);
+
+// Steam genre for free-to-play games (pt-BR and en), for games the Steam check does not cover.
+const FREE_GENRE_RE = /gr[aá]tis para jogar|gratuito para jogar|free to play/i;
 
 /* ---------------- API ---------------- */
 
@@ -145,6 +152,7 @@ const defaultPrefs = () => ({
   onlyOwned: false,
   onlySale: false,
   onlyWish: false,
+  onlyFree: false,
   playWith: [],
   view: 'grid', // 'grid' (cards) or 'list'
 });
@@ -215,6 +223,7 @@ const auth = {
   owners: {}, // key -> [steam ids] of everyone who has it
   members: null, // people who can be picked in "Jogar com quem?"
   deals: {}, // key -> current sale { cut, shop, price, regular, url, expiry }
+  free: new Set(), // keys of the games that are free on Steam
   wishlist: new Set(), // appids on the signed-in person's Steam wishlist
   wanted: {}, // key -> number of people with it on their Steam wishlist
   votes: new Set(), // keys the signed-in person voted for ("Quero jogar")
@@ -234,6 +243,7 @@ const byCloseness = (list) => {
 };
 
 const hasDeals = () => Object.keys(auth.deals).length > 0;
+const hasFree = () => allGames().some((g) => g.free);
 
 function dealTitle(d) {
   const shop = d.shop === 'epic' ? 'Epic' : 'Steam';
@@ -360,6 +370,7 @@ function allGames() {
     game.owned = auth.user ? myOwnership(game).platforms.size > 0 : false;
     game.ownersCount = auth.counts[game.key] || 0;
     game.deal = auth.deals[game.key] || null;
+    game.free = auth.free.has(game.key) || game.genres.some((x) => FREE_GENRE_RE.test(x)) || game.deal?.price?.amount === 0;
     const appid = steamAppId(game.steamUrl);
     game.wished = !!(auth.user && appid && auth.wishlist.has(Number(appid)));
     game.wantedCount = auth.wanted[game.key] || 0;
@@ -470,7 +481,7 @@ function cardHtml(g) {
     <div class="card-media">
       ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async">` : `<span class="placeholder">${esc(g.name)}</span>`}
       <div class="badges">
-        ${g.deal ? `<span class="badge badge-sale" title="${esc(dealTitle(g.deal))}">-${g.deal.cut}%</span>` : ''}
+        ${g.deal ? `<span class="badge badge-sale" title="${esc(dealTitle(g.deal))}">-${g.deal.cut}%</span>` : g.free ? '<span class="badge badge-free">Grátis</span>' : ''}
         ${g.votes ? `<span class="badge badge-vote" title="${g.votes} ${g.votes === 1 ? 'pessoa quer' : 'pessoas querem'} jogar na live">${ICON.flame}${g.votes}</span>` : ''}
         ${g.wished ? `<span class="badge badge-wish" title="Na sua lista de desejos da Steam" aria-label="Na sua lista de desejos">${ICON.heart}</span>` : ''}
         ${g.owned ? `<span class="badge badge-owned">${ICON.check}Você tem</span>` : ''}
@@ -535,7 +546,9 @@ function rowHtml(g) {
               <span class="deal-cut">-${d.cut}%</span>
               <span class="deal-prices"><s>${esc(formatMoney(d.regular))}</s><strong>${esc(formatMoney(d.price))}</strong></span>
             </div>`
-          : ''
+          : g.free
+            ? '<span class="row-free">Grátis</span>'
+            : ''
       }
       <div class="row-actions">
         ${storeLinksHtml(g)}
@@ -560,6 +573,7 @@ function render() {
   const people = playWith();
   const onlySale = prefs.onlySale && hasDeals();
   const onlyWish = prefs.onlyWish && auth.wishlist.size > 0;
+  const onlyFree = prefs.onlyFree && games.some((g) => g.free);
 
   const pool = games.filter(
     (g) =>
@@ -569,6 +583,7 @@ function render() {
       (!people.length || everyoneHas(g, people)) &&
       (!onlySale || g.deal) &&
       (!onlyWish || g.wished) &&
+      (!onlyFree || g.free) &&
       matchesQuery(g, q),
   );
 
@@ -661,6 +676,8 @@ function syncToolbar() {
   $('#btn-only-wish').hidden = !(auth.user && auth.wishlist.size);
   $('#btn-only-wish').setAttribute('aria-pressed', String(!!prefs.onlyWish && auth.wishlist.size > 0));
   $('#btn-only-sale').setAttribute('aria-pressed', String(!!prefs.onlySale && hasDeals()));
+  $('#btn-only-free').hidden = !hasFree();
+  $('#btn-only-free').setAttribute('aria-pressed', String(!!prefs.onlyFree && hasFree()));
   $('#sort-sale').hidden = !hasDeals();
   $('#sort-votes').hidden = !auth.api;
   $('#btn-ranking').hidden = !auth.api;
@@ -1314,7 +1331,9 @@ async function loadDeals() {
     games.push({ key: g.key, appid: steamAppId(g.steamUrl), title: g.name });
   }
   try {
-    ({ deals: auth.deals } = await api('/api/deals', { method: 'POST', body: { games } }));
+    const data = await api('/api/deals', { method: 'POST', body: { games } });
+    auth.deals = data.deals || {};
+    auth.free = new Set(data.free || []);
   } catch {
     auth.deals = {};
   }
@@ -1447,6 +1466,13 @@ $('#btn-only-owned').addEventListener('click', () => {
 
 $('#btn-only-wish').addEventListener('click', () => {
   state.store.prefs.onlyWish = !state.store.prefs.onlyWish;
+  saveStore();
+  syncToolbar();
+  render();
+});
+
+$('#btn-only-free').addEventListener('click', () => {
+  state.store.prefs.onlyFree = !state.store.prefs.onlyFree;
   saveStore();
   syncToolbar();
   render();

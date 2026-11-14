@@ -3,6 +3,7 @@
 
 import { itadFetch } from './prices.js';
 import { HttpError, json } from './http.js';
+import { getFreeAppids } from '../lib/steam.js';
 
 const SHOPS = { 61: 'steam', 16: 'epic' };
 const BATCH = 200; // ITAD accepts up to 200 ids per prices request
@@ -67,10 +68,16 @@ async function fetchDeals(env, games) {
   return deals;
 }
 
-// body: { games: [{ key, appid?, title? }] } -> { itad, deals: { key: { cut, shop, price, regular, url, expiry } } }
+// Keys of the games that are free on Steam (the page also counts "free to play" genres).
+async function fetchFree(games) {
+  const free = new Set(await getFreeAppids(games.filter((g) => g.appid).map((g) => g.appid)));
+  return games.filter((g) => g.appid && free.has(g.appid)).map((g) => g.key);
+}
+
+// body: { games: [{ key, appid?, title? }] }
+//   -> { itad, deals: { key: { cut, shop, price, regular, url, expiry } }, free: [key] }
 // Cached per list of games for an hour (Cache API: works on the custom domain).
 export async function getDeals(request, env, ctx, body) {
-  if (!env.ITAD_API_KEY) return json({ itad: false, deals: {} });
   const list = Array.isArray(body?.games) ? body.games : null;
   if (!list) throw new HttpError(400, 'Lista inválida');
 
@@ -91,14 +98,22 @@ export async function getDeals(request, env, ctx, body) {
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
 
-  let deals;
-  try {
-    deals = await fetchDeals(env, games);
-  } catch (e) {
-    console.error(e);
-    return json({ itad: true, deals: {}, error: 'IsThereAnyDeal indisponível' });
-  }
-  const res = json({ itad: true, deals }, 200, { 'Cache-Control': `public, max-age=${DEALS_TTL}` });
+  const itad = !!env.ITAD_API_KEY;
+  const [deals, free] = await Promise.all([
+    itad
+      ? fetchDeals(env, games).catch((e) => {
+          console.error(e);
+          return null;
+        })
+      : {},
+    fetchFree(games).catch((e) => {
+      console.error(e);
+      return null;
+    }),
+  ]);
+  const body2 = { itad, deals: deals || {}, free: free || [] };
+  if (!deals || !free) return json({ ...body2, error: 'Promoções indisponíveis agora' }); // not cached
+  const res = json(body2, 200, { 'Cache-Control': `public, max-age=${DEALS_TTL}` });
   ctx.waitUntil(cache.put(cacheKey, res.clone()));
   return res;
 }

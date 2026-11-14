@@ -1314,6 +1314,10 @@ button, input, select { font: inherit; color: inherit; }
 .wish-sale { color: #ff9cc6; }
 
 .chip-sale .icon { width: 15px; height: 15px; }
+.chip-free .icon { width: 15px; height: 15px; }
+.chip-free[aria-pressed="true"] { background: rgba(102, 192, 244, 0.18); border-color: var(--sky); color: var(--sky); }
+.badge-free { background: #1a5f8a; color: #fff; font-weight: 700; }
+.row-free { padding: 6px 12px; border-radius: 4px; background: rgba(102, 192, 244, 0.16); color: var(--sky); font-weight: 800; font-size: 16px; }
 .chip-sale[aria-pressed="true"] { background: rgba(76, 107, 34, 0.35); border-color: #beee11; color: #beee11; }
 
 .toast-action {
