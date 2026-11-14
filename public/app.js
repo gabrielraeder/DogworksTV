@@ -242,6 +242,16 @@ const byCloseness = (list) => {
   return [...list].sort((a, b) => rank(a) - rank(b));
 };
 
+// Shimmering placeholder rows shaped like the list that is loading (screen readers get "Carregando…").
+const SKELETON_ROWS = {
+  owner: '<li class="owner skeleton" aria-hidden="true"><span class="sk sk-avatar"></span><span class="sk sk-line"></span></li>',
+  person: '<li aria-hidden="true"><span class="person skeleton"><span class="sk sk-avatar sk-sm"></span><span class="sk sk-line"></span></span></li>',
+  rank: '<li aria-hidden="true"><span class="rank-row skeleton"><span class="sk sk-pos"></span><span class="sk sk-thumb"></span><span class="sk sk-line"></span></span></li>',
+  suggestion: '<li class="suggestion skeleton" aria-hidden="true"><span class="sk sk-thumb-lg"></span><span class="sk sk-line"></span></li>',
+  mine: '<li aria-hidden="true"><span class="mine-item skeleton"><span class="sk sk-check"></span><span class="sk sk-thumb-sm"></span><span class="sk sk-line"></span></span></li>',
+};
+const skeletonHtml = (kind, n = 3) => `<li class="sr-only">Carregando…</li>${SKELETON_ROWS[kind].repeat(n)}`;
+
 const hasDeals = () => Object.keys(auth.deals).length > 0;
 const hasFree = () => allGames().some((g) => g.free);
 
@@ -1010,7 +1020,7 @@ function renderDetail(loadRemote) {
         auth.api
           ? `<section class="detail-section" aria-labelledby="sec-owners">
               <h3 class="section-title" id="sec-owners">${ICON.users}Quem tem <span class="section-count" id="owners-count"></span></h3>
-              <ul class="owners" id="detail-owners"><li class="hint">Carregando…</li></ul>
+              <ul class="owners" id="detail-owners">${skeletonHtml('owner', 3)}</ul>
             </section>
             <section class="detail-section" aria-labelledby="sec-wanters" id="sec-wanters-wrap" hidden>
               <h3 class="section-title" id="sec-wanters">${ICON.heart}Quem quer <span class="section-count" id="wanters-count"></span></h3>
@@ -1694,7 +1704,7 @@ const dlgRanking = $('#dlg-ranking');
 async function openRanking() {
   dlgMenu.close();
   const list = $('#ranking-list');
-  list.innerHTML = '<li class="hint">Carregando…</li>';
+  list.innerHTML = skeletonHtml('rank', 5);
   dlgRanking.showModal();
   let rows = [];
   try {
@@ -1781,7 +1791,7 @@ function renderSteamlib() {
   all.hidden = true;
   summary.textContent = '';
   if (!steamlib.items) {
-    steamlibList.innerHTML = `<li class="hint${steamlib.error ? ' error' : ''}">${esc(steamlib.error || 'Lendo sua biblioteca na Steam…')}</li>`;
+    steamlibList.innerHTML = steamlib.error ? `<li class="hint error">${esc(steamlib.error)}</li>` : skeletonHtml('mine', 6);
     return;
   }
   if (!steamlib.items.length) {
@@ -1887,7 +1897,7 @@ let suggestions = null;
 
 function renderSuggestions() {
   if (!suggestions) {
-    suggestionsList.innerHTML = '<li class="hint">Carregando…</li>';
+    suggestionsList.innerHTML = skeletonHtml('suggestion', 3);
     return;
   }
   // only games that are not in the shared list yet
@@ -1955,7 +1965,7 @@ const playPeople = $('#play-people');
 
 function renderPeople() {
   if (!auth.members) {
-    playPeople.innerHTML = '<li class="hint">Carregando…</li>';
+    playPeople.innerHTML = skeletonHtml('person', 4);
     return;
   }
   const picked = new Set(state.store.prefs.playWith);

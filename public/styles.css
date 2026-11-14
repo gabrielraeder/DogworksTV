@@ -1580,6 +1580,28 @@ button, input, select { font: inherit; color: inherit; }
 .detail-footer .btn .icon { width: 16px; height: 16px; }
 .btn-icon { width: 40px; height: 40px; padding: 0; justify-content: center; }
 
+/* ---------- Loading skeletons ---------- */
+@keyframes sk-shimmer { from { background-position: 100% 0; } to { background-position: -100% 0; } }
+.sk {
+  display: block;
+  flex: none;
+  border-radius: 6px;
+  background: linear-gradient(90deg, var(--surface-2) 25%, #323848 40%, var(--surface-2) 55%);
+  background-size: 300% 100%;
+  animation: sk-shimmer 1.4s ease-in-out infinite;
+}
+.skeleton { pointer-events: none; }
+.sk-avatar { width: 36px; height: 36px; }
+.sk-avatar.sk-sm { width: 32px; height: 32px; }
+.sk-line { flex: 1 1 auto; height: 12px; max-width: 130px; }
+.sk-pos { width: 18px; height: 18px; margin: 0 4px; }
+.sk-thumb { width: 72px; height: 34px; border-radius: 4px; }
+.sk-thumb-lg { width: 92px; height: 43px; border-radius: 4px; }
+.sk-thumb-sm { width: 64px; height: 30px; border-radius: 4px; }
+.sk-check { width: 18px; height: 18px; border-radius: 4px; }
+.suggestion.skeleton .sk-line, .rank-row.skeleton .sk-line, .mine-item.skeleton .sk-line { max-width: 220px; }
+@media (prefers-reduced-motion: reduce) { .sk { animation: none; } }
+
 /* ---------- Responsive ---------- */
 
 @media (max-width: 600px) {
