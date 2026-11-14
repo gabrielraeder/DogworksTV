@@ -38,8 +38,13 @@ function redirectToSite(url, env, method) {
     return null;
   }
   const host = url.hostname;
-  if (host === site.hostname || host === 'localhost' || host === '127.0.0.1' || host.endsWith('.workers.dev')) return null;
   const sitePath = site.pathname.replace(/\/+$/, '');
+  // The root of the site's own domain (dogworkstv.com/, route "dogworkstv.com/") goes to the
+  // site. 302, not 301: browsers do not keep it, in case the root gets its own site later.
+  if (host === site.hostname && sitePath && url.pathname === '/') {
+    return Response.redirect(`${site.origin}${sitePath}/${url.search}`, 302);
+  }
+  if (host === site.hostname || host === 'localhost' || host === '127.0.0.1' || host.endsWith('.workers.dev')) return null;
   const to = `${site.origin}${sitePath}${url.pathname}${url.search}`;
   // 301 for pages; 308 keeps POST/DELETE as they are (an old tab still calling the API)
   return Response.redirect(to, method === 'GET' || method === 'HEAD' ? 301 : 308);
