@@ -411,7 +411,7 @@ function findByLinkId(value) {
   );
 }
 
-const gameUrl = (g) => `${location.origin}/?jogo=${encodeURIComponent(linkId(g))}`;
+const gameUrl = (g) => `${location.origin}${location.pathname}?jogo=${encodeURIComponent(linkId(g))}`;
 
 // Keeps the address bar in sync with the open game, so it can be copied or reloaded.
 function setUrlGame(g) {
@@ -714,11 +714,11 @@ function renderAccount() {
     return;
   }
   if (!auth.user) {
-    slot.innerHTML = `<a class="btn btn-steam" href="/api/auth/login" aria-label="Entrar com Steam">${LOGO('steam')}<span class="hide-sm">Entrar com Steam</span></a>`;
+    slot.innerHTML = `<a class="btn btn-steam" href="api/auth/login" aria-label="Entrar com Steam">${LOGO('steam')}<span class="hide-sm">Entrar com Steam</span></a>`;
     panel.innerHTML = `
       <div class="account-card">
         <p>Entre com a Steam para marcar os jogos que você tem, ver quem mais tem cada jogo e guardar seus favoritos e jogos adicionados na sua conta (hoje eles ficam só neste navegador).</p>
-        <a class="btn btn-steam" href="/api/auth/login">${LOGO('steam')}Entrar com Steam</a>
+        <a class="btn btn-steam" href="api/auth/login">${LOGO('steam')}Entrar com Steam</a>
         <p class="hint">${PRIVACY_NOTE}</p>
       </div>`;
     return;
@@ -825,7 +825,7 @@ function refreshAll() {
 async function loadChannel() {
   if (!auth.api) return;
   try {
-    state.channel = await api('/api/channel');
+    state.channel = await api('api/channel');
   } catch {}
 }
 
@@ -839,7 +839,7 @@ async function channelRequest(path, body) {
 async function removeFromChannel(game) {
   const added = state.channel.added.find((g) => g.id === game.id);
   try {
-    await channelRequest('/api/channel/remove', { id: game.id });
+    await channelRequest('api/channel/remove', { id: game.id });
   } catch (e) {
     return toast(e.message);
   }
@@ -851,8 +851,8 @@ async function removeFromChannel(game) {
       try {
         if (added) {
           const { id: _, addedAt, ...data } = added;
-          await channelRequest('/api/channel/game', { id: game.id, added: true, data });
-        } else await channelRequest('/api/channel/restore', { id: game.id });
+          await channelRequest('api/channel/game', { id: game.id, added: true, data });
+        } else await channelRequest('api/channel/restore', { id: game.id });
         refreshAll();
       } catch (e) {
         toast(e.message);
@@ -875,7 +875,7 @@ function runAction(action, id) {
       const added = !game.fav;
       for (const favId of added ? [id] : game.favIds) {
         toggleList(store.favorites, favId);
-        commit('/api/library/flag', { id: favId, flag: 'favorite', on: added });
+        commit('api/library/flag', { id: favId, flag: 'favorite', on: added });
       }
       refreshAll();
       toast(added ? `★ ${game.name} nos favoritos` : `${game.name} saiu dos favoritos`);
@@ -883,7 +883,7 @@ function runAction(action, id) {
     }
     case 'hide': {
       const hid = toggleList(store.hidden, id);
-      commit('/api/library/flag', { id, flag: 'hidden', on: hid });
+      commit('api/library/flag', { id, flag: 'hidden', on: hid });
       if (hid && dlgDetail.open) dlgDetail.close();
       refreshAll();
       if (hid) {
@@ -892,7 +892,7 @@ function runAction(action, id) {
           run: () => {
             if (state.store !== store) return; // signed in/out meanwhile
             toggleList(store.hidden, id);
-            commit('/api/library/flag', { id, flag: 'hidden', on: false });
+            commit('api/library/flag', { id, flag: 'hidden', on: false });
             refreshAll();
           },
         });
@@ -905,7 +905,7 @@ function runAction(action, id) {
       const [removed] = store.custom.splice(idx, 1);
       const wasFav = store.favorites.includes(id);
       store.favorites = store.favorites.filter((f) => f !== id);
-      commit('/api/library/remove', { id });
+      commit('api/library/remove', { id });
       if (dlgDetail.open) dlgDetail.close();
       render();
       toast(`${game.name} removido`, {
@@ -915,7 +915,7 @@ function runAction(action, id) {
           store.custom.splice(idx, 0, removed);
           if (wasFav) store.favorites.push(id);
           const { id: _, addedAt, ...data } = removed;
-          commit('/api/library/game', { id, custom: true, data, addedAt, favorite: wasFav });
+          commit('api/library/game', { id, custom: true, data, addedAt, favorite: wasFav });
           render();
         },
       });
@@ -932,7 +932,7 @@ function runAction(action, id) {
       removeFromChannel(game);
       break;
     case 'channel-restore':
-      channelRequest('/api/channel/restore', { id })
+      channelRequest('api/channel/restore', { id })
         .then(() => {
           refreshAll();
           toast(`${game.name} voltou para a lista do canal`);
@@ -1133,7 +1133,7 @@ async function loadPrices(g) {
   const appid = steamAppId(g.steamUrl);
   const params = appid ? `appid=${appid}` : `title=${encodeURIComponent(g.name)}`;
   try {
-    const data = await api(`/api/prices?${params}`);
+    const data = await api(`api/prices?${params}`);
     priceCache.set(g.key, data);
   } catch (e) {
     if (isOffline(e)) auth.api = false;
@@ -1164,7 +1164,7 @@ async function toggleVote(btn) {
   const on = !g.voted;
   btn.disabled = true;
   try {
-    const { votes, maxVotes } = await api('/api/votes', { method: 'POST', body: { key: g.key, on } });
+    const { votes, maxVotes } = await api('api/votes', { method: 'POST', body: { key: g.key, on } });
     auth.votes = new Set(votes);
     auth.maxVotes = maxVotes || auth.maxVotes;
   } catch (e) {
@@ -1190,7 +1190,7 @@ function ownHtml(g) {
     return `
       <div class="own-login">
         <p>Entre com a Steam para marcar que você tem este jogo. Seu nome e avatar aparecem em “Quem tem”.</p>
-        <a class="btn btn-steam" href="/api/auth/login">${LOGO('steam')}Entrar com Steam</a>
+        <a class="btn btn-steam" href="api/auth/login">${LOGO('steam')}Entrar com Steam</a>
       </div>`;
   }
   const { platforms, autoSteam } = myOwnership(g);
@@ -1216,7 +1216,7 @@ async function toggleOwnership(btn) {
   const owned = btn.getAttribute('aria-pressed') !== 'true';
   btn.disabled = true;
   try {
-    setMe(await api('/api/ownership', { method: 'POST', body: { key: g.key, platform, owned } }));
+    setMe(await api('api/ownership', { method: 'POST', body: { key: g.key, platform, owned } }));
     await loadCounts();
     refreshAll();
     toast(owned ? `Marcado: você tem ${g.name}` : 'Marcação removida');
@@ -1249,7 +1249,7 @@ async function loadOwners(g) {
   let wanters = [];
   let voters = [];
   try {
-    ({ owners, wanters = [], voters = [] } = await api(`/api/owners?key=${encodeURIComponent(g.key)}`));
+    ({ owners, wanters = [], voters = [] } = await api(`api/owners?key=${encodeURIComponent(g.key)}`));
   } catch {}
   if (state.detailId !== g.id) return;
   const list = $('#detail-owners');
@@ -1298,7 +1298,7 @@ async function loadOwners(g) {
 
 async function loadMe() {
   try {
-    setMe(await api('/api/me'));
+    setMe(await api('api/me'));
     auth.api = true;
   } catch (e) {
     if (isOffline(e)) auth.api = false;
@@ -1320,7 +1320,7 @@ async function moveLocalToAccount() {
   const keep = (ids) => ids.filter((id) => !skipped.has(id));
   const body = { mode: 'merge', ...lib, custom, favorites: keep(lib.favorites), hidden: keep(lib.hidden) };
   try {
-    const { library } = await api('/api/library/import', { method: 'POST', body });
+    const { library } = await api('api/library/import', { method: 'POST', body });
     Object.assign(state.local, emptyLibrary());
     saveStore();
     useLibrary(library);
@@ -1341,7 +1341,7 @@ async function loadDeals() {
     games.push({ key: g.key, appid: steamAppId(g.steamUrl), title: g.name });
   }
   try {
-    const data = await api('/api/deals', { method: 'POST', body: { games } });
+    const data = await api('api/deals', { method: 'POST', body: { games } });
     auth.deals = data.deals || {};
     auth.free = new Set(data.free || []);
   } catch {
@@ -1355,7 +1355,7 @@ async function loadCounts() {
   if (!auth.api) return;
   try {
     const keys = [...new Set(allGames().map((g) => g.key))];
-    const { counts, owners, wanted, votes } = await api('/api/owners/counts', { method: 'POST', body: { keys } });
+    const { counts, owners, wanted, votes } = await api('api/owners/counts', { method: 'POST', body: { keys } });
     auth.voteCounts = votes || {};
     auth.counts = counts;
     auth.owners = owners || {};
@@ -1371,7 +1371,7 @@ document.addEventListener('click', async (e) => {
     btn.disabled = true;
     btn.textContent = 'Sincronizando…';
     try {
-      setMe(await api('/api/me/sync', { method: 'POST', body: {} }));
+      setMe(await api('api/me/sync', { method: 'POST', body: {} }));
       await loadCounts();
       renderAccount();
       syncToolbar();
@@ -1403,7 +1403,7 @@ document.addEventListener('click', async (e) => {
     del.disabled = true;
     await syncQueue;
     try {
-      await api('/api/me', { method: 'DELETE', body: {} });
+      await api('api/me', { method: 'DELETE', body: {} });
     } catch (err) {
       del.disabled = false;
       toast(isOffline(err) ? 'Sem conexão com o servidor' : err.message);
@@ -1421,7 +1421,7 @@ document.addEventListener('click', async (e) => {
   if (e.target.closest('#btn-logout')) {
     await syncQueue; // let pending changes reach the account first
     try {
-      await api('/api/auth/logout', { method: 'POST', body: {} });
+      await api('api/auth/logout', { method: 'POST', body: {} });
     } catch {}
     signOutLocally();
     dlgMenu.close();
@@ -1674,7 +1674,7 @@ $('#btn-mine-save').addEventListener('click', async () => {
   const { add, remove } = mineChanges();
   btn.disabled = true;
   try {
-    setMe(await api('/api/ownership/bulk', { method: 'POST', body: { platform: mine.platform, add, remove } }));
+    setMe(await api('api/ownership/bulk', { method: 'POST', body: { platform: mine.platform, add, remove } }));
   } catch (err) {
     btn.disabled = false;
     if (err.status === 401) {
@@ -1708,7 +1708,7 @@ async function openRanking() {
   dlgRanking.showModal();
   let rows = [];
   try {
-    const data = await api('/api/votes/ranking');
+    const data = await api('api/votes/ranking');
     rows = data.ranking;
     $('#ranking-intro').innerHTML = `Os jogos que o pessoal mais quer jogar na live. Cada pessoa tem até ${data.maxVotes} votos: abra um jogo e clique em <strong>Quero jogar</strong>.`;
   } catch (e) {
@@ -1837,7 +1837,7 @@ $('#btn-steamlib').addEventListener('click', async () => {
   renderSteamlib();
   dlgSteamlib.showModal();
   try {
-    ({ items: steamlib.items } = await api('/api/channel/steam-library'));
+    ({ items: steamlib.items } = await api('api/channel/steam-library'));
   } catch (e) {
     steamlib.error = isOffline(e) ? 'Sem conexão com o servidor.' : e.message;
   }
@@ -1877,7 +1877,7 @@ $('#btn-steamlib-save').addEventListener('click', async () => {
   btn.textContent = 'Adicionando…';
   let added = 0;
   try {
-    ({ added } = await channelRequest('/api/channel/import', { appids: [...steamlib.checked] }));
+    ({ added } = await channelRequest('api/channel/import', { appids: [...steamlib.checked] }));
   } catch (e) {
     updateSteamlibSave();
     return toast(isOffline(e) ? 'Sem conexão com o servidor' : e.message);
@@ -1931,7 +1931,7 @@ $('#btn-suggestions').addEventListener('click', async () => {
   renderSuggestions();
   dlgSuggestions.showModal();
   try {
-    ({ suggestions } = await api('/api/channel/suggestions'));
+    ({ suggestions } = await api('api/channel/suggestions'));
   } catch (e) {
     suggestions = [];
     toast(e.message);
@@ -1946,7 +1946,7 @@ dlgSuggestions.addEventListener('click', async (e) => {
   const s = suggestions[Number(btn.dataset.suggestion)];
   btn.disabled = true;
   try {
-    await channelRequest('/api/channel/game', { added: true, data: s.game });
+    await channelRequest('api/channel/game', { added: true, data: s.game });
   } catch (err) {
     btn.disabled = false;
     return toast(err.message);
@@ -2003,7 +2003,7 @@ function setPlayWith(ids) {
 
 async function loadMembers() {
   try {
-    ({ members: auth.members } = await api('/api/members'));
+    ({ members: auth.members } = await api('api/members'));
   } catch {
     auth.members = auth.members || [];
   }
@@ -2191,7 +2191,7 @@ async function runSteamSearch(q) {
   idleStatus();
   setResultsMessage(epic ? `Link da Epic reconhecido. Procurando “${titleCase(epic.name)}” na Steam…` : 'Buscando na Steam…');
   try {
-    const { items } = await api(`/api/steam/search?q=${encodeURIComponent(q)}`);
+    const { items } = await api(`api/steam/search?q=${encodeURIComponent(q)}`);
     if (seq !== steamSeq) return;
     if (!items.length) {
       steamResults.innerHTML = '';
@@ -2232,35 +2232,35 @@ async function runSteamSearch(q) {
 async function saveToChannel(editing, data) {
   const { store } = state;
   if (!editing) {
-    const { id } = await channelRequest('/api/channel/game', { added: true, data });
+    const { id } = await channelRequest('api/channel/game', { added: true, data });
     return id;
   }
   if (editing.source === 'base') {
     const id = editing.id;
     if (editing.channelAdded) {
       const { id: _, addedAt, ...current } = state.channel.added.find((g) => g.id === id) || {};
-      await channelRequest('/api/channel/game', { id, added: true, data: { ...current, ...data } });
+      await channelRequest('api/channel/game', { id, added: true, data: { ...current, ...data } });
     } else {
-      await channelRequest('/api/channel/game', { id, added: false, data: { ...(state.channel.overrides[id] || {}), ...data } });
+      await channelRequest('api/channel/game', { id, added: false, data: { ...(state.channel.overrides[id] || {}), ...data } });
     }
     // the owner's own edit of this game would hide the shared one
     if (store.overrides[id]) {
       delete store.overrides[id];
-      commit('/api/library/game', { id, custom: false, data: {} });
+      commit('api/library/game', { id, custom: false, data: {} });
     }
     return id;
   }
   // a game the owner had added only for themselves moves to the channel's list
   const mine = store.custom.find((g) => g.id === editing.id) || {};
   const { id: _, addedAt, ...current } = mine;
-  const { id } = await channelRequest('/api/channel/game', { added: true, data: { ...current, ...data } });
+  const { id } = await channelRequest('api/channel/game', { added: true, data: { ...current, ...data } });
   const wasFav = store.favorites.includes(editing.id);
   store.custom = store.custom.filter((g) => g.id !== editing.id);
   store.favorites = store.favorites.filter((f) => f !== editing.id);
-  commit('/api/library/remove', { id: editing.id });
+  commit('api/library/remove', { id: editing.id });
   if (wasFav) {
     store.favorites.push(id);
-    commit('/api/library/flag', { id, flag: 'favorite', on: true });
+    commit('api/library/flag', { id, flag: 'favorite', on: true });
   }
   return id;
 }
@@ -2269,7 +2269,7 @@ async function saveToChannel(editing, data) {
 async function fillImageFromItad(title) {
   if (form.image.value.trim()) return false;
   try {
-    const { image } = await api(`/api/itad/image?title=${encodeURIComponent(title)}`);
+    const { image } = await api(`api/itad/image?title=${encodeURIComponent(title)}`);
     if (!image || form.image.value.trim()) return false;
     form.image.value = image;
     updatePreview();
@@ -2323,7 +2323,7 @@ async function pickSteam(appid, btn) {
   if (btn) btn.setAttribute('aria-busy', 'true');
   setStatus('Carregando dados da Steam…');
   try {
-    const d = await api(`/api/steam/details?appid=${encodeURIComponent(appid)}`);
+    const d = await api(`api/steam/details?appid=${encodeURIComponent(appid)}`);
     form.name.value = d.name;
     form.image.value = d.image || '';
     form.steamUrl.value = d.url;
@@ -2433,7 +2433,7 @@ form.addEventListener('submit', async (e) => {
     $('#search').value = '';
   }
 
-  if (saved) commit('/api/library/game', saved);
+  if (saved) commit('api/library/game', saved);
   else saveStore();
   syncToolbar();
   dlgGame.close();
@@ -2497,7 +2497,7 @@ $('#file-import').addEventListener('change', async (e) => {
 async function replaceLibrary(lib) {
   if (auth.user) {
     await syncQueue;
-    const { library } = await api('/api/library/import', { method: 'POST', body: { mode: 'replace', ...lib } });
+    const { library } = await api('api/library/import', { method: 'POST', body: { mode: 'replace', ...lib } });
     useLibrary(library);
   } else {
     Object.assign(state.local, lib);
@@ -2605,7 +2605,7 @@ async function loadLive() {
   if (!auth.api) return;
   let info = null;
   try {
-    const res = await api('/api/live');
+    const res = await api('api/live');
     if (res.live) info = res;
   } catch {
     return; // keep what is on screen; the next poll tries again

@@ -29,6 +29,12 @@ Lista do que ficou para o dono do site fazer, por ordem. Para o contexto de cada
 - [x] **Domínio próprio:** o site está em <https://games.dogworkstv.com/> (Workers & Pages → `dogworks-games` → Settings → Domains & Routes).
   - Com domínio próprio, o cache de preços e da busca na Steam passa a funcionar. No `workers.dev`, o Cache API não tem efeito.
   - A chave da Steam foi renovada em 13/11/2026. Se trocar de domínio, o domínio da chave não precisa mudar: a Steam não limita o uso por domínio.
+- [ ] **Mudar para <https://dogworkstv.com/games/>** (o código já atende nos dois endereços):
+  1. Cloudflare → `dogworkstv.com` → DNS → registro `AAAA`, nome `@`, conteúdo `100::`, **Proxied** (nuvem laranja). Esse endereço é só para o Cloudflare receber as visitas e passar ao Worker.
+  2. Workers & Pages → `dogworks-games` → Settings → Domains & Routes → Add → **Route** `dogworkstv.com/games*`, zona `dogworkstv.com`. Manter o domínio `games.dogworkstv.com`: é por ele que o redirect funciona.
+  3. Conferir que <https://dogworkstv.com/games/> abre o site.
+  4. No `wrangler.jsonc`, `"SITE_URL": "https://dogworkstv.com/games"` e push. A partir daí `games.dogworkstv.com/…` redireciona (301) para `dogworkstv.com/games/…`, com o caminho e o `?jogo=`.
+  - Quem estava logado precisa entrar com a Steam de novo no endereço novo (o login fica guardado por domínio). Favoritos e jogos de quem usa sem login ficam no navegador, no endereço antigo: exportar o backup lá e importar no novo.
 
 - [ ] **Definir o dono do canal:** coloque seu Steam ID (aparece em **Opções** depois de entrar) em `OWNER_STEAM_IDS`, no `wrangler.jsonc`, e faça o deploy. Sem isso ninguém consegue editar a lista do canal pelo site.
 

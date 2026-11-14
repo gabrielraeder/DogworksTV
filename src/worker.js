@@ -23,6 +23,28 @@ import { getLive } from './twitch.js';
 
 const HOUR = 3600;
 
+// The site answers at the root (games.dogworkstv.com) and under /games (dogworkstv.com/games/).
+const BASE = '/games';
+
+// SITE_URL (wrangler.jsonc vars), e.g. "https://dogworkstv.com/games": the address of the site.
+// When set, requests to any other public host (the old games.dogworkstv.com) are redirected
+// there, keeping the path and the query (?jogo=…). Local dev and *.workers.dev are left alone.
+function redirectToSite(url, env, method) {
+  if (!env.SITE_URL) return null;
+  let site;
+  try {
+    site = new URL(env.SITE_URL);
+  } catch {
+    return null;
+  }
+  const host = url.hostname;
+  if (host === site.hostname || host === 'localhost' || host === '127.0.0.1' || host.endsWith('.workers.dev')) return null;
+  const sitePath = site.pathname.replace(/\/+$/, '');
+  const to = `${site.origin}${sitePath}${url.pathname}${url.search}`;
+  // 301 for pages; 308 keeps POST/DELETE as they are (an old tab still calling the API)
+  return Response.redirect(to, method === 'GET' || method === 'HEAD' ? 301 : 308);
+}
+
 // POST routes that change one game in the signed-in user's list.
 const LIBRARY = {
   '/api/library/flag': setFlag, // { id, flag: 'favorite' | 'hidden', on }
@@ -52,14 +74,14 @@ async function me(env, user, { withLibrary = false } = {}) {
   return json(body);
 }
 
-async function route(request, env, ctx) {
+async function route(request, env, ctx, base) {
   const url = new URL(request.url);
   const { pathname: path, searchParams: q } = url;
   const method = request.method;
 
   // --- auth ---
-  if (path === '/api/auth/login' && method === 'GET') return loginRedirect(request);
-  if (path === '/api/auth/callback' && method === 'GET') return handleCallback(request, env);
+  if (path === '/api/auth/login' && method === 'GET') return loginRedirect(request, base);
+  if (path === '/api/auth/callback' && method === 'GET') return handleCallback(request, env, base);
   if (path === '/api/auth/logout' && method === 'POST') {
     await readJsonBody(request);
     return handleLogout(request, env);
@@ -183,10 +205,32 @@ async function route(request, env, ctx) {
   throw new HttpError(404, 'Rota não encontrada');
 }
 
+// Files under /games/… are the same files as at the root. Redirects from the assets
+// (e.g. /index.html -> /) keep the /games prefix.
+async function serveAsset(request, env, base) {
+  const res = await env.ASSETS.fetch(request);
+  const location = res.headers.get('Location');
+  if (!base || !location?.startsWith('/')) return res;
+  const out = new Response(res.body, res);
+  out.headers.set('Location', base + location);
+  return out;
+}
+
 export default {
   async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const moved = redirectToSite(url, env, request.method);
+    if (moved) return moved;
+    let base = '';
+    if (url.pathname === BASE) return Response.redirect(`${url.origin}${BASE}/${url.search}`, 301);
+    if (url.pathname.startsWith(`${BASE}/`)) {
+      base = BASE;
+      url.pathname = url.pathname.slice(BASE.length);
+      request = new Request(url, request);
+    }
+    if (!url.pathname.startsWith('/api/')) return serveAsset(request, env, base);
     try {
-      return await route(request, env, ctx);
+      return await route(request, env, ctx, base);
     } catch (e) {
       if (e instanceof HttpError) return json({ error: e.message }, e.status);
       console.error(e);

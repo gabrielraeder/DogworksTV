@@ -24,12 +24,13 @@ function sessionCookie(value, maxAge) {
   return `${SESSION_COOKIE}=${value}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
 }
 
-export function loginRedirect(request) {
+// base: path the site is served under ('' or '/games'); request URLs arrive without it.
+export function loginRedirect(request, base = '') {
   const origin = new URL(request.url).origin;
   const params = new URLSearchParams({
     'openid.ns': OPENID_NS,
     'openid.mode': 'checkid_setup',
-    'openid.return_to': `${origin}/api/auth/callback`,
+    'openid.return_to': `${origin}${base}/api/auth/callback`,
     'openid.realm': origin,
     'openid.identity': `${OPENID_NS}/identifier_select`,
     'openid.claimed_id': `${OPENID_NS}/identifier_select`,
@@ -37,11 +38,11 @@ export function loginRedirect(request) {
   return Response.redirect(`${STEAM_OPENID}?${params}`, 302);
 }
 
-async function verifyOpenId(url) {
+async function verifyOpenId(url, base) {
   const q = url.searchParams;
   if (q.get('openid.mode') !== 'id_res') return null;
   if (q.get('openid.op_endpoint') !== STEAM_OPENID) return null;
-  if (!(q.get('openid.return_to') || '').startsWith(`${url.origin}/api/auth/callback`)) return null;
+  if (!(q.get('openid.return_to') || '').startsWith(`${url.origin}${base}/api/auth/callback`)) return null;
 
   const claimed = (q.get('openid.claimed_id') || '').match(/^https:\/\/steamcommunity\.com\/openid\/id\/(\d{17})$/);
   if (!claimed) return null;
@@ -99,10 +100,10 @@ export async function refreshUser(env, steamId) {
     .run();
 }
 
-export async function handleCallback(request, env) {
+export async function handleCallback(request, env, base = '') {
   const url = new URL(request.url);
-  const steamId = await verifyOpenId(url).catch(() => null);
-  if (!steamId) return Response.redirect(`${url.origin}/?login=erro`, 302);
+  const steamId = await verifyOpenId(url, base).catch(() => null);
+  if (!steamId) return Response.redirect(`${url.origin}${base}/?login=erro`, 302);
 
   await refreshUser(env, steamId);
 
@@ -119,7 +120,7 @@ export async function handleCallback(request, env) {
 
   return new Response(null, {
     status: 302,
-    headers: { Location: `${url.origin}/?login=ok`, 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) },
+    headers: { Location: `${url.origin}${base}/?login=ok`, 'Set-Cookie': sessionCookie(token, SESSION_DAYS * 86400) },
   });
 }
 

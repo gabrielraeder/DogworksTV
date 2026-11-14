@@ -5,10 +5,13 @@
   "compatibility_date": "2026-11-13",
   "observability": { "enabled": true },
 
-  // Static site in public/. Only /api/* runs the Worker; everything else is served as a file.
+  // Static site in public/, served by the Worker (run_worker_first) so it can:
+  //   - answer at the root (games.dogworkstv.com) and under /games (dogworkstv.com/games/);
+  //   - redirect the old address to SITE_URL (see vars).
   "assets": {
     "directory": "./public",
-    "run_worker_first": ["/api/*"],
+    "binding": "ASSETS",
+    "run_worker_first": true,
   },
 
   // D1 database created on the first deploy. Keep database_id pinned so every deploy and migration targets it.
@@ -25,7 +28,10 @@
   // channel's list on the site. Shown in Opções when signed in.
   // TWITCH_CHANNEL: channel checked for the "ao vivo" badge and shown in the hero player.
   // TWITCH_CLIENT_ID: app "games-list-live" at https://dev.twitch.tv/console/apps.
+  // SITE_URL: address of the site. When set, other hosts (the old games.dogworkstv.com)
+  // redirect there keeping path and query. Empty = no redirect.
   "vars": {
+    "SITE_URL": "",
     "OWNER_STEAM_IDS": "76561198013191819",
     "TWITCH_CHANNEL": "dogworkstv",
     "TWITCH_CLIENT_ID": "5w4spmeagxw07i0iqmv7b3a8jqqrcp",
