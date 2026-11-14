@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Raulzilla</title>
+  <meta name="description" content="Landing page sobre o Raul Gutierrez com os principais links sobre seus trabalhos.">
+  <meta property="og:site_name" content="Raulzilla">
+  <meta property="og:title" content="Raulzilla">
+  <meta property="og:type" content="website">
+  <meta property="og:description" content="Landing page sobre o Raul Gutierrez com os principais links sobre seus trabalhos.">
+  <meta property="og:image" content="https://dogworkstv.com/raulzilla/assets/card.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#1D1A3D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dela+Gothic+One&family=Inter:ital,wght@0,400;0,700;1,400&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg class="sprite" aria-hidden="true">
+    <symbol id="i-deviantart" viewBox="0 0 40 40"><path d="M30,9.2L24,20.9l0.5,0.6H30v8.3H19.9L19,30.5l-2.8,5.5l-0.6,0.6h-6v-6.1l6.1-11.7l-0.5-0.6H9.5V9.8h10.2l0.9-0.6l2.8-5.5 L24,3.2h6C30,3.2,30,9.2,30,9.2z"/></symbol>
+    <symbol id="i-artstation" viewBox="0 0 40 40"><path d="M3.4,27.7l2.8,4.9c0.6,1.1,1.7,1.9,3,1.9h18.9l-3.9-6.8L3.4,27.7L3.4,27.7z"/> <path d="M37,27.7c0-0.7-0.2-1.3-0.5-1.8L25.4,6.6c-0.6-1.1-1.7-1.8-3-1.8h-5.8l17.1,29.6l2.7-4.7C36.9,28.9,37,28.5,37,27.7z"/> <path d="M21.4,22.8L13.8,9.6L6.1,22.8H21.4z"/></symbol>
+    <symbol id="i-sketchfab" viewBox="0 0 40 40"><path d="M17.6,38.5L4.3,30.8V15.4l13.3,7.2V38.5z M20,18.9L4.3,10.6L20,1.5l15.7,9.1L20,18.9z M35.7,30.9l-13.2,7.6V22.6l13.2-7.1 V30.9z"/></symbol>
+    <symbol id="i-external" viewBox="0 0 40 40"><path d="M36.5,12.7c0,.7-.7,1.1-1.3.8l-3-2.9-11.1,11.1c-.4.3-.8.5-1.3.2-.3-.1-1.6-1.5-1.8-1.7-.2-.3-.2-.7,0-1,3.3-3.5,7.8-7.8,11.2-11.2,0,0,0,0,.1,0h0c0,0-3.1-3.2-3.1-3.2-.4-.5,0-1.2.5-1.2h9.2c.3.2.5.4.5.8v8.6ZM20.9,9.1h-12.4c-1.5.2-2.5,1.3-2.6,2.8v18.5c0,1.3.9,2.5,2.3,2.7,6.8.2,13.6,0,20.4,0,1.5,0,2.6-1,2.8-2.5v-10.7c.2-1.4,2.1-1.5,2.4,0v10.8c-.2,2.6-2.4,4.7-4.9,4.8H8.4c-2.6-.2-4.7-2.3-4.9-4.9V11.7c.2-2.7,2.2-5,5-5h12.3c1.5.2,1.5,2.2,0,2.4Z" /></symbol>
+    <symbol id="i-youtube" viewBox="0 0 40 40"><path d="M37.6,27.1c0,0-0.3,2.4-1.4,3.5c-1.4,1.4-2.9,1.4-3.6,1.5c-5,0.4-12.4,0.4-12.4,0.4s-9.2-0.1-12.1-0.4 c-0.8-0.1-2.6-0.1-3.9-1.5c-1.1-1.1-1.4-3.5-1.4-3.5s-0.4-2.9-0.4-5.7v-2.7c0-2.9,0.4-5.7,0.4-5.7s0.3-2.4,1.4-3.5 C5.5,8,7,8,7.7,7.9c5-0.4,12.4-0.4,12.4-0.4h0c0,0,7.5,0,12.4,0.4C33.3,8,34.8,8,36.2,9.4c1.1,1.1,1.4,3.5,1.4,3.5s0.4,2.9,0.4,5.7 v2.7C37.9,24.2,37.6,27.1,37.6,27.1z M16.5,14.6l0,9.9l9.6-5L16.5,14.6z" /></symbol>
+    <symbol id="i-x" viewBox="0 0 40 40"><path d="M36,36l-12.4-18.3,11.6-13.7h-4l-9.4,11-7.5-11H4.2l12,17.7-12.2,14.3h4l9.9-11.7,7.9,11.7h10.2,0ZM13,6.6l18.2,26.9h-4L9,6.6h4Z" /></symbol>
+    <symbol id="i-instagram" viewBox="0 0 40 40"><path d="M20,7c4.2,0,4.7,0,6.3,0.1c1.5,0.1,2.3,0.3,3,0.5C30,8,30.5,8.3,31.1,8.9c0.5,0.5,0.9,1.1,1.2,1.8c0.2,0.5,0.5,1.4,0.5,3 C33,15.3,33,15.8,33,20s0,4.7-0.1,6.3c-0.1,1.5-0.3,2.3-0.5,3c-0.3,0.7-0.6,1.2-1.2,1.8c-0.5,0.5-1.1,0.9-1.8,1.2 c-0.5,0.2-1.4,0.5-3,0.5C24.7,33,24.2,33,20,33s-4.7,0-6.3-0.1c-1.5-0.1-2.3-0.3-3-0.5C10,32,9.5,31.7,8.9,31.1 C8.4,30.6,8,30,7.7,29.3c-0.2-0.5-0.5-1.4-0.5-3C7,24.7,7,24.2,7,20s0-4.7,0.1-6.3c0.1-1.5,0.3-2.3,0.5-3C8,10,8.3,9.5,8.9,8.9 C9.4,8.4,10,8,10.7,7.7c0.5-0.2,1.4-0.5,3-0.5C15.3,7.1,15.8,7,20,7z M20,4.3c-4.3,0-4.8,0-6.5,0.1c-1.6,0-2.8,0.3-3.8,0.7 C8.7,5.5,7.8,6,6.9,6.9C6,7.8,5.5,8.7,5.1,9.7c-0.4,1-0.6,2.1-0.7,3.8c-0.1,1.7-0.1,2.2-0.1,6.5s0,4.8,0.1,6.5 c0,1.6,0.3,2.8,0.7,3.8c0.4,1,0.9,1.9,1.8,2.8c0.9,0.9,1.7,1.4,2.8,1.8c1,0.4,2.1,0.6,3.8,0.7c1.6,0.1,2.2,0.1,6.5,0.1 s4.8,0,6.5-0.1c1.6-0.1,2.9-0.3,3.8-0.7c1-0.4,1.9-0.9,2.8-1.8c0.9-0.9,1.4-1.7,1.8-2.8c0.4-1,0.6-2.1,0.7-3.8 c0.1-1.6,0.1-2.2,0.1-6.5s0-4.8-0.1-6.5c-0.1-1.6-0.3-2.9-0.7-3.8c-0.4-1-0.9-1.9-1.8-2.8c-0.9-0.9-1.7-1.4-2.8-1.8 c-1-0.4-2.1-0.6-3.8-0.7C24.8,4.3,24.3,4.3,20,4.3L20,4.3L20,4.3z"/><path d="M20,11.9c-4.5,0-8.1,3.7-8.1,8.1s3.7,8.1,8.1,8.1s8.1-3.7,8.1-8.1S24.5,11.9,20,11.9z M20,25.2c-2.9,0-5.2-2.3-5.2-5.2 s2.3-5.2,5.2-5.2s5.2,2.3,5.2,5.2S22.9,25.2,20,25.2z"/><path d="M30.6,11.6c0,1-0.8,1.9-1.9,1.9c-1,0-1.9-0.8-1.9-1.9s0.8-1.9,1.9-1.9C29.8,9.7,30.6,10.5,30.6,11.6z"/></symbol>
+  </svg>
+
+  <main>
+    <!-- Sobre -->
+    <section class="split">
+      <div class="split-text">
+        <h1 class="kicker">Raul Gutierrez</h1>
+        <h2 class="title">Artista, Designer, Game Dev e Streamer</h2>
+        <p>Olá, me chamo Raul, conhecido online por Raulzilla ou Dogão, sou formado em Design Gráfico, adoro fazer artes ilustrativas, modelos 3D, animações e jogos. Participo de um pequeno estúdio de jogos independentes chamado Estúdio Raed Wulf, fundado por mim e outros dois amigos. Também faço lives na twitch.tv 4 vezes por semana.</p>
+      </div>
+      <figure class="split-media split-media-hero"><img src="assets/hero.jpg" alt="Ilustração de um cavaleiro de armadura caído na grama, segurando uma alabarda" width="694" height="964"></figure>
+    </section>
+
+    <!-- Portfolios -->
+    <section class="banner" style="--banner: url('assets/portfolios-bg.jpg')">
+      <h2 class="banner-title">Portfolios</h2>
+      <p>Faço arte desde que me lembro, possuo dois portfolios online, minha preferência é por ilustrações preto e branco estilizadas, mas sempre faço experimentos e tento ao máximo fazer pinturas.<br>Também faço modelos 3D com foco em jogos.</p>
+      <div class="btns">
+        <a class="btn" href="https://www.deviantart.com/raulzilla" target="_blank" rel="noopener">DeviantArt<svg aria-hidden="true"><use href="#i-deviantart"/></svg></a>
+        <a class="btn" href="https://www.artstation.com/raulbartolomeigutierrez9" target="_blank" rel="noopener">Art Station<svg aria-hidden="true"><use href="#i-artstation"/></svg></a>
+        <a class="btn" href="https://sketchfab.com/RaulBartolomeiGutierrez" target="_blank" rel="noopener">Sketchfab<svg aria-hidden="true"><use href="#i-sketchfab"/></svg></a>
+      </div>
+    </section>
+
+    <!-- Estúdio -->
+    <section class="split split-reverse">
+      <figure class="split-media"><img src="assets/estudio.jpg" alt="Praça de uma cidade medieval com fonte e bandeiras, cena de jogo do Estúdio Raed Wulf" width="1277" height="795" loading="lazy"></figure>
+      <div class="split-text">
+        <h2 class="title">Estúdio Raed Wulf</h2>
+        <p>Somos um pequeno estúdio independente de desenvolvimento de jogos situado em Curitiba - PR.</p>
+        <p class="join">Somos uma equipe de apenas 3 entusiastas com grandes sonhos e vontade de mudar o cenário nacional de games, focando apenas no entretenimento de nosso público.</p>
+        <div class="btns">
+          <a class="btn" href="https://estudioraedwulf.itch.io/" target="_blank" rel="noopener">Itch.io<svg aria-hidden="true"><use href="#i-external"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Warriors & Castles -->
+    <section class="banner banner-tall" style="--banner: url('assets/warriors-bg.jpg')">
+      <h2 class="banner-title">Warriors &amp; Castles</h2>
+      <p>Jogo multijogador de ação, onde 2 equipes travam batalhas épicas para derrubar o monarca inimigo em um mundo fantasioso cheio de magias, armas e habilidades especiais.<br>Divirta-se com outras pessoas, sozinho contra bots ou até mesmo com oturas pessoas mais bots para que a batalha fique maior ainda.<br>Nosso primeiro jogo comercial, adquira no steam.</p>
+      <div class="btns">
+        <a class="btn" href="https://store.steampowered.com/app/372380/Warriors_Castles/" target="_blank" rel="noopener">Steam<svg aria-hidden="true"><use href="#i-external"/></svg></a>
+      </div>
+    </section>
+
+    <!-- Lives e redes -->
+    <section class="cols">
+      <div class="col">
+        <h2 class="title">Live Streams</h2>
+        <p class="schedule">DogworksTV:<br>Podcast - Terça-Feira - 20:00 às 22:00<br>Gameplay - Quarta-Feira - 20:00 às 00:00<br>Gameplay / RPG - Sexta-Feira - 20:00 às 00:00</p>
+        <p class="schedule">JaulaHub:<br>Gamplay - Segunda-Feira - 20:00 às 22:00</p>
+        <div class="btns btns-start">
+          <a class="btn" href="https://www.twitch.tv/dogworkstv" target="_blank" rel="noopener">DogworksTV<svg aria-hidden="true"><use href="#i-external"/></svg></a>
+          <a class="btn" href="https://www.twitch.tv/jaulahub" target="_blank" rel="noopener">JaulaHub<svg aria-hidden="true"><use href="#i-external"/></svg></a>
+        </div>
+      </div>
+      <div class="col">
+        <h2 class="title">Redes Sociais</h2>
+        <div class="btns">
+          <a class="btn" href="https://www.youtube.com/@raulzilla" target="_blank" rel="noopener">Youtube<svg aria-hidden="true"><use href="#i-youtube"/></svg></a>
+          <a class="btn" href="https://x.com/raulzilla" target="_blank" rel="noopener">Twitter<svg aria-hidden="true"><use href="#i-x"/></svg></a>
+          <a class="btn" href="https://www.instagram.com/bartologuti/" target="_blank" rel="noopener">Instagram<svg aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Aunoh -->
+    <section class="split">
+      <div class="split-text">
+        <p class="kicker-small">Projeto Futuro</p>
+        <h2 class="title">Aunoh</h2>
+        <p>Aunoh é um RPG Online onde o foco do jogo é a liberdade do jogador criar seu personagem como quiser (dentro dos parâmetros do jogo) e viver nesse mundo fantasioso feito por ilhas voadoras.</p>
+        <p>Nosso projeto mais ambicioso até o momento, uma tentativa de trazer de volta a experiência dos RPGs Online do início dos anos 2000, porém com gameplay e gráficos mais modernos.</p>
+        <p>Não há previsão de lançamento ainda.</p>
+      </div>
+      <figure class="split-media"><img src="assets/aunoh.jpg" alt="Rua de pedra de uma cidade medieval com casas de telhado vermelho, cena de Aunoh" width="1500" height="843" loading="lazy"></figure>
+    </section>
+  </main>
+
+  <footer class="footer">© All rights reserved.</footer>
+</body>
+</html>

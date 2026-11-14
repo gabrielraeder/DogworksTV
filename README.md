@@ -5,6 +5,7 @@ Projetos do canal [twitch.tv/dogworkstv](https://www.twitch.tv/dogworkstv). Cada
 | Pasta | O que é | Endereço |
 | --- | --- | --- |
 | [`games/`](games/) | Lista de jogos co-op e multiplayer do canal (Cloudflare Workers + D1) | <https://dogworkstv.com/games/> |
+| [`raulzilla/`](raulzilla/) | Página do Raul (Raulzilla), antes em raulzilla.carrd.co (arquivos estáticos) | <https://dogworkstv.com/raulzilla/> |
 
 ## Novo projeto
 

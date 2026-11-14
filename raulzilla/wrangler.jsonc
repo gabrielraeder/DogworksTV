@@ -1,0 +1,11 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "dogworks-raulzilla",
+  "compatibility_date": "2026-11-13",
+
+  // Static page only (no Worker code). The files live in public/raulzilla/, so the route
+  // dogworkstv.com/raulzilla* serves them at the same path: /raulzilla/, /raulzilla/styles.css …
+  "assets": {
+    "directory": "./public",
+  },
+}
