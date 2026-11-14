@@ -8,6 +8,7 @@ import { getFreeAppids } from '../lib/steam.js';
 const SHOPS = { 61: 'steam', 16: 'epic' };
 const BATCH = 200; // ITAD accepts up to 200 ids per prices request
 const DEALS_TTL = 3600; // seconds
+const CACHE_VERSION = 'v2'; // v2: response has `free`
 const KEY_RE = /^(steam:\d{1,10}|name:[a-z0-9]{1,120})$/;
 
 const chunk = (arr, n) => Array.from({ length: Math.ceil(arr.length / n) }, (_, i) => arr.slice(i * n, i * n + n));
@@ -94,7 +95,10 @@ export async function getDeals(request, env, ctx, body) {
   games.sort((a, b) => a.key.localeCompare(b.key));
 
   const cache = caches.default;
-  const cacheKey = new Request(`${new URL(request.url).origin}/api/deals/cache/${await sha256(JSON.stringify(games))}`);
+  // Bump CACHE_VERSION when the response shape changes, so old cached answers are not reused.
+  const cacheKey = new Request(
+    `${new URL(request.url).origin}/api/deals/cache/${CACHE_VERSION}/${await sha256(JSON.stringify(games))}`,
+  );
   const hit = await cache.match(cacheKey);
   if (hit) return hit;
 
