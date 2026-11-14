@@ -8,6 +8,7 @@ Site com a lista de jogos co-op e multiplayer (<https://games.dogworkstv.com/>),
 
 - Filtros por categoria (co-op online, co-op local, PvP, estratégia, party, outros), busca e ordenação
 - ★ Favoritos
+- Visualização em **cards** ou em **lista** (como a lista de desejos da Steam, com o desconto ao lado); a escolha fica salva no navegador
 - **Login com Steam**
 - **Eu tenho**: cada pessoa marca em quais plataformas tem o jogo (Steam, Epic, outra). Os jogos da Steam são detectados sozinhos quando a biblioteca da pessoa é pública.
 - **Modal do jogo** (clique no card): descrição, preços na Steam e na Epic em R$, promoções, menor preço já registrado e a lista de **quem tem** o jogo

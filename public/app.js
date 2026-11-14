@@ -146,6 +146,7 @@ const defaultPrefs = () => ({
   onlySale: false,
   onlyWish: false,
   playWith: [],
+  view: 'grid', // 'grid' (cards) or 'list'
 });
 
 function sanitizeLibrary(s) {
@@ -500,6 +501,55 @@ function cardHtml(g) {
   </article>`;
 }
 
+// List view (like the Steam wishlist): image, name, tags and info, then the sale and the actions.
+function rowHtml(g) {
+  const img = safeUrl(g.image);
+  const d = g.deal;
+  const meta = [
+    g.owned ? `<span class="meta-owned">${ICON.check}Você tem</span>` : '',
+    g.ownersCount ? `<span>${ICON.users}${g.ownersCount} ${g.ownersCount === 1 ? 'pessoa tem' : 'pessoas têm'}</span>` : '',
+    g.votes ? `<span class="meta-vote">${ICON.flame}${g.votes} ${g.votes === 1 ? 'quer' : 'querem'} jogar na live</span>` : '',
+    g.wished ? `<span class="meta-wish">${ICON.heart}Na sua lista de desejos</span>` : '',
+    g.genres.length ? `<span>${esc(g.genres.slice(0, 3).join(' · '))}</span>` : '',
+    g.source === 'custom' ? '<span class="badge badge-custom">Adicionado</span>' : '',
+    g.hidden ? '<span class="badge">Oculto</span>' : '',
+    g.removed ? '<span class="badge badge-removed">Fora do canal</span>' : '',
+  ].join('');
+  return `
+  <article class="card card-row${g.fav ? ' is-fav' : ''}${g.hidden || g.removed ? ' is-hidden' : ''}" data-id="${esc(g.id)}">
+    <div class="card-media row-media">
+      ${img ? `<img src="${esc(img)}" alt="" loading="lazy" decoding="async">` : `<span class="placeholder">${esc(g.name)}</span>`}
+    </div>
+    <div class="row-info">
+      <h3 class="card-title"><button type="button" class="card-open" data-action="open">${esc(g.name)}</button></h3>
+      ${g.note ? `<p class="card-note">${esc(g.note)}</p>` : ''}
+      <div class="tags">${tagsHtml(g)}</div>
+      ${meta ? `<p class="row-meta">${meta}</p>` : ''}
+    </div>
+    <div class="row-side">
+      ${
+        d
+          ? `<div class="row-deal" title="${esc(dealTitle(d))}">
+              <span class="deal-cut">-${d.cut}%</span>
+              <span class="deal-prices"><s>${esc(formatMoney(d.regular))}</s><strong>${esc(formatMoney(d.price))}</strong></span>
+            </div>`
+          : ''
+      }
+      <div class="row-actions">
+        ${storeLinksHtml(g)}
+        <button class="icon-btn row-fav" type="button" data-action="fav" aria-pressed="${g.fav}" title="${g.fav ? 'Remover dos favoritos' : 'Favoritar'}"
+          aria-label="${g.fav ? 'Remover dos favoritos' : 'Adicionar aos favoritos'}: ${esc(g.name)}">${ICON.star}</button>
+        <button class="icon-btn" type="button" data-action="edit" title="Editar" aria-label="Editar ${esc(g.name)}">${ICON.edit}</button>
+        ${
+          g.source === 'custom'
+            ? `<button class="icon-btn" type="button" data-action="remove" title="Remover" aria-label="Remover ${esc(g.name)}">${ICON.trash}</button>`
+            : `<button class="icon-btn" type="button" data-action="hide" title="${g.hidden ? 'Mostrar' : 'Ocultar'}" aria-label="${g.hidden ? 'Mostrar' : 'Ocultar'} ${esc(g.name)}">${g.hidden ? ICON.eye : ICON.eyeOff}</button>`
+        }
+      </div>
+    </div>
+  </article>`;
+}
+
 function render() {
   const { prefs } = state.store;
   const q = norm(state.q);
@@ -542,6 +592,7 @@ function render() {
     return;
   }
 
+  const list = prefs.view === 'list';
   const groups = CATEGORIES.map((c) => ({ ...c, games: visible.filter((g) => g.category === c.id) })).filter(
     (c) => c.games.length,
   );
@@ -556,7 +607,7 @@ function render() {
             <span class="panel-count">${c.games.length} ${c.games.length === 1 ? 'jogo' : 'jogos'}</span>
           </h2>
         </div>
-        <div class="grid">${c.games.map(cardHtml).join('')}</div>
+        ${list ? `<div class="rows">${c.games.map(rowHtml).join('')}</div>` : `<div class="grid">${c.games.map(cardHtml).join('')}</div>`}
       </section>`,
     )
     .join('');
@@ -596,6 +647,7 @@ function renderStats(games) {
 function syncToolbar() {
   const { prefs } = state.store;
   $('#sort').value = prefs.sort;
+  for (const b of document.querySelectorAll('.view-btn')) b.setAttribute('aria-pressed', String(b.dataset.view === (prefs.view || 'grid')));
   $('#btn-only-fav').setAttribute('aria-pressed', String(!!prefs.onlyFav));
   $('#btn-only-owned').setAttribute('aria-pressed', String(!!prefs.onlyOwned));
   $('#btn-only-owned').hidden = !auth.user;
@@ -1365,6 +1417,15 @@ $('#chips').addEventListener('click', (e) => {
   if (!chip) return;
   state.store.prefs.category = chip.dataset.category;
   saveStore();
+  render();
+});
+
+$('.view-toggle').addEventListener('click', (e) => {
+  const btn = e.target.closest('[data-view]');
+  if (!btn || state.store.prefs.view === btn.dataset.view) return;
+  state.store.prefs.view = btn.dataset.view;
+  saveStore();
+  syncToolbar();
   render();
 });
 
